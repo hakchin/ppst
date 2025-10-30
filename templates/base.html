@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PPST Academy - Excellence in Programming Education. Learn web development, systems programming with Rust, and data science from experienced instructors.">
+    <meta name="keywords" content="programming education, coding academy, web development, Rust programming, data science, software engineering">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PPST Academy - Excellence in Programming Education">
+    <meta property="og:description" content="Master programming skills with expert instructors. Offering courses in web development, Rust, and data science.">
+    <meta property="og:url" content="https://ppst-academy.com">
+
+    <title>{% block title %}PPST Academy{% endblock %}</title>
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="/static/css/tailwind.css">
+
+    <!-- HTMX - Progressive enhancement (optional) -->
+    <script src="/static/js/htmx.min.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 focus:z-50 focus:p-4 focus:bg-blue-600 focus:text-white">
+        Skip to main content
+    </a>
+
+    <header class="bg-white shadow-sm">
+        {% block header %}{% endblock %}
+    </header>
+
+    <main id="main-content" class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 PPST Academy. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

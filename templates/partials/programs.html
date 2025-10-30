@@ -1,0 +1,20 @@
+<section id="programs" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4 max-w-7xl">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
+            Our Programs
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for program in programs %}
+            <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <h3 class="text-xl font-semibold text-gray-900 mb-3">
+                    {{ program.name }}
+                </h3>
+                <p class="text-gray-700 leading-relaxed">
+                    {{ program.description }}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

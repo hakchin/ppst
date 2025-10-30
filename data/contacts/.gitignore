@@ -1,0 +1,5 @@
+# Ignore all JSON files (user privacy - contact form submissions)
+*.json
+
+# Keep the .gitkeep file to ensure directory exists in version control
+!.gitkeep

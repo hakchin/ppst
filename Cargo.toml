@@ -1,0 +1,31 @@
+[package]
+name = "ppst-academy"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# Web framework
+axum = "0.7"
+tokio = { version = "1", features = ["full"] }
+tower = "0.4"
+tower-http = { version = "0.5", features = ["fs", "compression-gzip"] }
+
+# Templating
+askama = "0.12"
+askama_axum = "0.4"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Date/Time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Email validation
+regex = "1.10"
+
+# Utilities
+lazy_static = "1.4"
+
+[dev-dependencies]
+# Testing utilities

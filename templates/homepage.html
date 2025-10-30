@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}{{ academy_name }} - {{ tagline }}{% endblock %}
+
+{% block header %}
+{% include "partials/header.html" %}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+    <div class="container mx-auto px-4 text-center max-w-4xl">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            Welcome to {{ academy_name }}
+        </h1>
+        <p class="text-xl md:text-2xl text-blue-100">
+            {{ tagline }}
+        </p>
+    </div>
+</section>
+
+<!-- Mission Section -->
+{% include "partials/mission.html" %}
+
+<!-- Programs Section -->
+{% include "partials/programs.html" %}
+
+<!-- Instructors Section -->
+{% include "partials/instructors.html" %}
+
+<!-- Contact Form Section -->
+{% include "partials/contact_form.html" %}
+{% endblock %}

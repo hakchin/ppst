@@ -78,12 +78,13 @@ A visitor wants to easily navigate different sections of the homepage, access na
 - **FR-007**: System MUST validate that all required contact form fields are completed before allowing submission
 - **FR-008**: System MUST provide clear, user-friendly error messages when form validation fails
 - **FR-009**: System MUST display a success confirmation message when a contact form is successfully submitted
-- **FR-010**: System MUST store submitted contact form data for academy staff to review
-- **FR-011**: System MUST prevent duplicate form submissions within a short time window (e.g., 30 seconds)
+- **FR-010**: System MUST store submitted contact form data as individual JSON files with timestamp-based filenames (format: YYYY-MM-DDTHH-MM-SS-mmmZ.json) for academy staff to review
+- **FR-011**: System MUST prevent duplicate form submissions within 30 seconds using in-memory rate limiting (IP address tracking via HashMap)
 - **FR-012**: Homepage MUST be responsive and display correctly on desktop, tablet, and mobile devices
 - **FR-013**: Homepage navigation links MUST allow users to jump to specific sections of the page
 - **FR-014**: Homepage MUST be accessible with keyboard navigation for users who cannot use a mouse
 - **FR-015**: Homepage MUST function with core content visible even when JavaScript is disabled (progressive enhancement)
+- **FR-016**: Build process MUST use Tailwind CLI standalone binary (installed via system package manager) with no Node.js/npm dependencies
 
 ### Key Entities
 
@@ -104,16 +105,28 @@ A visitor wants to easily navigate different sections of the homepage, access na
 - **SC-007**: 100% of submitted contact forms are successfully stored and retrievable by academy staff
 - **SC-008**: Contact form validation errors are understood by 90% of users on first attempt (measured by successful resubmission without additional errors)
 
+## Clarifications
+
+### Session 2025-10-30
+
+- Q: How should Tailwind CSS be compiled without using Node.js/npm? → A: Use system package manager (brew/apt) to install Tailwind CLI standalone
+- Q: What file format should be used for storing contact form submissions? → A: Individual JSON files (one file per submission)
+- Q: How should rate limiting (preventing duplicate submissions within 30 seconds) be implemented? → A: In-memory HashMap (IP → timestamp)
+- Q: How should the HTMX library be served to the browser? → A: Local static file (download once, serve from /static/js/)
+- Q: What filename convention should be used for contact form JSON files? → A: Timestamp-based (2025-10-30T14-23-45-123Z.json)
+
 ## Assumptions
 
 - Academy information content (mission statement, program descriptions, instructor profiles) will be provided by academy staff or is already available
-- Contact form submissions will be stored locally (file-based storage) consistent with the project's "Static Content Architecture" principle from the constitution
+- Contact form submissions will be stored as individual JSON files with timestamp-based filenames (YYYY-MM-DDTHH-MM-SS-mmmZ.json) in a local directory consistent with the project's "Static Content Architecture" principle from the constitution
 - Academy staff will have a separate interface or mechanism to review contact form submissions (out of scope for this feature)
 - The homepage is the primary landing page and serves as the initial public face of the academy website
 - Email notifications to academy staff upon contact form submission are out of scope for this initial feature
-- Basic rate limiting (preventing duplicate submissions within 30 seconds) is sufficient for this promotional website
+- In-memory rate limiting using HashMap (IP → timestamp) is sufficient for this promotional website; rate limit state is transient and resets on server restart
 - Accessibility will follow WCAG 2.1 Level AA guidelines as reasonable defaults for educational institutions
 - Page will use semantic HTML for SEO purposes as this is the main entry point for the website
+- Tailwind CSS compilation uses standalone CLI binary installed via system package manager (no Node.js/npm dependency)
+- HTMX library will be served as a local static file (downloaded once and committed to repository) with no external CDN dependencies
 
 ## Out of Scope
 
