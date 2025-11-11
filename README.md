@@ -25,6 +25,7 @@ Educational website for academy/school promotion (학원 홍보 홈페이지)
 A modern, lightweight educational website built with Rust and HTMX, following server-side first principles. This is a **learning project** focused on hands-on experience with HTMX-based web development using a minimal, focused implementation approach.
 
 **Key Features:**
+
 - Academy information display with mission, programs, and instructors
 - Contact form with HTMX-enhanced validation
 - File-based JSON storage (no database)
@@ -34,6 +35,7 @@ A modern, lightweight educational website built with Rust and HTMX, following se
 ## Technology Stack
 
 ### Backend
+
 - **Language**: Rust
 - **Web Framework**: Axum 0.7
 - **Templating Engine**: Askama 0.12
@@ -43,11 +45,13 @@ A modern, lightweight educational website built with Rust and HTMX, following se
 - **Static Files**: Tower-HTTP 0.5
 
 ### Frontend
+
 - **Server Communication**: HTMX (served from `static/js/`)
 - **Client-Side Interactivity**: Alpine.js (minimal usage, when necessary)
 - **Styling**: Tailwind CSS (standalone CLI)
 
 ### Build & Development Tools
+
 - **CSS Build**: Tailwind CLI standalone binary (no Node.js)
 - **Version Control**: Jujutsu (jj) - Git-compatible VCS
 - **Package Manager**: Cargo
@@ -57,6 +61,7 @@ A modern, lightweight educational website built with Rust and HTMX, following se
 ## Core Principles
 
 ### Design Philosophy
+
 - ✅ **Server-Side First** - HTML rendered on server, minimal client-side JavaScript
 - ✅ **Zero Node.js** - No npm, webpack, vite, rollup, or bundlers
 - ✅ **No Database** - File-based JSON storage for simplicity
@@ -68,17 +73,20 @@ A modern, lightweight educational website built with Rust and HTMX, following se
 ### Development Constraints
 
 **JavaScript Usage:**
+
 - Minimize JavaScript wherever possible
 - Rely primarily on HTMX for dynamic interactions
 - Use Alpine.js only when client-side state management is absolutely necessary
 
 **Data Management:**
+
 - No database systems (SQL or NoSQL)
 - Static content managed through code/templates
 - User data stored as individual JSON files with timestamp-based filenames
 - Contact submissions: `data/contacts/2024-11-06T12-30-45-123Z.json`
 
 **Technology Choices:**
+
 - **HTML**: Core structure and content
 - **CSS (Tailwind)**: Styling via standalone CLI (no Node.js)
 - **Server-side rendering**: Askama templates
@@ -136,15 +144,6 @@ ppst/
 
 ### Prerequisites
 
-- [Rust](https://rustup.rs/) (stable toolchain)
-- [Tailwind CSS CLI](https://tailwindcss.com/blog/standalone-cli) (standalone binary)
-
----
-
-## Getting Started
-
-### Prerequisites
-
 - [Rust](https://rustup.rs/) - Latest stable toolchain
 - [Cargo](https://doc.rust-lang.org/cargo/) - Comes with Rust
 - [Tailwind CSS CLI](https://tailwindcss.com/blog/standalone-cli) - Standalone binary
@@ -161,11 +160,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 #### 2. Install Tailwind CSS CLI
 
 **Option 1: macOS via Homebrew**
+
 ```bash
 brew install tailwindcss
 ```
 
 **Option 2: Linux - Download Binary Directly**
+
 ```bash
 curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
 chmod +x tailwindcss-linux-x64
@@ -173,7 +174,8 @@ sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 ```
 
 **Option 3: Manual Download**
-- Visit: https://github.com/tailwindlabs/tailwindcss/releases
+
+- Visit: <https://github.com/tailwindlabs/tailwindcss/releases>
 - Download the binary for your OS/architecture
 - Make it executable and add to your PATH
 
@@ -200,26 +202,31 @@ Open your browser and navigate to `http://localhost:3000`
 ### Running the Development Server
 
 **Start the server:**
+
 ```bash
 cargo run
 ```
 
 **Expected output:**
-```
+
+```txt
 🚀 PPST Academy server listening on http://127.0.0.1:3000
 ```
 
 **Stop the server:**
+
 - Press `Ctrl+C` in the terminal
 
 ### Tailwind CSS Development
 
 **Build CSS once (for production):**
+
 ```bash
 tailwindcss -i src/input.css -o static/css/tailwind.css --minify
 ```
 
 **Watch mode (for development):**
+
 ```bash
 tailwindcss -i src/input.css -o static/css/tailwind.css --watch
 ```
@@ -265,16 +272,19 @@ cargo test -- --nocapture
 ### Code Quality Checks
 
 **Run Clippy (linter):**
+
 ```bash
 cargo clippy
 ```
 
 **Check code formatting:**
+
 ```bash
 cargo fmt -- --check
 ```
 
 **Auto-format code:**
+
 ```bash
 cargo fmt
 ```
@@ -300,17 +310,21 @@ This project uses [Jujutsu (jj)](https://github.com/martinvonz/jj), a Git-compat
 ### Basic Commands
 
 **Check status:**
+
 ```bash
 jj status
 ```
 
 **View commit history:**
+
 ```bash
 jj log
 ```
+
 Your current working copy is marked with `@`.
 
 **View changes:**
+
 ```bash
 jj diff
 ```
@@ -318,11 +332,13 @@ jj diff
 ### Making Commits
 
 **1. Describe your changes:**
+
 ```bash
 jj describe -m "feat: add new feature description"
 ```
 
 **2. Create a new working change:**
+
 ```bash
 jj new
 ```
@@ -332,6 +348,7 @@ jj new
 Follow the format: `type: description`
 
 **Common types:**
+
 - `feat:` - New feature
 - `fix:` - Bug fix
 - `docs:` - Documentation changes
@@ -341,6 +358,7 @@ Follow the format: `type: description`
 - `style:` - Formatting, styling changes
 
 **Examples:**
+
 ```bash
 jj describe -m "feat: add contact form validation"
 jj describe -m "fix: correct email regex pattern"
@@ -350,11 +368,13 @@ jj describe -m "docs: update README with setup instructions"
 ### Pushing to GitHub
 
 **1. Ensure your changes are committed:**
+
 ```bash
 jj log  # Verify your changes appear as a commit
 ```
 
 **2. Update the branch pointer:**
+
 ```bash
 # For main branch
 jj branch set main
@@ -364,6 +384,7 @@ jj branch set feature/my-feature
 ```
 
 **3. Push to GitHub:**
+
 ```bash
 # Push current branch
 jj git push
@@ -375,11 +396,13 @@ jj git push --branch feature/my-feature
 ### Undoing Changes
 
 **Restore specific files:**
+
 ```bash
 jj restore <file-path>
 ```
 
 **Restore all changes:**
+
 ```bash
 jj restore --from @-
 ```
@@ -476,6 +499,7 @@ jj git push
 **Error:** `Address already in use`
 
 **Solution:**
+
 ```bash
 # Find process using port 3000
 lsof -i :3000
@@ -556,11 +580,13 @@ jj branch set main
 Contact form submissions are stored as individual JSON files with ISO 8601 timestamp-based filenames:
 
 **File path pattern:**
+
 ```
 data/contacts/2024-11-06T12-30-45-123Z.json
 ```
 
 **Example file content:**
+
 ```json
 {
   "name": "홍길동",
@@ -575,6 +601,7 @@ data/contacts/2024-11-06T12-30-45-123Z.json
 ## Additional Resources
 
 ### Documentation
+
 - [Rust Book](https://doc.rust-lang.org/book/)
 - [Cargo Book](https://doc.rust-lang.org/cargo/)
 - [Axum Web Framework](https://docs.rs/axum/latest/axum/)
@@ -586,6 +613,7 @@ data/contacts/2024-11-06T12-30-45-123Z.json
 ### Quick Reference
 
 **Daily commands:**
+
 ```bash
 # Start server
 cargo run
@@ -606,6 +634,7 @@ jj git push
 ```
 
 **Environment information:**
+
 - **Server URL**: `http://localhost:3000`
 - **Port**: `3000`
 - **Contact Data**: `data/contacts/`
@@ -637,6 +666,7 @@ When working on this project:
 ## Project Goals
 
 This is a learning project focused on:
+
 - Modern Rust web development with Axum
 - Server-side rendering with minimal JavaScript
 - HTMX for progressive enhancement
@@ -652,6 +682,6 @@ MIT
 
 ---
 
-**Last Updated**: 2024-11-06  
-**Project**: PPST Academy  
+**Last Updated**: 2024-11-06
+**Project**: PPST Academy
 **Version Control**: Jujutsu (Git-backed)
