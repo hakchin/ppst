@@ -1,25 +1,22 @@
-<section id="contact" class="py-16 bg-gray-50">
-    <div class="container mx-auto px-4 max-w-2xl">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">
-            Contact Us
-        </h2>
+<section id="contact" class="py-[var(--space-section-y)] bg-gray-50">
+    <div class="container mx-auto px-[var(--container-px)] max-w-[var(--container-max-narrow)]">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-8 text-center">Contact Us</h2>
 
         <!-- Contact form result area (for HTMX responses) -->
         <div id="contact-result" class="mb-6"></div>
 
-        <!-- Contact Form -->
+        <!-- Contact Form with HTMX -->
         <form
             action="/contact"
             method="post"
-            class="bg-white rounded-lg shadow-md p-8"
+            class="bg-white rounded-[var(--radius-xl)] shadow-sm ring-1 ring-gray-200 p-8"
             hx-post="/contact"
             hx-target="#contact-result"
-            hx-indicator="#loading-spinner"
         >
             <!-- Name field -->
             <div class="mb-6">
                 <label for="name" class="block text-sm font-medium text-gray-700 mb-2">
-                    Name <span class="text-red-600">*</span>
+                    Name <span class="text-[var(--color-error)]">*</span>
                 </label>
                 <input
                     type="text"
@@ -27,7 +24,7 @@
                     name="name"
                     required
                     maxlength="100"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 invalid:border-red-500"
+                    class="w-full rounded-[var(--radius-lg)] border border-[var(--color-border)] px-[var(--input-padding-x)] py-[var(--input-padding-y)] h-[var(--input-height)] focus:ring-2 focus:ring-[var(--color-ring)] focus:border-[var(--color-border-focus)] transition-colors duration-[var(--transition-fast)]"
                     placeholder="Your full name"
                 >
             </div>
@@ -35,7 +32,7 @@
             <!-- Email field -->
             <div class="mb-6">
                 <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
-                    Email <span class="text-red-600">*</span>
+                    Email <span class="text-[var(--color-error)]">*</span>
                 </label>
                 <input
                     type="email"
@@ -43,7 +40,7 @@
                     name="email"
                     required
                     maxlength="255"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 invalid:border-red-500"
+                    class="w-full rounded-[var(--radius-lg)] border border-[var(--color-border)] px-[var(--input-padding-x)] py-[var(--input-padding-y)] h-[var(--input-height)] focus:ring-2 focus:ring-[var(--color-ring)] focus:border-[var(--color-border-focus)] transition-colors duration-[var(--transition-fast)]"
                     placeholder="your.email@example.com"
                 >
             </div>
@@ -51,14 +48,14 @@
             <!-- Subject field -->
             <div class="mb-6">
                 <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">
-                    Subject <span class="text-gray-500">(optional)</span>
+                    Subject <span class="text-[var(--color-text-muted)]">(optional)</span>
                 </label>
                 <input
                     type="text"
                     id="subject"
                     name="subject"
                     maxlength="200"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    class="w-full rounded-[var(--radius-lg)] border border-[var(--color-border)] px-[var(--input-padding-x)] py-[var(--input-padding-y)] h-[var(--input-height)] focus:ring-2 focus:ring-[var(--color-ring)] focus:border-[var(--color-border-focus)] transition-colors duration-[var(--transition-fast)]"
                     placeholder="What is your inquiry about?"
                 >
             </div>
@@ -66,7 +63,7 @@
             <!-- Message field -->
             <div class="mb-6">
                 <label for="message" class="block text-sm font-medium text-gray-700 mb-2">
-                    Message <span class="text-red-600">*</span>
+                    Message <span class="text-[var(--color-error)]">*</span>
                 </label>
                 <textarea
                     id="message"
@@ -74,34 +71,23 @@
                     required
                     maxlength="5000"
                     rows="6"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 invalid:border-red-500 resize-y"
+                    class="w-full rounded-[var(--radius-lg)] border border-[var(--color-border)] px-[var(--input-padding-x)] py-[var(--input-padding-y)] focus:ring-2 focus:ring-[var(--color-ring)] focus:border-[var(--color-border-focus)] transition-colors duration-[var(--transition-fast)] resize-y"
                     placeholder="Please describe your inquiry..."
                 ></textarea>
-            </div>
-
-            <!-- Loading spinner (shown during HTMX request) -->
-            <div id="loading-spinner" class="htmx-indicator mb-4">
-                <div class="flex items-center justify-center text-blue-600">
-                    <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    <span>Submitting...</span>
-                </div>
             </div>
 
             <!-- Submit button -->
             <div>
                 <button
                     type="submit"
-                    class="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                    class="inline-flex items-center justify-center rounded-[var(--radius-lg)] bg-[var(--color-brand)] px-[var(--button-padding-x)] py-[var(--button-padding-y)] text-white font-semibold shadow-sm hover:bg-[var(--color-brand-hover)] focus:ring-2 focus:ring-[var(--color-ring)] focus:ring-offset-2 transition-colors duration-[var(--transition-base)] w-full"
                 >
                     Send Message
                 </button>
             </div>
 
-            <p class="mt-4 text-sm text-gray-600 text-center">
-                <span class="text-red-600">*</span> Required fields
+            <p class="mt-4 text-sm text-[var(--color-text-muted)] text-center">
+                <span class="text-[var(--color-error)]">*</span> Required fields
             </p>
         </form>
     </div>

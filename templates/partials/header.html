@@ -1,29 +1,18 @@
-<div class="container mx-auto px-4 py-6">
+<div class="container mx-auto px-[var(--container-px)] py-6">
     <div class="flex items-center justify-between">
         <div class="flex items-center space-x-4">
-            <!-- Academy logo and name -->
-            <div class="text-2xl font-bold text-blue-600">
+            <div class="text-2xl font-bold text-[var(--color-brand)]">
                 {{ academy_name }}
             </div>
         </div>
 
-        <!-- Navigation links -->
-        <nav class="hidden md:flex space-x-6" aria-label="Main navigation">
-            <a href="#mission" class="text-gray-700 hover:text-blue-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1">
-                Mission
-            </a>
-            <a href="#programs" class="text-gray-700 hover:text-blue-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1">
-                Programs
-            </a>
-            <a href="#instructors" class="text-gray-700 hover:text-blue-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1">
-                Instructors
-            </a>
-            <a href="#contact" class="text-gray-700 hover:text-blue-600 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1">
-                Contact
-            </a>
+        <nav class="hidden md:flex space-x-8" aria-label="Main navigation">
+            <a href="#mission" class="text-gray-700 hover:text-blue-600 transition-colors duration-[var(--transition-fast)] focus:ring-2 focus:ring-[var(--color-ring)] focus:ring-offset-2 rounded-[var(--radius-md)] px-3 py-2">Mission</a>
+            <a href="#programs" class="text-gray-700 hover:text-blue-600 transition-colors duration-[var(--transition-fast)] focus:ring-2 focus:ring-[var(--color-ring)] focus:ring-offset-2 rounded-[var(--radius-md)] px-3 py-2">Programs</a>
+            <a href="#instructors" class="text-gray-700 hover:text-blue-600 transition-colors duration-[var(--transition-fast)] focus:ring-2 focus:ring-[var(--color-ring)] focus:ring-offset-2 rounded-[var(--radius-md)] px-3 py-2">Instructors</a>
+            <a href="#contact" class="text-gray-700 hover:text-blue-600 transition-colors duration-[var(--transition-fast)] focus:ring-2 focus:ring-[var(--color-ring)] focus:ring-offset-2 rounded-[var(--radius-md)] px-3 py-2">Contact</a>
         </nav>
     </div>
 
-    <!-- Tagline -->
-    <p class="text-gray-600 mt-2 text-lg">{{ tagline }}</p>
+    <p class="text-[var(--color-text-muted)] mt-3 md:mt-4 text-lg">{{ tagline }}</p>
 </div>

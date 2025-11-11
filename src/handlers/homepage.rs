@@ -1,9 +1,9 @@
-use askama_axum::Template;
-use axum::response::IntoResponse;
+use askama::Template as AskamaTemplate;
+use axum::response::{Html, IntoResponse};
 use crate::models::academy::{AcademyInfo, Program, Instructor};
 
 /// Template for the homepage
-#[derive(Template)]
+#[derive(AskamaTemplate)]
 #[template(path = "homepage.html")]
 struct HomepageTemplate {
     academy_name: String,
@@ -22,11 +22,14 @@ pub async fn get_homepage() -> impl IntoResponse {
     // Create template context
     // Progressive enhancement: This works without JavaScript
     // askama_axum::Template implements IntoResponse automatically
-    HomepageTemplate {
+    let template = HomepageTemplate {
         academy_name: academy_info.name,
         tagline: academy_info.tagline,
         mission: academy_info.mission,
         programs: academy_info.programs,
         instructors: academy_info.instructors,
-    }
+    };
+
+    // Render HTML manually to avoid dependency on askama_axum::IntoResponse for now
+    Html(template.render().unwrap())
 }

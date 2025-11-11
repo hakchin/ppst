@@ -1,60 +1,33 @@
 # PPST Academy Website
 
-Educational website for academy/school promotion (학원 홍보 홈페이지)
+Modern educational website for academy promotion (학원 홍보 홈페이지)
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Technology Stack](#technology-stack)
 - [Core Principles](#core-principles)
-- [Features](#features)
+- [Technology Stack](#technology-stack)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
-- [Development](#development)
+- [Development Guide](#development-guide)
+- [Version Control](#version-control)
 - [Testing](#testing)
-- [Version Control with Jujutsu](#version-control-with-jujutsu)
-- [Common Workflows](#common-workflows)
 - [Troubleshooting](#troubleshooting)
 - [API Reference](#api-reference)
-- [Additional Resources](#additional-resources)
 
 ---
 
 ## Overview
 
-A modern, lightweight educational website built with Rust and HTMX, following server-side first principles. This is a **learning project** focused on hands-on experience with HTMX-based web development using a minimal, focused implementation approach.
+A **lightweight, server-side first** educational website built with Rust and HTMX. This learning project demonstrates modern web development with minimal JavaScript and centralized asset management.
 
-**Key Features:**
+### Key Features
 
-- Academy information display with mission, programs, and instructors
-- Contact form with HTMX-enhanced validation
-- File-based JSON storage (no database)
-
----
-
-## Technology Stack
-
-### Backend
-
-- **Language**: Rust
-- **Web Framework**: Axum 0.7
-- **Templating Engine**: Askama 0.12
-- **Async Runtime**: Tokio 1.0
-- **Serialization**: Serde 1.0
-- **Date/Time**: Chrono 0.4
-- **Static Files**: Tower-HTTP 0.5
-
-### Frontend
-
-- **Server Communication**: HTMX (served from `static/js/`)
-- **Client-Side Interactivity**: Alpine.js (minimal usage, when necessary)
-- **Styling**: Tailwind CSS (standalone CLI)
-
-### Build & Development Tools
-
-- **CSS Build**: Tailwind CLI standalone binary (no Node.js)
-- **Version Control**: Jujutsu (jj) - Git-compatible VCS
-- **Package Manager**: Cargo
+- Server-rendered academy information (mission, programs, instructors)
+- HTMX-enhanced contact form with progressive enhancement
+- File-based JSON storage (no database required)
+- Centralized CSS management via Tailwind CLI
+- Simple, maintainable architecture without complex build tools
 
 ---
 
@@ -62,66 +35,95 @@ A modern, lightweight educational website built with Rust and HTMX, following se
 
 ### Design Philosophy
 
-- ✅ **Server-Side First** - HTML rendered on server, minimal client-side JavaScript
-- ✅ **Zero Node.js** - No npm, webpack, vite, rollup, or bundlers
-- ✅ **No Database** - File-based JSON storage for simplicity
-- ✅ **Minimal JavaScript** - HTMX for enhancement, Alpine.js only when necessary
+- ✅ **Server-Side First** - HTML rendered on server, minimal client JavaScript
+- ✅ **Centralized Asset Management** - Single source of truth for CSS via Tailwind CLI
+- ✅ **Zero Build Complexity** - No Node.js, npm, webpack, vite, or bundlers
 - ✅ **Progressive Enhancement** - Core functionality works without JavaScript
-- ✅ **Simple Tooling** - Tailwind CLI standalone only
-- ✅ **Learning-Oriented** - Clean, educational code structure
+- ✅ **File-Based Storage** - No database required, simple JSON files
+- ✅ **Maintainable Architecture** - Clear separation of concerns, easy to modify
 
-### Development Constraints
+### Centralized CSS Management
 
-**JavaScript Usage:**
+**All styling is managed through a single centralized workflow:**
 
-- Minimize JavaScript wherever possible
-- Rely primarily on HTMX for dynamic interactions
-- Use Alpine.js only when client-side state management is absolutely necessary
+1. **Input Source**: `src/input.css` - Single entry point for all Tailwind directives
+2. **Configuration**: `tailwind.config.js` - Centralized theme and plugin settings
+3. **Output**: `static/css/tailwind.css` - Single compiled CSS file served to all pages
+4. **Templates**: HTML templates use Tailwind utility classes consistently
 
-**Data Management:**
+**Benefits:**
 
-- No database systems (SQL or NoSQL)
-- Static content managed through code/templates
-- User data stored as individual JSON files with timestamp-based filenames
-- Contact submissions: `data/contacts/2024-11-06T12-30-45-123Z.json`
+- **Single Source of Truth**: All style changes go through one pipeline
+- **Easy Maintenance**: Update `input.css` or config once, affects entire site
+- **No CSS Duplication**: Tailwind purges unused styles automatically
+- **Fast Rebuilds**: Watch mode instantly recompiles on changes
+- **Version Control**: CSS changes tracked cleanly in git
 
-**Technology Choices:**
+### Technology Constraints
 
-- **HTML**: Core structure and content
-- **CSS (Tailwind)**: Styling via standalone CLI (no Node.js)
-- **Server-side rendering**: Askama templates
-- **HTMX**: Local static file from `static/js/` (no CDN)
+**Allowed:**
+
+- Rust backend (Axum, Askama templates)
+- HTMX for server communication (served locally from `static/js/`)
+- Tailwind CSS via standalone CLI (no Node.js)
+- File-based JSON storage
+
+**Not Allowed:**
+
+- Node.js, npm, yarn, pnpm
+- JavaScript bundlers (webpack, vite, rollup, parcel)
+- Database systems (SQL, NoSQL)
+- CDN dependencies (all assets served locally)
+- Excessive client-side JavaScript
 
 ---
 
-## Features
+## Technology Stack
 
-- **Homepage**: Academy information with mission, programs, and instructors
-- **Contact Form**: HTMX-enhanced form with server-side validation
-- **File-Based Storage**: Contact submissions saved as timestamped JSON files
-- **Responsive Design**: Mobile-first Tailwind CSS styling
-- **Progressive Enhancement**: Works without JavaScript enabled
+### Backend
+
+- **Language**: Rust (latest stable)
+- **Web Framework**: Axum 0.7
+- **Templating**: Askama 0.12
+- **Async Runtime**: Tokio 1.0
+- **Serialization**: Serde 1.0
+- **Date/Time**: Chrono 0.4
+- **Static Files**: Tower-HTTP 0.5
+
+### Frontend
+
+- **Styling**: Tailwind CSS (standalone CLI)
+- **Interactivity**: HTMX (local static file)
+- **Enhancement**: Alpine.js (minimal, only when necessary)
+
+### Tools
+
+- **CSS Build**: Tailwind CLI standalone binary
+- **Version Control**: Jujutsu (Git-compatible)
+- **Package Manager**: Cargo
+
+---
 
 ## Project Structure
 
 ```text
 ppst/
 ├── src/
-│   ├── main.rs           # Application entry point
-│   ├── routes.rs         # Route definitions
-│   ├── input.css         # Tailwind input styles
-│   ├── handlers/         # Request handlers
-│   │   ├── homepage.rs   # Homepage handler
-│   │   └── contact.rs    # Contact form handler
-│   ├── models/           # Data structures
-│   │   ├── academy.rs    # Academy info model
-│   │   └── contact.rs    # Contact form model
-│   └── storage/          # File storage utilities
-│       └── file_store.rs # JSON file operations
-├── templates/
-│   ├── base.html         # Base layout
-│   ├── homepage.html     # Homepage template
-│   └── partials/         # Reusable components
+│   ├── main.rs              # Application entry point
+│   ├── routes.rs            # Route definitions
+│   ├── input.css            # 🎨 Tailwind CSS input (centralized)
+│   ├── handlers/            # Request handlers
+│   │   ├── homepage.rs      # Homepage handler
+│   │   └── contact.rs       # Contact form handler
+│   ├── models/              # Data structures
+│   │   ├── academy.rs       # Academy info model
+│   │   └── contact.rs       # Contact form model
+│   └── storage/             # File storage utilities
+│       └── file_store.rs    # JSON file operations
+├── templates/               # Askama templates
+│   ├── base.html            # Base layout template
+│   ├── homepage.html        # Homepage template
+│   └── partials/            # Reusable components
 │       ├── header.html
 │       ├── mission.html
 │       ├── programs.html
@@ -129,43 +131,51 @@ ppst/
 │       ├── contact_form.html
 │       ├── contact_success.html
 │       └── contact_error.html
-├── static/
+├── static/                  # Static assets (served by Tower-HTTP)
 │   ├── css/
-│   │   └── tailwind.css  # Compiled Tailwind CSS
+│   │   └── tailwind.css     # 🎨 Compiled CSS (generated, do not edit)
 │   └── js/
-│       └── htmx.min.js   # HTMX library
+│       └── htmx.min.js      # HTMX library (local copy)
 ├── data/
-│   └── contacts/         # Contact submissions (JSON)
-├── Cargo.toml            # Rust dependencies
-└── tailwind.config.js    # Tailwind configuration
+│   └── contacts/            # Contact submissions (JSON files)
+├── Cargo.toml               # Rust dependencies
+└── tailwind.config.js       # 🎨 Tailwind configuration (centralized)
 ```
+
+### Key Files for CSS Management
+
+- **`src/input.css`** - Source of truth for all CSS (edit this)
+- **`tailwind.config.js`** - Theme, colors, plugins (edit this)
+- **`static/css/tailwind.css`** - Generated output (do not edit manually)
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- [Rust](https://rustup.rs/) - Latest stable toolchain
-- [Cargo](https://doc.rust-lang.org/cargo/) - Comes with Rust
-- [Tailwind CSS CLI](https://tailwindcss.com/blog/standalone-cli) - Standalone binary
+- **Rust** (latest stable) - [Install](https://rustup.rs/)
+- **Tailwind CSS CLI** (standalone binary) - [Download](https://github.com/tailwindlabs/tailwindcss/releases)
 
 ### Installation
 
-#### 1. Install Rust
+#### Step 1: Install Rust
 
 ```bash
-# Install Rust toolchain (if not already installed)
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
-#### 2. Install Tailwind CSS CLI
+#### Step 2: Install Tailwind CSS CLI
 
-**Option 1: macOS via Homebrew**
+Choose one method:
+
+**macOS (Homebrew):**
 
 ```bash
 brew install tailwindcss
 ```
 
-**Option 2: Linux - Download Binary Directly**
+**Linux (Direct Download):**
 
 ```bash
 curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
@@ -173,266 +183,146 @@ chmod +x tailwindcss-linux-x64
 sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 ```
 
-**Option 3: Manual Download**
-
-- Visit: <https://github.com/tailwindlabs/tailwindcss/releases>
-- Download the binary for your OS/architecture
-- Make it executable and add to your PATH
-
-The CLI automatically reads `tailwind.config.js` from the project root.
+**Manual:** Download from [GitHub Releases](https://github.com/tailwindlabs/tailwindcss/releases)
 
 ### Quick Start
 
 ```bash
-# Terminal 1: Watch and compile Tailwind CSS
+# Terminal 1: Start CSS watch mode (auto-recompile on changes)
 tailwindcss -i src/input.css -o static/css/tailwind.css --watch
 
-# Terminal 2: Run the application
+# Terminal 2: Run the server
 cargo run
-
-# The server will start at http://localhost:3000
 ```
 
-Open your browser and navigate to `http://localhost:3000`
+Visit `http://localhost:3000` in your browser.
 
 ---
 
-## Development
+## Development Guide
 
-### Running the Development Server
+### Development Workflow
 
-**Start the server:**
+**Recommended setup (2 terminals):**
 
 ```bash
+# Terminal 1: CSS watch mode (auto-recompiles on file changes)
+tailwindcss -i src/input.css -o static/css/tailwind.css --watch
+
+# Terminal 2: Run server
 cargo run
 ```
 
-**Expected output:**
+**With auto-reload (optional):**
 
-```txt
-🚀 PPST Academy server listening on http://127.0.0.1:3000
+```bash
+# Install cargo-watch once
+cargo install cargo-watch
+
+# Use in Terminal 2 instead of cargo run
+cargo watch -x run
 ```
 
-**Stop the server:**
+### CSS Development Workflow
 
-- Press `Ctrl+C` in the terminal
+**Making style changes:**
 
-### Tailwind CSS Development
+1. Edit `src/input.css` or `tailwind.config.js`
+2. Watch mode automatically recompiles to `static/css/tailwind.css`
+3. Refresh browser to see changes
 
-**Build CSS once (for production):**
+**Adding Tailwind classes to templates:**
+
+1. Edit any `.html` file in `templates/`
+2. Tailwind watch mode detects new classes
+3. Automatically includes them in compiled CSS
+4. Unused classes are purged automatically
+
+**Production CSS build:**
 
 ```bash
 tailwindcss -i src/input.css -o static/css/tailwind.css --minify
 ```
 
-**Watch mode (for development):**
+### Common Development Tasks
+
+**Start server:**
 
 ```bash
-tailwindcss -i src/input.css -o static/css/tailwind.css --watch
+cargo run
+# Server starts at http://127.0.0.1:3000
 ```
 
-This watches for changes in `src/input.css` and templates, automatically rebuilding `static/css/tailwind.css`.
-
-### Auto-Reload Development
-
-Install and use `cargo-watch` for automatic server restart on code changes:
+**Build for production:**
 
 ```bash
-# Install cargo-watch (one-time)
-cargo install cargo-watch
-
-# Run with auto-reload
-cargo watch -x run
-```
-
-### Production Build
-
-```bash
-# Build optimized release binary
 cargo build --release
-
-# Run the production binary
 ./target/release/ppst-academy
 ```
 
----
+**Stop server:**
 
-## Testing
-
-### Running Tests
-
-```bash
-# Run all tests
-cargo test
-
-# Run tests with output
-cargo test -- --nocapture
-```
-
-### Code Quality Checks
-
-**Run Clippy (linter):**
-
-```bash
-cargo clippy
-```
-
-**Check code formatting:**
-
-```bash
-cargo fmt -- --check
-```
-
-**Auto-format code:**
-
-```bash
-cargo fmt
-```
-
-### Manual Testing Checklist
-
-After making changes, verify:
-
-- [ ] Server starts without errors
-- [ ] Homepage loads correctly at `http://localhost:3000`
-- [ ] Contact form displays properly
-- [ ] Form validation works (try invalid email, empty fields)
-- [ ] Success message appears after valid submission
-- [ ] Contact data is saved to `data/contacts/`
-- [ ] Error messages display appropriately
+Press `Ctrl+C` in terminal
 
 ---
 
-## Version Control with Jujutsu
+## Version Control
 
-This project uses [Jujutsu (jj)](https://github.com/martinvonz/jj), a Git-compatible version control system. Unlike Git, changes are automatically tracked in real-time.
+This project uses [Jujutsu (jj)](https://github.com/martinvonz/jj), a Git-compatible VCS with automatic change tracking.
 
-### Basic Commands
-
-**Check status:**
+### Essential Commands
 
 ```bash
-jj status
+# View status and changes
+jj status                    # Check current status
+jj diff                      # View uncommitted changes
+jj log                       # View commit history (@ marks current)
+
+# Make commits
+jj describe -m "type: message"   # Describe current changes
+jj new                           # Create new working change
+
+# Sync with remote
+jj git fetch                     # Fetch from remote
+jj branch set main               # Update branch pointer
+jj git push                      # Push to remote
+
+# Undo changes
+jj restore <file>                # Restore specific file
+jj restore --from @-             # Restore all changes
 ```
 
-**View commit history:**
+### Commit Message Format
 
-```bash
-jj log
-```
+Use conventional commits: `type: description`
 
-Your current working copy is marked with `@`.
+**Types:**
 
-**View changes:**
-
-```bash
-jj diff
-```
-
-### Making Commits
-
-**1. Describe your changes:**
-
-```bash
-jj describe -m "feat: add new feature description"
-```
-
-**2. Create a new working change:**
-
-```bash
-jj new
-```
-
-### Commit Message Conventions
-
-Follow the format: `type: description`
-
-**Common types:**
-
-- `feat:` - New feature
-- `fix:` - Bug fix
-- `docs:` - Documentation changes
-- `refactor:` - Code refactoring
-- `test:` - Adding tests
-- `chore:` - Maintenance tasks
-- `style:` - Formatting, styling changes
+- `feat:` New feature
+- `fix:` Bug fix
+- `refactor:` Code refactoring
+- `docs:` Documentation
+- `style:` CSS/formatting
+- `test:` Tests
+- `chore:` Maintenance
 
 **Examples:**
 
 ```bash
 jj describe -m "feat: add contact form validation"
-jj describe -m "fix: correct email regex pattern"
-jj describe -m "docs: update README with setup instructions"
+jj describe -m "fix: correct email regex"
+jj describe -m "style: update homepage colors"
 ```
 
-### Pushing to GitHub
-
-**1. Ensure your changes are committed:**
+### Typical Workflow
 
 ```bash
-jj log  # Verify your changes appear as a commit
-```
-
-**2. Update the branch pointer:**
-
-```bash
-# For main branch
-jj branch set main
-
-# For feature branch
-jj branch set feature/my-feature
-```
-
-**3. Push to GitHub:**
-
-```bash
-# Push current branch
-jj git push
-
-# Push specific branch
-jj git push --branch feature/my-feature
-```
-
-### Undoing Changes
-
-**Restore specific files:**
-
-```bash
-jj restore <file-path>
-```
-
-**Restore all changes:**
-
-```bash
-jj restore --from @-
-```
-
-### Updating from Remote
-
-```bash
-# Fetch latest changes from GitHub
-jj git fetch
-
-# Create a new change based on updated main
-jj new main
-```
-
----
-
-## Common Workflows
-
-### Workflow 1: Quick Fix
-
-```bash
-# 1. Make your changes
-# (edit files)
-
-# 2. Test the fix
-cargo test
-cargo run
+# 1. Make changes to code/templates/CSS
+# 2. Test
+cargo test && cargo run
 
 # 3. Commit
-jj describe -m "fix: correct form validation error message"
+jj describe -m "feat: add new section"
 jj new
 
 # 4. Push
@@ -440,123 +330,79 @@ jj branch set main
 jj git push
 ```
 
-### Workflow 2: Adding a New Feature
+---
+
+## Testing
+
+### Run Tests
 
 ```bash
-# 1. Create feature branch
-jj branch create feature/instructor-bios
-jj branch set feature/instructor-bios
-
-# 2. Implement feature
-# (make changes)
-
-# 3. Test thoroughly
-cargo test
-cargo clippy
-cargo run
-
-# 4. Commit
-jj describe -m "feat: add instructor bio data model"
-jj new
-
-# 5. Push feature branch
-jj git push --branch feature/instructor-bios
+cargo test                    # Run all tests
+cargo test -- --nocapture     # With output
 ```
 
-### Workflow 3: Daily Development
+### Code Quality
 
 ```bash
-# 1. Make changes
-# (edit files)
-
-# 2. Check what changed
-jj status
-jj diff
-
-# 3. Test changes
-cargo test
-cargo clippy
-
-# 4. Run server to verify
-cargo run
-# Test in browser
-
-# 5. Commit changes
-jj describe -m "feat: implement instructor profiles section"
-jj new
-
-# 6. Update branch and push
-jj branch set main
-jj git push
+cargo clippy                  # Linter
+cargo fmt                     # Auto-format
+cargo fmt -- --check          # Check formatting
 ```
+
+### Manual Testing Checklist
+
+- [ ] Server starts without errors
+- [ ] Homepage loads at `http://localhost:3000`
+- [ ] Contact form displays and validates correctly
+- [ ] Success/error messages appear appropriately
+- [ ] Contact data saves to `data/contacts/`
+- [ ] CSS styles render correctly across pages
 
 ---
 
 ## Troubleshooting
 
-### Server Won't Start
-
-**Error:** `Address already in use`
-
-**Solution:**
+### Port Already in Use
 
 ```bash
-# Find process using port 3000
-lsof -i :3000
-
-# Kill the process
-kill -9 <PID>
+lsof -i :3000              # Find process on port 3000
+kill -9 <PID>              # Kill the process
 ```
 
-### Compilation Errors
+### Build Issues
 
 ```bash
-# Clean build artifacts
-cargo clean
-
-# Rebuild from scratch
-cargo build
+cargo clean                # Clean artifacts
+cargo build                # Rebuild
 ```
 
-### Tailwind CSS Not Updating
+### CSS Not Updating
+
+Ensure Tailwind watch mode is running:
 
 ```bash
-# Make sure watch mode is running
 tailwindcss -i src/input.css -o static/css/tailwind.css --watch
+```
 
-# Or rebuild manually
+Or rebuild manually:
+
+```bash
 tailwindcss -i src/input.css -o static/css/tailwind.css --minify
 ```
 
-### Jujutsu: "No changes to describe"
+### Version Control Issues
 
-This means your working change is empty. Make file changes first, then describe.
+**"No changes to describe"** - Make file changes before running `jj describe`
 
-### Push Rejected
-
-If `jj git push` fails due to conflicts:
+**Push rejected:**
 
 ```bash
-# Fetch latest changes
-jj git fetch
-
-# Rebase your changes on top of remote
-jj rebase -d main
-
-# Try pushing again
-jj git push
+jj git fetch               # Fetch latest
+jj rebase -d main          # Rebase on main
+jj git push                # Try again
 ```
 
-### View Git Commits
-
-```bash
-# See the underlying Git commits
-jj log --template 'commit_id ++ " " ++ description'
-```
-
-### Reset to Remote State
-
-**⚠️ Warning: This discards local changes!**
+**Reset to remote (⚠️ discards local changes):**
 
 ```bash
 jj git fetch
@@ -570,22 +416,18 @@ jj branch set main
 
 ### Endpoints
 
-| Method | Path       | Description                                  |
-|--------|------------|----------------------------------------------|
-| GET    | `/`        | Homepage with academy info and contact form  |
-| POST   | `/contact` | Submit contact form (returns partial HTML)   |
+| Method | Path       | Description                                |
+|--------|------------|--------------------------------------------|
+| GET    | `/`        | Homepage with academy info and contact form |
+| POST   | `/contact` | Submit contact form (returns partial HTML) |
 
-### File-Based Storage
+### Data Storage
 
-Contact form submissions are stored as individual JSON files with ISO 8601 timestamp-based filenames:
+Contact submissions stored as timestamped JSON files:
 
-**File path pattern:**
+**Pattern:** `data/contacts/2024-11-06T12-30-45-123Z.json`
 
-```
-data/contacts/2024-11-06T12-30-45-123Z.json
-```
-
-**Example file content:**
+**Example:**
 
 ```json
 {
@@ -598,90 +440,47 @@ data/contacts/2024-11-06T12-30-45-123Z.json
 
 ---
 
-## Additional Resources
+## Quick Reference
 
-### Documentation
-
-- [Rust Book](https://doc.rust-lang.org/book/)
-- [Cargo Book](https://doc.rust-lang.org/cargo/)
-- [Axum Web Framework](https://docs.rs/axum/latest/axum/)
-- [Askama Templating](https://docs.rs/askama/)
-- [HTMX Documentation](https://htmx.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Jujutsu VCS](https://github.com/martinvonz/jj)
-
-### Quick Reference
-
-**Daily commands:**
+### Daily Commands
 
 ```bash
-# Start server
+# Development
+tailwindcss -i src/input.css -o static/css/tailwind.css --watch
 cargo run
 
-# Check status
+# Version Control
 jj status
-
-# View changes
-jj diff
-
-# Commit changes
 jj describe -m "type: message"
 jj new
-
-# Push to GitHub
 jj branch set main
 jj git push
+
+# Quality
+cargo test
+cargo clippy
+cargo fmt
 ```
 
-**Environment information:**
+### Project Info
 
-- **Server URL**: `http://localhost:3000`
-- **Port**: `3000`
-- **Contact Data**: `data/contacts/`
-- **Static Files**: `static/`
-- **Templates**: `templates/`
-- **Main Branch**: `main`
-- **Git Remote**: `git@github.com:hakchin/ppst.git`
+- **Server**: `http://localhost:3000`
+- **CSS Source**: `src/input.css` (edit this)
+- **CSS Config**: `tailwind.config.js` (edit this)
+- **CSS Output**: `static/css/tailwind.css` (generated)
+- **Data Storage**: `data/contacts/` (JSON files)
+- **Remote**: `git@github.com:hakchin/ppst.git`
 
----
+### Resources
 
-## Development Guidelines
-
-When working on this project:
-
-1. **Prioritize HTML/CSS** solutions over JavaScript
-2. **Use HTMX attributes** for dynamic behavior
-3. **Keep Alpine.js usage minimal** and justified
-4. **Follow Rust best practices** for Axum handlers
-5. **Maintain clean code structure** for educational purposes
-6. **Avoid database dependencies** - use file-based storage
-7. **Use Askama templates** for server-side rendering
-8. **Never introduce Node.js, npm, or bundlers** (webpack/vite/rollup)
-9. **Use Tailwind CLI standalone** binary only (via brew or GitHub releases)
-10. **Serve HTMX locally** from `static/js/` (no CDN dependencies)
-11. **Store data as JSON files** with timestamp-based filenames in `data/contacts/`
-
----
-
-## Project Goals
-
-This is a learning project focused on:
-
-- Modern Rust web development with Axum
-- Server-side rendering with minimal JavaScript
-- HTMX for progressive enhancement
-- Simple, maintainable architecture without complex build tools
-- Educational code quality and clear patterns
-- File-based data storage without database complexity
+- [Rust Book](https://doc.rust-lang.org/book/)
+- [Axum Docs](https://docs.rs/axum/latest/axum/)
+- [HTMX Docs](https://htmx.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Jujutsu VCS](https://github.com/martinvonz/jj)
 
 ---
 
 ## License
 
 MIT
-
----
-
-**Last Updated**: 2024-11-06
-**Project**: PPST Academy
-**Version Control**: Jujutsu (Git-backed)

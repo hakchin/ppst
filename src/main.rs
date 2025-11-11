@@ -1,3 +1,4 @@
+use std::env;
 use std::net::SocketAddr;
 use tower_http::services::ServeDir;
 use tower_http::compression::CompressionLayer;
@@ -16,8 +17,15 @@ async fn main() {
         // Add gzip compression for responses
         .layer(CompressionLayer::new());
 
-    // Bind to localhost:3000
-    let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+    // Determine port from environment (PORT or PPST_PORT), default to 3000
+    let port: u16 = env::var("PORT")
+        .ok()
+        .and_then(|v| v.parse::<u16>().ok())
+        .or_else(|| env::var("PPST_PORT").ok().and_then(|v| v.parse::<u16>().ok()))
+        .unwrap_or(3000);
+
+    // Bind to localhost:port
+    let addr = SocketAddr::from(([127, 0, 0, 1], port));
     println!("🚀 PPST Academy server listening on http://{}", addr);
 
     // Start the server

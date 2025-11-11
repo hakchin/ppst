@@ -29,6 +29,9 @@ Thumbs.db
 dist/
 build/
 
+# Tools (binaries)
+tools/
+
 # Data (user privacy - contact form submissions)
 data/contacts/*.json
 !data/contacts/.gitkeep

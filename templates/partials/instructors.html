@@ -1,28 +1,19 @@
-<section id="instructors" class="py-16 bg-white">
-    <div class="container mx-auto px-4 max-w-7xl">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-12 text-center">
-            Our Instructors
-        </h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for instructor in instructors %}
-            <div class="bg-gray-50 rounded-lg p-6">
-                <div class="text-center mb-4">
-                    <div class="w-32 h-32 rounded-full bg-gray-300 mx-auto mb-4 flex items-center justify-center text-gray-600 text-4xl font-bold">
-                        {{ instructor.name.chars().next().unwrap() }}
-                    </div>
-                    <h3 class="text-xl font-semibold text-gray-900">
-                        {{ instructor.name }}
-                    </h3>
-                    <p class="text-sm text-blue-600 font-medium mt-1">
-                        {{ instructor.credentials }}
-                    </p>
-                </div>
-                <p class="text-gray-700 leading-relaxed text-center">
-                    {{ instructor.bio }}
-                </p>
-            </div>
-            {% endfor %}
+<section id="instructors" class="py-[var(--space-section-y)] bg-white">
+  <div class="container mx-auto px-[var(--container-px)] max-w-[var(--container-max-w)]">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">Our Instructors</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[var(--gap-grid)]">
+      {% for instructor in instructors %}
+      <div class="bg-white rounded-[var(--radius-xl)] shadow-sm ring-1 ring-gray-200 p-[var(--space-card-p)]">
+        <div class="text-center mb-4">
+          <div class="w-24 h-24 md:w-32 md:h-32 rounded-[var(--radius-full)] bg-gray-200 ring-1 ring-[var(--color-border)] mx-auto mb-4 flex items-center justify-center text-[var(--color-text-muted)] text-4xl font-bold">
+            {{ instructor.name.chars().next().unwrap() }}
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ instructor.name }}</h3>
+          <p class="text-sm text-[var(--color-brand)] font-medium mt-1">{{ instructor.credentials }}</p>
         </div>
+        <p class="text-gray-700 leading-[var(--line-height-relaxed)] text-center">{{ instructor.bio }}</p>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 </section>

@@ -2,7 +2,7 @@ use askama_axum::Template;
 use axum::{
     extract::ConnectInfo,
     http::{HeaderMap, StatusCode},
-    response::{Html, IntoResponse, Redirect, Response},
+    response::{IntoResponse, Redirect, Response},
     Form,
 };
 use std::collections::HashMap;
