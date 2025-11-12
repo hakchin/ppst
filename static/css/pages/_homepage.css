@@ -1,0 +1,140 @@
+/* ============================================================
+   PAGES - HOMEPAGE
+   Homepage-specific styles with BEM naming
+   ============================================================ */
+
+@layer pages {
+  /* Hero Section */
+  .hero {
+    background: linear-gradient(
+      135deg,
+      var(--color-hero-from),
+      var(--color-hero-to)
+    );
+    color: white;
+    padding-block: 6rem 7rem;
+    border-bottom-left-radius: var(--radius-3xl);
+    border-bottom-right-radius: var(--radius-3xl);
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .hero__container {
+    text-align: center;
+    max-width: var(--container-max-narrow);
+  }
+
+  .hero__title {
+    font-size: var(--font-size-4xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: 1.5rem;
+    line-height: var(--line-height-tight);
+  }
+
+  .hero__subtitle {
+    font-size: var(--font-size-xl);
+    color: #bfdbfe;
+  }
+
+  @media (min-width: 768px) {
+    .hero {
+      padding-block: 7rem;
+    }
+
+    .hero__title {
+      font-size: var(--font-size-5xl);
+    }
+
+    .hero__subtitle {
+      font-size: var(--font-size-2xl);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__title {
+      font-size: var(--font-size-6xl);
+    }
+  }
+
+  /* Section Styles */
+  .section {
+    padding-block: var(--space-section-y);
+  }
+
+  .section--bg-white {
+    background-color: white;
+  }
+
+  .section--bg-gray {
+    background-color: var(--color-bg-alt);
+  }
+
+  .section__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .section__title {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
+  /* Mission Section */
+  .mission__text {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    line-height: var(--line-height-relaxed);
+  }
+
+  @media (min-width: 768px) {
+    .mission__text {
+      font-size: var(--font-size-xl);
+    }
+  }
+
+  /* Instructor Card Specific */
+  .instructor-card__avatar-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .instructor-card__name {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  .instructor-card__credentials {
+    font-size: var(--font-size-sm);
+    color: var(--color-brand);
+    font-weight: var(--font-weight-medium);
+    margin-top: 0.25rem;
+    text-align: center;
+  }
+
+  .instructor-card__bio {
+    color: var(--color-text);
+    line-height: var(--line-height-relaxed);
+    text-align: center;
+  }
+
+  /* Accessibility */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 9999;
+    padding: 1rem;
+    background-color: var(--color-brand);
+    color: white;
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+}

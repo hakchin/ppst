@@ -1,0 +1,51 @@
+/* ============================================================
+   COMPONENTS - SPINNER
+   Loading spinner component with BEM naming
+   ============================================================ */
+
+@layer components {
+  .spinner {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: none;
+  }
+
+  .spinner.htmx-request {
+    display: flex;
+  }
+
+  .spinner__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 0.75rem;
+    color: var(--color-brand);
+  }
+
+  .spinner__icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+    animation: spin 1s linear infinite;
+  }
+
+  .spinner__text {
+    font-size: var(--font-size-sm);
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}

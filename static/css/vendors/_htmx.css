@@ -1,0 +1,19 @@
+/* ============================================================
+   VENDORS - HTMX
+   HTMX-specific styles
+   ============================================================ */
+
+@layer vendors {
+  /* HTMX indicator class */
+  .htmx-indicator {
+    display: none;
+  }
+
+  .htmx-request .htmx-indicator {
+    display: flex;
+  }
+
+  .htmx-request.htmx-indicator {
+    display: flex;
+  }
+}

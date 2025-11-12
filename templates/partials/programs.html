@@ -1,11 +1,11 @@
-<section id="programs" class="py-[var(--space-section-y)] bg-gray-50">
-  <div class="container mx-auto px-[var(--container-px)] max-w-[var(--container-max-w)]">
-    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">Our Programs</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[var(--gap-grid)]">
+<section id="programs" class="section section--bg-gray">
+  <div class="container container--default">
+    <h2 class="section__title">Our Programs</h2>
+    <div class="grid grid--3-col">
       {% for program in programs %}
-      <div class="bg-white rounded-[var(--radius-xl)] shadow-sm ring-1 ring-gray-200 p-[var(--space-card-p)] hover:shadow-md transition-shadow duration-[var(--transition-base)]">
-        <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ program.name }}</h3>
-        <p class="text-gray-700 leading-relaxed">{{ program.description }}</p>
+      <div class="card card--hoverable">
+        <h3 class="card__title">{{ program.name }}</h3>
+        <p class="card__text">{{ program.description }}</p>
       </div>
       {% endfor %}
     </div>

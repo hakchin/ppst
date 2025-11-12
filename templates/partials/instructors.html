@@ -1,17 +1,17 @@
-<section id="instructors" class="py-[var(--space-section-y)] bg-white">
-  <div class="container mx-auto px-[var(--container-px)] max-w-[var(--container-max-w)]">
-    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">Our Instructors</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-[var(--gap-grid)]">
+<section id="instructors" class="section section--bg-white">
+  <div class="container container--default">
+    <h2 class="section__title">Our Instructors</h2>
+    <div class="grid grid--3-col">
       {% for instructor in instructors %}
-      <div class="bg-white rounded-[var(--radius-xl)] shadow-sm ring-1 ring-gray-200 p-[var(--space-card-p)]">
-        <div class="text-center mb-4">
-          <div class="w-24 h-24 md:w-32 md:h-32 rounded-[var(--radius-full)] bg-gray-200 ring-1 ring-[var(--color-border)] mx-auto mb-4 flex items-center justify-center text-[var(--color-text-muted)] text-4xl font-bold">
+      <div class="card">
+        <div class="instructor-card__avatar-wrapper">
+          <div class="avatar avatar--lg">
             {{ instructor.name.chars().next().unwrap() }}
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-3">{{ instructor.name }}</h3>
-          <p class="text-sm text-[var(--color-brand)] font-medium mt-1">{{ instructor.credentials }}</p>
+          <h3 class="instructor-card__name">{{ instructor.name }}</h3>
+          <p class="instructor-card__credentials">{{ instructor.credentials }}</p>
         </div>
-        <p class="text-gray-700 leading-[var(--line-height-relaxed)] text-center">{{ instructor.bio }}</p>
+        <p class="instructor-card__bio">{{ instructor.bio }}</p>
       </div>
       {% endfor %}
     </div>

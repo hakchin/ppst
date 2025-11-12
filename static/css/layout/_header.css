@@ -1,0 +1,46 @@
+/* ============================================================
+   LAYOUT - HEADER
+   Header component with BEM naming
+   ============================================================ */
+
+@layer layout {
+  .header {
+    position: sticky;
+    top: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-border);
+    z-index: 100;
+  }
+
+  .header__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.5rem;
+  }
+
+  .header__brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .header__logo {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-brand);
+  }
+
+  .header__tagline {
+    color: var(--color-text-muted);
+    margin-top: 0.75rem;
+    font-size: var(--font-size-lg);
+  }
+
+  @media (min-width: 768px) {
+    .header__tagline {
+      margin-top: 1rem;
+    }
+  }
+}
