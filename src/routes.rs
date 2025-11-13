@@ -1,5 +1,8 @@
-use axum::{routing::{get, post}, Router};
 use crate::handlers;
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
 pub fn create_router() -> Router {
     Router::new()

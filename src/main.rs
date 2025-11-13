@@ -1,7 +1,7 @@
 use std::env;
 use std::net::SocketAddr;
-use tower_http::services::ServeDir;
 use tower_http::compression::CompressionLayer;
+use tower_http::services::ServeDir;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod handlers;
@@ -31,7 +31,11 @@ async fn main() {
     let port: u16 = env::var("PORT")
         .ok()
         .and_then(|v| v.parse::<u16>().ok())
-        .or_else(|| env::var("PPST_PORT").ok().and_then(|v| v.parse::<u16>().ok()))
+        .or_else(|| {
+            env::var("PPST_PORT")
+                .ok()
+                .and_then(|v| v.parse::<u16>().ok())
+        })
         .unwrap_or(3000);
 
     // Bind to localhost:port

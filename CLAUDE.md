@@ -11,6 +11,7 @@ This is a **server-side first educational website** for PPST Academy using Rust,
 ## Essential Commands
 
 ### Development
+
 ```bash
 # Run development server (http://localhost:3000)
 cargo run
@@ -24,6 +25,7 @@ cargo build --release
 ```
 
 ### Testing & Quality
+
 ```bash
 # Run all tests
 cargo test
@@ -42,6 +44,7 @@ cargo fmt -- --check
 ```
 
 ### Version Control (Jujutsu)
+
 ```bash
 # View status and changes
 jj status
@@ -63,11 +66,13 @@ jj git push
 ## Architecture
 
 ### Request Flow
+
 ```
 Browser → routes.rs → handlers/ → storage/models → templates/ → HTML Response
 ```
 
 ### Module Structure
+
 - **src/main.rs** - Application entry point, server setup
 - **src/routes.rs** - Route definitions (GET /, POST /contact)
 - **src/handlers/** - Request handlers with dual-mode response (HTMX fragments + standard redirects)
@@ -79,11 +84,13 @@ Browser → routes.rs → handlers/ → storage/models → templates/ → HTML R
 ### CSS Architecture (7-1 + BEM + Cascade Layers)
 
 **Layer Priority** (defined in [static/css/main.css](static/css/main.css:19)):
+
 ```css
 @layer reset, base, layout, components, pages, vendors;
 ```
 
 **Directory Structure**:
+
 - `abstracts/` - CSS variables (design tokens), mixins
 - `base/` - Reset, typography
 - `layout/` - Container, grid, header, footer
@@ -93,6 +100,7 @@ Browser → routes.rs → handlers/ → storage/models → templates/ → HTML R
 - `vendors/` - HTMX styles
 
 **BEM Naming**:
+
 - Block: `.card`, `.button`, `.form`
 - Element: `.card__title`, `.button__icon`, `.form__input`
 - Modifier: `.card--hoverable`, `.button--primary`, `.form--large`
@@ -111,6 +119,7 @@ All handlers support **progressive enhancement** via HTMX:
    - Status codes and plain text responses
 
 Example in [src/handlers/contact.rs](src/handlers/contact.rs:166):
+
 ```rust
 if headers.get("hx-request").is_some() {
     // Return HTML fragment
@@ -124,12 +133,14 @@ if headers.get("hx-request").is_some() {
 ### Rate Limiting
 
 In-memory rate limiter using lazy_static HashMap ([src/handlers/contact.rs](src/handlers/contact.rs:28-51)):
+
 - 30-second window per IP address
 - Shared state: `Arc<Mutex<HashMap<String, Instant>>>`
 
 ### Data Storage
 
 File-based JSON storage in `data/contacts/`:
+
 - Pattern: `YYYY-MM-DDTHH-MM-SS-mmmZ.json`
 - Auto-creates directories via [src/storage/file_store.rs](src/storage/file_store.rs:10-13)
 - Pretty-printed JSON for human readability
@@ -139,11 +150,13 @@ File-based JSON storage in `data/contacts/`:
 ### Adding Routes
 
 1. Define route in [src/routes.rs](src/routes.rs):
+
 ```rust
 .route("/new-route", get(handlers::new_handler::get_page))
 ```
 
 2. Create handler in `src/handlers/new_handler.rs`:
+
 ```rust
 pub async fn get_page() -> impl IntoResponse {
     // Handler logic
@@ -157,6 +170,7 @@ pub async fn get_page() -> impl IntoResponse {
 1. Create file: `static/css/components/_new-component.css`
 2. Use BEM naming convention
 3. Wrap styles in cascade layer:
+
 ```css
 @layer components {
   .component { /* styles */ }
@@ -164,12 +178,14 @@ pub async fn get_page() -> impl IntoResponse {
   .component--modifier { /* styles */ }
 }
 ```
+
 4. Import in [static/css/main.css](static/css/main.css)
 5. Use BEM classes in templates
 
 ### Editing Design Tokens
 
 Edit [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css):
+
 ```css
 :root {
   --color-brand: #2563eb;
@@ -185,6 +201,7 @@ No build step needed - CSS changes are immediately reflected on refresh.
 ### Askama Templates
 
 Templates use Jinja2-like syntax ([Askama docs](https://docs.rs/askama)):
+
 - Variables: `{{ variable }}`
 - Conditionals: `{% if condition %} ... {% endif %}`
 - Loops: `{% for item in items %} ... {% endfor %}`
@@ -195,6 +212,7 @@ Templates are **type-checked at compile time**.
 ## Key Technologies
 
 ### Backend
+
 - **Axum 0.8** - Web framework
 - **Tokio** - Async runtime
 - **Tower-HTTP** - Static file serving + Gzip compression
@@ -204,12 +222,14 @@ Templates are **type-checked at compile time**.
 - **Regex** - Email validation
 
 ### Frontend
+
 - **Vanilla CSS** - No preprocessors (Sass/Less/PostCSS)
 - **CSS Custom Properties** - Design tokens
 - **CSS Cascade Layers** - Explicit style priority
 - **HTMX** - Progressive enhancement (local file, no CDN)
 
 ### Constraints (Not Used)
+
 - ❌ Node.js / npm / yarn / pnpm
 - ❌ CSS preprocessors
 - ❌ JavaScript frameworks
@@ -220,6 +240,7 @@ Templates are **type-checked at compile time**.
 ## Port Configuration
 
 Server binds to `localhost:3000` by default. Override via environment variables:
+
 ```bash
 PORT=8080 cargo run
 # OR
@@ -231,6 +252,7 @@ Configuration in [src/main.rs](src/main.rs:30-35).
 ## Logging
 
 Using `tracing` + `tracing-subscriber`:
+
 - Default: `ppst_academy=debug,tower_http=debug`
 - Override: `RUST_LOG=ppst_academy=info cargo run`
 
@@ -243,6 +265,7 @@ Using `tracing` + `tracing-subscriber`:
 ## File References
 
 When working with code:
+
 - Routes: [src/routes.rs](src/routes.rs)
 - Main entry: [src/main.rs](src/main.rs)
 - Contact handler: [src/handlers/contact.rs](src/handlers/contact.rs)

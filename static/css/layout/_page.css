@@ -1,0 +1,23 @@
+/* ============================================================
+   LAYOUT - PAGE
+   Page-level layout styles with BEM naming
+   ============================================================ */
+
+@layer layout {
+  /* Page wrapper - full viewport height with flexbox */
+  .page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Main content area - grows to fill available space */
+  .page__main {
+    flex-grow: 1;
+  }
+
+  /* Page transition for HTMX swaps */
+  .page-transition {
+    flex-grow: 1;
+  }
+}

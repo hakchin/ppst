@@ -1,6 +1,6 @@
+use crate::models::academy::{AcademyInfo, Instructor, Program};
 use askama::Template as AskamaTemplate;
 use axum::response::{Html, IntoResponse};
-use crate::models::academy::{AcademyInfo, Program, Instructor};
 
 /// Template for the homepage
 #[derive(AskamaTemplate)]

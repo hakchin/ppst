@@ -1,9 +1,9 @@
 use askama::Template;
 use axum::{
+    Form,
     extract::ConnectInfo,
     http::{HeaderMap, StatusCode},
     response::{Html, IntoResponse, Redirect, Response},
-    Form,
 };
 use std::collections::HashMap;
 use std::net::SocketAddr;

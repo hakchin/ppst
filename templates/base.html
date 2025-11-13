@@ -20,7 +20,7 @@
     <!-- HTMX - Progressive enhancement (optional) -->
     <script src="/static/js/htmx.min.js" defer></script>
 </head>
-<body class="min-h-screen flex flex-col" hx-indicator=".spinner" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML transition:true show:top">
+<body class="page" hx-indicator=".spinner" hx-boost="true" hx-target="#main-content" hx-swap="innerHTML transition:true show:top">
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-link">
         Skip to main content
@@ -30,7 +30,7 @@
         {% block header %}{% endblock %}
     </header>
 
-    <main id="main-content" class="page-transition flex-grow">
+    <main id="main-content" class="page__main">
         {% block content %}{% endblock %}
     </main>
 

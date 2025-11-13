@@ -27,6 +27,7 @@
 @import './base/_typography.css';
 
 /* ===== LAYOUT ===== */
+@import './layout/_page.css';
 @import './layout/_container.css';
 @import './layout/_header.css';
 @import './layout/_footer.css';
@@ -40,6 +41,7 @@
 @import './components/_avatar.css';
 @import './components/_spinner.css';
 @import './components/_alert.css';
+@import './components/_instructor-card.css';
 
 /* ===== PAGES ===== */
 @import './pages/_homepage.css';
@@ -49,61 +51,3 @@
 
 /* ===== VENDORS ===== */
 @import './vendors/_htmx.css';
-
-/* ===== UTILITIES ===== */
-@layer utilities {
-  /* Layout utilities */
-  .flex {
-    display: flex;
-  }
-
-  .flex-col {
-    flex-direction: column;
-  }
-
-  .flex-grow {
-    flex-grow: 1;
-  }
-
-  .min-h-screen {
-    min-height: 100vh;
-  }
-
-  /* Spacing utilities */
-  .mb-4 {
-    margin-bottom: 1rem;
-  }
-
-  .mb-6 {
-    margin-bottom: 1.5rem;
-  }
-
-  /* Text utilities */
-  .text-center {
-    text-align: center;
-  }
-
-  /* Screen reader only */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-
-  .sr-only:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: inherit;
-    margin: inherit;
-    overflow: visible;
-    clip: auto;
-    white-space: normal;
-  }
-}
