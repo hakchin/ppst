@@ -1,18 +1,17 @@
 [package]
 name = "ppst-academy"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 # Web framework
-axum = "0.7"
+axum = "0.8"
 tokio = { version = "1", features = ["full"] }
-tower = "0.4"
+tower = "0.5"
 tower-http = { version = "0.5", features = ["fs", "compression-gzip"] }
 
 # Templating
-askama = "0.12"
-askama_axum = "0.4"
+askama = "0.14"
 
 # Serialization
 serde = { version = "1.0", features = ["derive"] }
@@ -22,10 +21,14 @@ serde_json = "1.0"
 chrono = { version = "0.4", features = ["serde"] }
 
 # Email validation
-regex = "1.10"
+regex = "1.12"
 
 # Utilities
-lazy_static = "1.4"
+lazy_static = "1.5"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [dev-dependencies]
 # Testing utilities

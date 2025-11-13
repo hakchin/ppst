@@ -30,6 +30,12 @@ pub async fn get_homepage() -> impl IntoResponse {
         instructors: academy_info.instructors,
     };
 
-    // Render HTML manually to avoid dependency on askama_axum::IntoResponse for now
-    Html(template.render().unwrap())
+    // Render HTML with proper error handling
+    match template.render() {
+        Ok(html) => Html(html),
+        Err(e) => {
+            tracing::error!("Failed to render homepage template: {}", e);
+            Html("<h1>Internal Server Error</h1><p>Failed to render page</p>".to_string())
+        }
+    }
 }

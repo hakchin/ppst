@@ -1,8 +1,8 @@
-use askama_axum::Template;
+use askama::Template;
 use axum::{
     extract::ConnectInfo,
     http::{HeaderMap, StatusCode},
-    response::{IntoResponse, Redirect, Response},
+    response::{Html, IntoResponse, Redirect, Response},
     Form,
 };
 use std::collections::HashMap;
@@ -39,10 +39,10 @@ const RATE_LIMIT_DURATION: Duration = Duration::from_secs(30);
 fn is_rate_limited(ip: &str) -> bool {
     let mut limiter = RATE_LIMITER.lock().unwrap();
 
-    if let Some(&last_submit) = limiter.get(ip) {
-        if last_submit.elapsed() < RATE_LIMIT_DURATION {
-            return true;
-        }
+    if let Some(&last_submit) = limiter.get(ip)
+        && last_submit.elapsed() < RATE_LIMIT_DURATION
+    {
+        return true;
     }
 
     // Update timestamp for this IP
@@ -81,7 +81,7 @@ pub async fn post_contact(
 
     // Save to file
     if let Err(e) = file_store::save_contact_inquiry(&inquiry) {
-        eprintln!("Failed to save contact inquiry: {}", e);
+        tracing::error!("Failed to save contact inquiry: {}", e);
         return storage_error_response(&headers);
     }
 
@@ -98,7 +98,13 @@ fn rate_limit_response(headers: &HeaderMap) -> Response {
         let template = ContactErrorTemplate {
             errors: vec!["Please wait 30 seconds before submitting another message.".to_string()],
         };
-        (StatusCode::TOO_MANY_REQUESTS, template).into_response()
+        match template.render() {
+            Ok(html) => (StatusCode::TOO_MANY_REQUESTS, Html(html)).into_response(),
+            Err(e) => {
+                tracing::error!("Template render error: {}", e);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
+            }
+        }
     } else {
         // Standard: Return 429 with plain text
         (
@@ -118,7 +124,13 @@ fn validation_error_response(headers: &HeaderMap, error: ValidationError) -> Res
         let template = ContactErrorTemplate {
             errors: error.errors,
         };
-        (StatusCode::BAD_REQUEST, template).into_response()
+        match template.render() {
+            Ok(html) => (StatusCode::BAD_REQUEST, Html(html)).into_response(),
+            Err(e) => {
+                tracing::error!("Template render error: {}", e);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
+            }
+        }
     } else {
         // Standard: Return 400 with error list
         let error_text = error.errors.join("\n");
@@ -134,7 +146,13 @@ fn storage_error_response(headers: &HeaderMap) -> Response {
         let template = ContactErrorTemplate {
             errors: vec!["Failed to save your message. Please try again later.".to_string()],
         };
-        (StatusCode::INTERNAL_SERVER_ERROR, template).into_response()
+        match template.render() {
+            Ok(html) => (StatusCode::INTERNAL_SERVER_ERROR, Html(html)).into_response(),
+            Err(e) => {
+                tracing::error!("Template render error: {}", e);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
+            }
+        }
     } else {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
@@ -150,7 +168,14 @@ fn success_response(headers: &HeaderMap) -> Response {
 
     if is_htmx {
         // HTMX: Return success HTML fragment
-        ContactSuccessTemplate {}.into_response()
+        let template = ContactSuccessTemplate {};
+        match template.render() {
+            Ok(html) => Html(html).into_response(),
+            Err(e) => {
+                tracing::error!("Template render error: {}", e);
+                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
+            }
+        }
     } else {
         // Standard: Redirect to homepage with success parameter
         Redirect::to("/?success=true").into_response()

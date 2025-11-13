@@ -34,7 +34,7 @@ mod tests {
 
     #[test]
     fn test_save_contact_inquiry() {
-        let inquiry = ContactInquiry {
+        let _inquiry = ContactInquiry {
             id: "test-2025-10-30T12-00-00-000Z".to_string(),
             submitted_at: Utc::now(),
             name: "Test User".to_string(),

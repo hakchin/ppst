@@ -59,10 +59,10 @@ impl ContactFormInput {
         }
 
         // Subject validation (optional)
-        if let Some(subject) = &self.subject {
-            if subject.len() > 200 {
-                errors.push("Subject must be less than 200 characters".to_string());
-            }
+        if let Some(subject) = &self.subject
+            && subject.len() > 200
+        {
+            errors.push("Subject must be less than 200 characters".to_string());
         }
 
         // Message validation
@@ -108,8 +108,11 @@ impl ContactFormInput {
 /// Basic email validation (simplified RFC 5322)
 fn is_valid_email(email: &str) -> bool {
     use regex::Regex;
-    let re = Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$").unwrap();
-    re.is_match(email)
+    lazy_static::lazy_static! {
+        static ref EMAIL_REGEX: Regex = Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+            .expect("Invalid email regex pattern");
+    }
+    EMAIL_REGEX.is_match(email)
 }
 
 /// Generate a filesystem-safe timestamp ID

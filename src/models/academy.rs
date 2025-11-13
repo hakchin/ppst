@@ -8,6 +8,7 @@ pub struct AcademyInfo {
     /// Mission statement (1-3 paragraphs)
     pub mission: String,
     /// Logo path (relative to static/ directory)
+    #[allow(dead_code)]
     pub logo_path: String,
     /// List of programs offered
     pub programs: Vec<Program>,
@@ -22,6 +23,7 @@ pub struct Program {
     /// Short description
     pub description: String,
     /// Icon or image path (optional)
+    #[allow(dead_code)]
     pub icon_path: Option<String>,
 }
 
@@ -32,6 +34,7 @@ pub struct Instructor {
     /// Credentials (e.g., "Ph.D. in Computer Science")
     pub credentials: String,
     /// Profile photo path
+    #[allow(dead_code)]
     pub photo_path: String,
     /// Short bio (1-2 sentences)
     pub bio: String,

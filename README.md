@@ -34,7 +34,8 @@ A **lightweight, server-side first** educational website demonstrating modern we
 - ✅ **Centralized CSS** - Modular architecture with clear organization
 - ✅ **Zero Complexity** - No build steps, preprocessors, or bundlers
 - ✅ **Maintainable** - BEM naming, explicit cascade layers, clear file structure
-- ✅ **Lightweight** - 2.8MB source code, single CSS file served
+- ✅ **Lightweight** - 240KB source code, single CSS file served
+- ✅ **Modern Rust** - Using Rust 2024 Edition with latest stable features
 
 ---
 
@@ -43,24 +44,32 @@ A **lightweight, server-side first** educational website demonstrating modern we
 ### Backend (Rust)
 
 **Core Framework:**
-- **Axum 0.7** - Web framework
+
+- **Axum 0.8** - Web framework
 - **Tokio 1.x** - Async runtime
-- **Tower 0.4** - Middleware framework
+- **Tower 0.5** - Middleware framework
 - **Tower-HTTP 0.5** - Static file serving + Gzip compression
 
 **Templating:**
-- **Askama 0.12** - Server-side HTML templates (Jinja2-style)
-- **Askama-Axum 0.4** - Axum integration
+
+- **Askama 0.14** - Server-side HTML templates (Jinja2-style)
 
 **Data & Utilities:**
+
 - **Serde 1.0** + **Serde JSON 1.0** - JSON serialization
 - **Chrono 0.4** - Date/time handling
-- **Regex 1.10** - Email validation
-- **Lazy Static 1.4** - Global static variables
+- **Regex 1.12** - Email validation
+- **Lazy Static 1.5** - Global static variables
+
+**Logging:**
+
+- **Tracing 0.1** - Structured logging
+- **Tracing-Subscriber 0.3** - Log collection and filtering
 
 ### Frontend
 
 **Styling:**
+
 - **Modern Vanilla CSS** - No preprocessors (Sass/Less/PostCSS)
 - **CSS Custom Properties** - Design tokens via CSS variables
 - **CSS Cascade Layers** - Explicit style priority with `@layer`
@@ -68,6 +77,7 @@ A **lightweight, server-side first** educational website demonstrating modern we
 - **BEM Methodology** - Consistent class naming convention
 
 **Interactivity:**
+
 - **HTMX** - Server communication (local file, no CDN)
   - Progressive enhancement
   - Form submission (AJAX)
@@ -87,6 +97,7 @@ A **lightweight, server-side first** educational website demonstrating modern we
 ### Constraints
 
 **❌ Not Used:**
+
 - Node.js / npm / yarn / pnpm
 - CSS preprocessors (Sass, Less, PostCSS)
 - CSS frameworks (Tailwind, Bootstrap)
@@ -104,18 +115,22 @@ ppst/
 │   ├── main.rs              # Application entry point
 │   ├── routes.rs            # Route definitions
 │   ├── handlers/            # Request handlers
+│   │   ├── mod.rs           # Module declarations
 │   │   ├── homepage.rs      # Homepage logic
 │   │   └── contact.rs       # Contact form logic
 │   ├── models/              # Data structures
+│   │   ├── mod.rs           # Module declarations
 │   │   ├── academy.rs       # Academy info model
 │   │   └── contact.rs       # Contact form model
 │   └── storage/             # File storage
+│       ├── mod.rs           # Module declarations
 │       └── file_store.rs    # JSON file operations
 │
 ├── templates/               # Askama HTML templates (BEM classes)
 │   ├── base.html            # Base layout
 │   ├── homepage.html        # Homepage template
 │   └── partials/            # Reusable components
+│       ├── ui.html          # UI components library
 │       ├── header.html
 │       ├── mission.html
 │       ├── programs.html
@@ -129,9 +144,9 @@ ppst/
 │   │   ├── abstracts/       # Variables (_variables.css, _mixins.css)
 │   │   ├── base/            # Reset & typography
 │   │   ├── layout/          # Container, header, footer, grid
-│   │   ├── components/      # Button, card, form, navigation, etc.
+│   │   ├── components/      # Button, card, form, navigation, avatar, spinner, alert
 │   │   ├── pages/           # Page-specific styles (_homepage.css)
-│   │   ├── themes/          # Theme variations
+│   │   ├── themes/          # Theme variations (_default.css)
 │   │   ├── vendors/         # Third-party styles (_htmx.css)
 │   │   └── main.css         # Main entry (imports all modules)
 │   └── js/
@@ -185,23 +200,27 @@ This eliminates specificity wars and ensures predictable styling.
 ### Layered Architecture (MVC + Repository Pattern)
 
 **Patterns:**
+
 - MVC architecture with repository abstraction
 - Server-side rendering (SSR)
 - Progressive enhancement
 - File-based storage
 
 **Request Flow:**
-```
+
+```txt
 Browser → routes.rs → handlers → storage/models → templates → HTML response
 ```
 
 **Component Mapping:**
+
 - **Presentation**: Axum handlers + Askama templates
 - **Styling**: Modular CSS (7-1 + BEM + Cascade Layers)
 - **Domain**: Rust models (data structures)
 - **Data Access**: File-based storage repository
 
 **Benefits:**
+
 - Clear separation of concerns
 - Testable (mock storage layer)
 - Maintainable CSS with BEM
@@ -346,6 +365,7 @@ jj restore --from @-             # Restore all changes
 **Conventional Commits**: `type: description`
 
 **Types:**
+
 - `feat:` New feature
 - `fix:` Bug fix
 - `refactor:` Code restructuring
@@ -355,6 +375,7 @@ jj restore --from @-             # Restore all changes
 - `chore:` Maintenance tasks
 
 **Examples:**
+
 ```bash
 jj describe -m "feat: add user profile page"
 jj describe -m "fix: correct email validation regex"
@@ -422,6 +443,7 @@ cargo fmt -- --check          # Check formatting
 ### Contact Form Submission
 
 **Request:**
+
 ```http
 POST /contact
 Content-Type: application/x-www-form-urlencoded
@@ -430,6 +452,7 @@ name=홍길동&email=hong@example.com&subject=문의&message=학원에 대해 �
 ```
 
 **Success Response:**
+
 ```html
 <div class="alert alert--success">
   <p class="alert__text">Thank you for contacting PPST Academy...</p>
@@ -437,6 +460,7 @@ name=홍길동&email=hong@example.com&subject=문의&message=학원에 대해 �
 ```
 
 **Error Response:**
+
 ```html
 <div class="alert alert--error">
   <p class="alert__title">Please correct the following errors:</p>
@@ -451,6 +475,7 @@ name=홍길동&email=hong@example.com&subject=문의&message=학원에 대해 �
 **File Pattern**: `data/contacts/2024-11-06T12-30-45-123Z.json`
 
 **JSON Structure**:
+
 ```json
 {
   "name": "홍길동",
@@ -506,13 +531,14 @@ cargo fmt                         # Format code
 
 ### Project Stats
 
-- **Source Code Size**: 2.8MB
+- **Source Code Size**: 240KB (excluding dependencies and build artifacts)
 - **Backend Language**: Rust (100%)
 - **Frontend Styling**: Vanilla CSS (100%)
 - **JavaScript**: 1 file (HTMX only)
-- **Dependencies**: 9 Rust crates
+- **Dependencies**: 11 Rust crates (core + logging)
 - **CSS Files**: 19 files (7-1 pattern)
 - **Build Tools**: Cargo only
+- **Rust Edition**: 2024
 
 ### Resources
 
@@ -553,9 +579,11 @@ cargo build                # Rebuild from scratch
 ### Version Control Issues
 
 **No changes to describe:**
+
 - Make file changes before running `jj describe`
 
 **Push rejected:**
+
 ```bash
 jj git fetch               # Fetch latest changes
 jj rebase -d main          # Rebase on main
@@ -563,6 +591,7 @@ jj git push                # Retry push
 ```
 
 **Reset to remote (⚠️ discards local changes):**
+
 ```bash
 jj git fetch
 jj new main@origin

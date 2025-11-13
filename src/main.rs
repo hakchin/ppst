@@ -2,6 +2,7 @@ use std::env;
 use std::net::SocketAddr;
 use tower_http::services::ServeDir;
 use tower_http::compression::CompressionLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 mod handlers;
 mod models;
@@ -10,6 +11,15 @@ mod storage;
 
 #[tokio::main]
 async fn main() {
+    // Initialize tracing/logging
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| "ppst_academy=debug,tower_http=debug".into()),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
+
     // Initialize the application router
     let app = routes::create_router()
         // Serve static files from the static/ directory
@@ -26,7 +36,7 @@ async fn main() {
 
     // Bind to localhost:port
     let addr = SocketAddr::from(([127, 0, 0, 1], port));
-    println!("🚀 PPST Academy server listening on http://{}", addr);
+    tracing::info!("🚀 PPST Academy server listening on http://{}", addr);
 
     // Start the server
     let listener = tokio::net::TcpListener::bind(addr)
