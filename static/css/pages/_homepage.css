@@ -137,4 +137,19 @@
   .skip-link:focus {
     left: 0;
   }
+  .page-transition {
+    view-transition-name: page;
+  }
+  @keyframes vt-fade-in {
+    from { opacity: 0; }
+  }
+  @keyframes vt-fade-out {
+    to { opacity: 0; }
+  }
+  ::view-transition-old(page) {
+    animation: 200ms ease-in both vt-fade-out;
+  }
+  ::view-transition-new(page) {
+    animation: 240ms ease-out both vt-fade-in;
+  }
 }

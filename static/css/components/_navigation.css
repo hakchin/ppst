@@ -5,8 +5,9 @@
 
 @layer components {
   .nav {
-    display: none;
-    gap: 2rem;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-items-sm);
   }
 
   .nav__link {
@@ -27,7 +28,7 @@
 
   @media (min-width: 768px) {
     .nav {
-      display: flex;
+      gap: 2rem;
     }
   }
 }
