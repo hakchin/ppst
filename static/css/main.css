@@ -20,7 +20,6 @@
 
 /* ===== ABSTRACTS ===== */
 @import './abstracts/_variables.css';
-@import './abstracts/_mixins.css';
 
 /* ===== BASE ===== */
 @import './base/_reset.css';

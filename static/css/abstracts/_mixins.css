@@ -1,7 +1,0 @@
-/* ============================================================
-   ABSTRACTS - MIXINS
-   Reusable CSS patterns (using modern CSS features)
-   ============================================================ */
-
-/* Note: CSS doesn't have true mixins like Sass, but we can use
-   custom properties and modern features like @layer for organization */

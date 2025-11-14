@@ -130,7 +130,6 @@ ppst/
 │   ├── base.html            # Base layout
 │   ├── homepage.html        # Homepage template
 │   └── partials/            # Reusable components
-│       ├── ui.html          # UI components library
 │       ├── header.html
 │       ├── mission.html
 │       ├── programs.html
@@ -141,7 +140,7 @@ ppst/
 │
 ├── static/                  # Static assets (served by Tower-HTTP)
 │   ├── css/                 # 🎨 Modern Vanilla CSS (7-1 pattern)
-│   │   ├── abstracts/       # Variables (_variables.css, _mixins.css)
+│   │   ├── abstracts/       # Variables (_variables.css)
 │   │   ├── base/            # Reset & typography
 │   │   ├── layout/          # Container, header, footer, grid
 │   │   ├── components/      # Button, card, form, navigation, avatar, spinner, alert
@@ -536,7 +535,7 @@ cargo fmt                         # Format code
 - **Frontend Styling**: Vanilla CSS (100%)
 - **JavaScript**: 1 file (HTMX only)
 - **Dependencies**: 11 Rust crates (core + logging)
-- **CSS Files**: 19 files (7-1 pattern)
+- **CSS Files**: 20 files (7-1 pattern)
 - **Build Tools**: Cargo only
 - **Rust Edition**: 2024
 

@@ -91,7 +91,7 @@ Browser → routes.rs → handlers/ → storage/models → templates/ → HTML R
 
 **Directory Structure**:
 
-- `abstracts/` - CSS variables (design tokens), mixins
+- `abstracts/` - CSS variables (design tokens)
 - `base/` - Reset, typography
 - `layout/` - Container, grid, header, footer
 - `components/` - Button, card, form, navigation, avatar, spinner, alert
