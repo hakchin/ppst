@@ -7,8 +7,8 @@
 
 ## Preview URL
 
-- http://127.0.0.1:3000/
-- http://localhost:3000/
+- <http://127.0.0.1:3000/>
+- <http://localhost:3000/>
 
 ## Run and Verify
 
@@ -45,14 +45,14 @@
 - Follow BEM naming: blocks (`.card`), elements (`.card__title`), modifiers (`.card--hoverable`)
 - Cascade layers order in `static/css/main.css`: `@layer reset, base, layout, components, pages, vendors;` (static/css/main.css:19)
 - No preprocessors; pure CSS; import modules via `static/css/main.css`
- - Smooth scroll baseline: `html { scroll-behavior: smooth; }` (static/css/base/_reset.css)
+- Smooth scroll baseline: `html { scroll-behavior: smooth; }` (static/css/base/_reset.css)
 
 ## HTMX Usage
 
 - Local script: `/static/js/htmx.min.js` loaded in base layout (templates/base.html:21)
 - Progressive enhancement only; use partial updates where appropriate
 - Prefer native anchors for in-page navigation; disable boost per-link when needed (e.g., logo)
- - Current body setup: `hx-boost="true" hx-target="#main-content" hx-swap="innerHTML transition:true show:top"` (templates/base.html:23)
+- Current body setup: `hx-boost="true" hx-target="#main-content" hx-swap="innerHTML transition:true show:top"` (templates/base.html:23)
 
 ## Templates
 
@@ -60,7 +60,7 @@
 - Header top anchor target: `<header id="top" ...>` (templates/base.html:29)
 - Smooth scroll: global `html { scroll-behavior: smooth; }` (static/css/base/_reset.css)
 - Main content container: `<main id="main-content" class="page-transition flex-grow">` (templates/base.html:33)
- - Logo anchor: `<a href="#top" class="header__logo" hx-boost="false">` (templates/partials/header.html:3)
+- Logo anchor: `<a href="#top" class="header__logo" hx-boost="false">` (templates/partials/header.html:3)
 
 ## Data Storage
 
