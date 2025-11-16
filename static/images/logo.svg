@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="120" viewBox="0 0 440 120" role="img" aria-label="별을셀 로고">
+  <defs>
+    <style>
+      .brand-fill{fill:#64c8b7}
+      .brand-text{fill:#111}
+      .line{stroke:#111;stroke-width:6;stroke-linecap:round}
+    </style>
+  </defs>
+  <g transform="translate(20,10)">
+    <polygon class="brand-fill" points="70,0 86,40 130,40 95,66 108,110 70,86 32,110 45,66 10,40 54,40"/>
+    <line class="line" x1="78" y1="4" x2="78" y2="42"/>
+    <circle class="brand-text" cx="78" cy="54" r="6"/>
+    <line class="line" x1="56" y1="12" x2="56" y2="52"/>
+    <circle class="brand-text" cx="56" cy="64" r="6"/>
+    <line class="line" x1="100" y1="12" x2="100" y2="32"/>
+    <circle class="brand-text" cx="100" cy="44" r="6"/>
+    <text class="brand-text" x="160" y="84" font-size="64" font-weight="700">별 을 셀</text>
+  </g>
+</svg>

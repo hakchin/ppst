@@ -44,8 +44,8 @@ impl AcademyInfo {
     /// Returns default academy information with hard-coded content
     pub fn default() -> Self {
         Self {
-            name: "PPST Academy".to_string(),
-            tagline: "Excellence in Programming Education".to_string(),
+            name: "☆별을셀".to_string(),
+            tagline: "Excellence in Mathematics Education".to_string(),
             mission: r#"Our mission is to provide world-class programming education that empowers students to become confident, skilled software developers. We believe in hands-on learning, industry-relevant curriculum, and personalized mentorship. Through our comprehensive programs, we prepare students not just to code, but to think critically, solve complex problems, and build innovative solutions that make a real impact."#.to_string(),
             logo_path: "/static/images/logo.svg".to_string(),
             programs: vec![
