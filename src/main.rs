@@ -38,8 +38,9 @@ async fn main() {
         })
         .unwrap_or(3000);
 
-    // Bind to localhost:port
-    let addr = SocketAddr::from(([127, 0, 0, 1], port));
+    // Bind to all network interfaces (0.0.0.0) to allow external access
+    // Use 127.0.0.1 for localhost-only access
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     tracing::info!("🚀 PPST Academy server listening on http://{}", addr);
 
     // Start the server
