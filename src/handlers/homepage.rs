@@ -8,8 +8,10 @@ use axum::response::{Html, IntoResponse};
 struct HomepageTemplate {
     academy_name: String,
     tagline: String,
-    mission: String,
+    // These fields are prepared for future use when templates become dynamic
+    #[allow(dead_code)]
     programs: Vec<Program>,
+    #[allow(dead_code)]
     instructors: Vec<Instructor>,
 }
 
@@ -25,7 +27,6 @@ pub async fn get_homepage() -> impl IntoResponse {
     let template = HomepageTemplate {
         academy_name: academy_info.name,
         tagline: academy_info.tagline,
-        mission: academy_info.mission,
         programs: academy_info.programs,
         instructors: academy_info.instructors,
     };

@@ -7,7 +7,7 @@
   .container {
     width: 100%;
     margin-inline: auto;
-    padding-inline: var(--container-px);
+    padding-inline: 1.5rem; /* 24px for mobile */
   }
 
   .container--narrow {
@@ -20,5 +20,18 @@
 
   .container--wide {
     max-width: var(--container-max-wide);
+  }
+
+  /* Desktop: reduce padding as screen gets larger */
+  @media (min-width: 768px) {
+    .container {
+      padding-inline: 2rem; /* 32px for tablet */
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-inline: var(--container-px); /* 16px for desktop */
+    }
   }
 }

@@ -50,6 +50,41 @@ fn is_rate_limited(ip: &str) -> bool {
     false
 }
 
+/// Helper: Check if request is from HTMX
+fn is_htmx_request(headers: &HeaderMap) -> bool {
+    headers.get("hx-request").is_some()
+}
+
+/// Helper: Render template with error handling
+#[allow(clippy::result_large_err)]
+fn render_template_or_fallback<T: Template>(
+    template: T,
+    fallback: String,
+) -> Result<String, Response> {
+    template.render().map_err(|e| {
+        tracing::error!("Template render error: {}", e);
+        (StatusCode::INTERNAL_SERVER_ERROR, fallback).into_response()
+    })
+}
+
+/// Helper: Create dual-mode response (HTMX fragment or standard)
+fn create_error_response(
+    headers: &HeaderMap,
+    status: StatusCode,
+    errors: Vec<String>,
+    plain_text: String,
+) -> Response {
+    if is_htmx_request(headers) {
+        let template = ContactErrorTemplate { errors };
+        match render_template_or_fallback(template, "An error occurred".to_string()) {
+            Ok(html) => (status, Html(html)).into_response(),
+            Err(response) => response,
+        }
+    } else {
+        (status, plain_text).into_response()
+    }
+}
+
 /// Handler for POST /contact
 /// Supports both standard POST (redirect) and HTMX (HTML fragment)
 pub async fn post_contact(
@@ -91,90 +126,41 @@ pub async fn post_contact(
 
 /// Return rate limit error response
 fn rate_limit_response(headers: &HeaderMap) -> Response {
-    let is_htmx = headers.get("hx-request").is_some();
-
-    if is_htmx {
-        // HTMX: Return HTML fragment
-        let template = ContactErrorTemplate {
-            errors: vec!["Please wait 30 seconds before submitting another message.".to_string()],
-        };
-        match template.render() {
-            Ok(html) => (StatusCode::TOO_MANY_REQUESTS, Html(html)).into_response(),
-            Err(e) => {
-                tracing::error!("Template render error: {}", e);
-                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
-            }
-        }
-    } else {
-        // Standard: Return 429 with plain text
-        (
-            StatusCode::TOO_MANY_REQUESTS,
-            "Rate limit exceeded. Please wait 30 seconds before submitting again.",
-        )
-            .into_response()
-    }
+    create_error_response(
+        headers,
+        StatusCode::TOO_MANY_REQUESTS,
+        vec!["Please wait 30 seconds before submitting another message.".to_string()],
+        "Rate limit exceeded. Please wait 30 seconds before submitting again.".to_string(),
+    )
 }
 
 /// Return validation error response
 fn validation_error_response(headers: &HeaderMap, error: ValidationError) -> Response {
-    let is_htmx = headers.get("hx-request").is_some();
-
-    if is_htmx {
-        // HTMX: Return HTML fragment with errors
-        let template = ContactErrorTemplate {
-            errors: error.errors,
-        };
-        match template.render() {
-            Ok(html) => (StatusCode::BAD_REQUEST, Html(html)).into_response(),
-            Err(e) => {
-                tracing::error!("Template render error: {}", e);
-                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
-            }
-        }
-    } else {
-        // Standard: Return 400 with error list
-        let error_text = error.errors.join("\n");
-        (StatusCode::BAD_REQUEST, error_text).into_response()
-    }
+    let plain_text = error.errors.join("\n");
+    create_error_response(headers, StatusCode::BAD_REQUEST, error.errors, plain_text)
 }
 
 /// Return storage error response
 fn storage_error_response(headers: &HeaderMap) -> Response {
-    let is_htmx = headers.get("hx-request").is_some();
-
-    if is_htmx {
-        let template = ContactErrorTemplate {
-            errors: vec!["Failed to save your message. Please try again later.".to_string()],
-        };
-        match template.render() {
-            Ok(html) => (StatusCode::INTERNAL_SERVER_ERROR, Html(html)).into_response(),
-            Err(e) => {
-                tracing::error!("Template render error: {}", e);
-                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
-            }
-        }
-    } else {
-        (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            "Failed to save your message. Please try again later.",
-        )
-            .into_response()
-    }
+    create_error_response(
+        headers,
+        StatusCode::INTERNAL_SERVER_ERROR,
+        vec!["Failed to save your message. Please try again later.".to_string()],
+        "Failed to save your message. Please try again later.".to_string(),
+    )
 }
 
 /// Return success response
 fn success_response(headers: &HeaderMap) -> Response {
-    let is_htmx = headers.get("hx-request").is_some();
-
-    if is_htmx {
+    if is_htmx_request(headers) {
         // HTMX: Return success HTML fragment
         let template = ContactSuccessTemplate {};
-        match template.render() {
+        match render_template_or_fallback(
+            template,
+            "Success! Your message has been sent.".to_string(),
+        ) {
             Ok(html) => Html(html).into_response(),
-            Err(e) => {
-                tracing::error!("Template render error: {}", e);
-                (StatusCode::INTERNAL_SERVER_ERROR, "Template error").into_response()
-            }
+            Err(response) => response,
         }
     } else {
         // Standard: Redirect to homepage with success parameter

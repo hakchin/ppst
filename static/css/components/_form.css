@@ -9,7 +9,14 @@
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--color-border);
-    padding: 2rem;
+    padding: 1.5rem; /* 24px on mobile */
+  }
+
+  /* Desktop: more spacious padding */
+  @media (min-width: 768px) {
+    .form {
+      padding: 2rem; /* 32px on tablet and up */
+    }
   }
 
   .form__group {

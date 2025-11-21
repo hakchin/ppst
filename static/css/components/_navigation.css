@@ -5,20 +5,31 @@
 
 @layer components {
   .nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    padding-block: 1rem;
+    border-top: 1px solid var(--color-border);
+    gap: 0.5rem;
+  }
+
+  .nav.is-open {
     display: flex;
-    align-items: center;
-    gap: var(--gap-items-sm);
+    animation: slideDown 0.2s ease-out;
   }
 
   .nav__link {
-    color: #374151;
-    padding: 0.5rem 0.75rem;
+    color: var(--color-text);
+    padding: 0.75rem 1rem;
     border-radius: var(--radius-md);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
+    display: block;
+    width: 100%;
   }
 
   .nav__link:hover {
     color: var(--color-brand);
+    background-color: var(--color-bg-alt);
   }
 
   .nav__link:focus {
@@ -28,7 +39,36 @@
 
   @media (min-width: 768px) {
     .nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: auto;
+      padding-block: 0;
+      border-top: none;
       gap: 2rem;
+      animation: none;
     }
+
+    .nav__link {
+      width: auto;
+      padding: 0.5rem 0.75rem;
+      display: inline-block;
+    }
+
+    .nav__link:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
