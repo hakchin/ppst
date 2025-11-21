@@ -23,9 +23,6 @@ chrono = { version = "0.4", features = ["serde"] }
 # Email validation
 regex = "1.12"
 
-# Utilities
-lazy_static = "1.5"
-
 # Logging
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }

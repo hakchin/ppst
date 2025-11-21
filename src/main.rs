@@ -4,10 +4,25 @@ use tower_http::compression::CompressionLayer;
 use tower_http::services::ServeDir;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
+mod config;
 mod handlers;
 mod models;
 mod routes;
 mod storage;
+
+/// Get server port from environment variables or default to 3000
+/// Checks PORT first, then PPST_PORT, defaults to 3000 if neither is set
+fn get_server_port() -> u16 {
+    env::var("PORT")
+        .ok()
+        .and_then(|v| v.parse::<u16>().ok())
+        .or_else(|| {
+            env::var("PPST_PORT")
+                .ok()
+                .and_then(|v| v.parse::<u16>().ok())
+        })
+        .unwrap_or(3000)
+}
 
 #[tokio::main]
 async fn main() {
@@ -27,20 +42,9 @@ async fn main() {
         // Add gzip compression for responses
         .layer(CompressionLayer::new());
 
-    // Determine port from environment (PORT or PPST_PORT), default to 3000
-    let port: u16 = env::var("PORT")
-        .ok()
-        .and_then(|v| v.parse::<u16>().ok())
-        .or_else(|| {
-            env::var("PPST_PORT")
-                .ok()
-                .and_then(|v| v.parse::<u16>().ok())
-        })
-        .unwrap_or(3000);
-
     // Bind to all network interfaces (0.0.0.0) to allow external access
     // Use 127.0.0.1 for localhost-only access
-    let addr = SocketAddr::from(([0, 0, 0, 0], port));
+    let addr = SocketAddr::from(([0, 0, 0, 0], get_server_port()));
     tracing::info!("🚀 PPST Academy server listening on http://{}", addr);
 
     // Start the server

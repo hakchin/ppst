@@ -7,7 +7,7 @@ use axum::{
 };
 use std::collections::HashMap;
 use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Duration, Instant};
 
 use crate::models::contact::{ContactFormInput, ValidationError};
@@ -29,15 +29,19 @@ struct ContactSuccessTemplate {}
 /// Maps IP address to last submission timestamp
 type RateLimiter = Arc<Mutex<HashMap<String, Instant>>>;
 
-lazy_static::lazy_static! {
-    static ref RATE_LIMITER: RateLimiter = Arc::new(Mutex::new(HashMap::new()));
-}
+/// Global rate limiter instance (initialized once)
+static RATE_LIMITER: OnceLock<RateLimiter> = OnceLock::new();
 
 const RATE_LIMIT_DURATION: Duration = Duration::from_secs(30);
 
+/// Get or initialize the rate limiter
+fn get_rate_limiter() -> &'static RateLimiter {
+    RATE_LIMITER.get_or_init(|| Arc::new(Mutex::new(HashMap::new())))
+}
+
 /// Check if IP is rate limited (submitted within last 30 seconds)
 fn is_rate_limited(ip: &str) -> bool {
-    let mut limiter = RATE_LIMITER.lock().unwrap();
+    let mut limiter = get_rate_limiter().lock().unwrap();
 
     if let Some(&last_submit) = limiter.get(ip)
         && last_submit.elapsed() < RATE_LIMIT_DURATION
