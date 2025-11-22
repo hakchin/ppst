@@ -92,7 +92,7 @@ A **lightweight, server-side first** educational website demonstrating modern we
 ### Tools
 
 - **Cargo** - Rust package manager & build system
-- **Jujutsu (jj)** - Git-compatible version control
+- **Git** - Version control system
 
 ### Constraints
 
@@ -336,28 +336,28 @@ Edit [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css):
 
 ## Version Control
 
-This project uses **Jujutsu (jj)**, a Git-compatible VCS.
+This project uses **Git** for version control.
 
 ### Essential Commands
 
 ```bash
 # View status
-jj status                    # Current working state
-jj diff                      # Uncommitted changes
-jj log                       # Commit history (@ = current)
+git status                   # Current working state
+git diff                     # Uncommitted changes
+git log                      # Commit history
 
 # Make commits
-jj describe -m "type: message"   # Describe changes
-jj new                           # Create new working change
+git add .                    # Stage all changes
+git commit -m "type: message"  # Commit changes
 
 # Sync with remote
-jj git fetch                     # Fetch from remote
-jj branch set main               # Update branch pointer
-jj git push                      # Push to remote
+git fetch                    # Fetch from remote
+git pull                     # Pull changes from remote
+git push                     # Push to remote
 
 # Undo changes
-jj restore <file>                # Restore specific file
-jj restore --from @-             # Restore all changes
+git restore <file>           # Restore specific file
+git restore .                # Restore all changes
 ```
 
 ### Commit Message Format
@@ -377,10 +377,10 @@ jj restore --from @-             # Restore all changes
 **Examples:**
 
 ```bash
-jj describe -m "feat: add user profile page"
-jj describe -m "fix: correct email validation regex"
-jj describe -m "style: update hero section gradient"
-jj describe -m "refactor: convert to BEM methodology"
+git commit -m "feat: add user profile page"
+git commit -m "fix: correct email validation regex"
+git commit -m "style: update hero section gradient"
+git commit -m "refactor: convert to BEM methodology"
 ```
 
 ### Typical Workflow
@@ -391,12 +391,11 @@ jj describe -m "refactor: convert to BEM methodology"
 cargo test && cargo run
 
 # 3. Commit
-jj describe -m "feat: add new feature"
-jj new
+git add .
+git commit -m "feat: add new feature"
 
 # 4. Push
-jj branch set main
-jj git push
+git push
 ```
 
 ---
@@ -497,10 +496,10 @@ name=홍길동&email=hong@example.com&subject=문의&message=학원에 대해 �
 cargo run                         # Start server
 
 # Version Control
-jj status                         # Check status
-jj describe -m "type: message"   # Commit changes
-jj new                            # New working change
-jj git push                       # Push to remote
+git status                        # Check status
+git add .                         # Stage changes
+git commit -m "type: message"    # Commit changes
+git push                          # Push to remote
 
 # Code Quality
 cargo test                        # Run tests
@@ -549,7 +548,7 @@ cargo fmt                         # Format code
 - [BEM Methodology](https://getbem.com/)
 - [CSS Cascade Layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
 - [7-1 Pattern](https://sass-guidelin.es/#the-7-1-pattern)
-- [Jujutsu VCS](https://github.com/martinvonz/jj)
+- [Git Documentation](https://git-scm.com/doc)
 
 ---
 
@@ -578,24 +577,23 @@ cargo build                # Rebuild from scratch
 
 ### Version Control Issues
 
-**No changes to describe:**
+**No changes to commit:**
 
-- Make file changes before running `jj describe`
+- Make file changes and stage them before running `git commit`
 
 **Push rejected:**
 
 ```bash
-jj git fetch               # Fetch latest changes
-jj rebase -d main          # Rebase on main
-jj git push                # Retry push
+git fetch                  # Fetch latest changes
+git pull --rebase          # Rebase on remote main
+git push                   # Retry push
 ```
 
 **Reset to remote (⚠️ discards local changes):**
 
 ```bash
-jj git fetch
-jj new main@origin
-jj branch set main
+git fetch origin
+git reset --hard origin/main
 ```
 
 ---

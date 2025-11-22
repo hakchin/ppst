@@ -43,22 +43,22 @@ cargo fmt
 cargo fmt -- --check
 ```
 
-### Version Control (Jujutsu)
+### Version Control (Git)
 
 ```bash
 # View status and changes
-jj status
-jj diff
-jj log
+git status
+git diff
+git log
 
 # Commit changes
-jj describe -m "type: message"
-jj new
+git add .
+git commit -m "type: message"
 
 # Sync with remote
-jj git fetch
-jj branch set main
-jj git push
+git fetch
+git pull
+git push
 ```
 
 **Commit format**: Use conventional commits (`feat:`, `fix:`, `style:`, `refactor:`, `docs:`, `test:`, `chore:`)
