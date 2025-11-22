@@ -16,8 +16,25 @@
     flex-grow: 1;
   }
 
-  /* Page transition for HTMX swaps */
+  /* Page transition for HTMX swaps with View Transitions API */
   .page-transition {
-    flex-grow: 1;
+    view-transition-name: page;
+  }
+
+  /* View Transition animations */
+  @keyframes vt-fade-in {
+    from { opacity: 0; }
+  }
+
+  @keyframes vt-fade-out {
+    to { opacity: 0; }
+  }
+
+  ::view-transition-old(page) {
+    animation: 200ms ease-in both vt-fade-out;
+  }
+
+  ::view-transition-new(page) {
+    animation: 240ms ease-out both vt-fade-in;
   }
 }

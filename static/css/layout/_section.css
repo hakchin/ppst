@@ -1,0 +1,50 @@
+/* ============================================================
+   LAYOUT - SECTION
+   Reusable section layout patterns with BEM naming
+   ============================================================ */
+
+@layer layout {
+  /* Section wrapper with vertical padding */
+  .section {
+    padding-block: var(--space-section-y);
+  }
+
+  /* Section background modifiers */
+  .section--bg-white {
+    background-color: var(--color-bg);
+  }
+
+  .section--bg-gray {
+    background-color: var(--color-bg-alt);
+  }
+
+  /* Section title - centered heading */
+  .section__title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .section__title {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
+  /* Skip to main content link - Accessibility */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 9999;
+    padding: 1rem;
+    background-color: var(--color-brand);
+    color: var(--color-text-inverse);
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+}

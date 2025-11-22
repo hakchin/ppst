@@ -68,14 +68,13 @@ jj git push
 ### Request Flow
 
 ```
-Browser → routes.rs → handlers/ → config/models/storage → templates/ → HTML Response
+Browser → routes.rs → handlers/ → storage/models → templates/ → HTML Response
 ```
 
 ### Module Structure
 
 - **src/main.rs** - Application entry point, server setup
 - **src/routes.rs** - Route definitions (GET /, POST /contact)
-- **src/config/** - Configuration and academy data (separated from models)
 - **src/handlers/** - Request handlers with dual-mode response (HTMX fragments + standard redirects)
 - **src/models/** - Data structures and validation
 - **src/storage/** - File-based JSON storage repository
@@ -133,11 +132,10 @@ if headers.get("hx-request").is_some() {
 
 ### Rate Limiting
 
-In-memory rate limiter using OnceLock (Rust 2024 idiom) and HashMap ([src/handlers/contact.rs](src/handlers/contact.rs:28-55)):
+In-memory rate limiter using lazy_static HashMap ([src/handlers/contact.rs](src/handlers/contact.rs:28-51)):
 
 - 30-second window per IP address
-- Shared state: `OnceLock<Arc<Mutex<HashMap<String, Instant>>>>`
-- Lazy initialization via `get_or_init()` for thread-safe setup
+- Shared state: `Arc<Mutex<HashMap<String, Instant>>>`
 
 ### Data Storage
 
@@ -241,7 +239,7 @@ Templates are **type-checked at compile time**.
 
 ## Port Configuration
 
-Server binds to `0.0.0.0:3000` by default for external access. Override via environment variables:
+Server binds to `localhost:3000` by default. Override via environment variables:
 
 ```bash
 PORT=8080 cargo run
@@ -249,7 +247,7 @@ PORT=8080 cargo run
 PPST_PORT=8080 cargo run
 ```
 
-Configuration handled by `get_server_port()` helper in [src/main.rs](src/main.rs:12-20).
+Configuration in [src/main.rs](src/main.rs:30-35).
 
 ## Logging
 
@@ -270,14 +268,12 @@ When working with code:
 
 - Routes: [src/routes.rs](src/routes.rs)
 - Main entry: [src/main.rs](src/main.rs)
-- Configuration: [src/config/academy_data.rs](src/config/academy_data.rs)
 - Contact handler: [src/handlers/contact.rs](src/handlers/contact.rs)
 - Contact model: [src/models/contact.rs](src/models/contact.rs)
 - File storage: [src/storage/file_store.rs](src/storage/file_store.rs)
 - CSS entry: [static/css/main.css](static/css/main.css)
 - Design tokens: [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css)
 - Base template: [templates/base.html](templates/base.html)
-- Error template: [templates/partials/server_error.html](templates/partials/server_error.html)
 
 ## Important Notes
 

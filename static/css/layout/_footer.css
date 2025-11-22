@@ -5,8 +5,8 @@
 
 @layer layout {
   .footer {
-    background-color: #1f2937;
-    color: white;
+    background-color: var(--color-footer-bg);
+    color: var(--color-footer-text);
     padding-block: 2rem;
     margin-top: auto;
   }

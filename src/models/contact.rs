@@ -108,14 +108,11 @@ impl ContactFormInput {
 /// Basic email validation (simplified RFC 5322)
 fn is_valid_email(email: &str) -> bool {
     use regex::Regex;
-    use std::sync::OnceLock;
-
-    static EMAIL_REGEX: OnceLock<Regex> = OnceLock::new();
-    let regex = EMAIL_REGEX.get_or_init(|| {
-        Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-            .expect("Invalid email regex pattern")
-    });
-    regex.is_match(email)
+    lazy_static::lazy_static! {
+        static ref EMAIL_REGEX: Regex = Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+            .expect("Invalid email regex pattern");
+    }
+    EMAIL_REGEX.is_match(email)
 }
 
 /// Generate a filesystem-safe timestamp ID

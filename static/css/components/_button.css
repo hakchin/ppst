@@ -18,7 +18,7 @@
 
   .button--primary {
     background-color: var(--color-brand);
-    color: white;
+    color: var(--color-text-inverse);
     box-shadow: var(--shadow-sm);
   }
 

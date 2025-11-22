@@ -59,6 +59,7 @@ A **lightweight, server-side first** educational website demonstrating modern we
 - **Serde 1.0** + **Serde JSON 1.0** - JSON serialization
 - **Chrono 0.4** - Date/time handling
 - **Regex 1.12** - Email validation
+- **Lazy Static 1.5** - Global static variables
 
 **Logging:**
 
@@ -113,9 +114,6 @@ ppst/
 ├── src/                     # Rust source code
 │   ├── main.rs              # Application entry point
 │   ├── routes.rs            # Route definitions
-│   ├── config/              # Configuration and data
-│   │   ├── mod.rs           # Module declarations
-│   │   └── academy_data.rs  # Academy information
 │   ├── handlers/            # Request handlers
 │   │   ├── mod.rs           # Module declarations
 │   │   ├── homepage.rs      # Homepage logic
@@ -138,8 +136,7 @@ ppst/
 │       ├── instructors.html
 │       ├── contact_form.html
 │       ├── contact_success.html
-│       ├── contact_error.html
-│       └── server_error.html
+│       └── contact_error.html
 │
 ├── static/                  # Static assets (served by Tower-HTTP)
 │   ├── css/                 # 🎨 Modern Vanilla CSS (7-1 pattern)
@@ -211,12 +208,11 @@ This eliminates specificity wars and ensures predictable styling.
 **Request Flow:**
 
 ```txt
-Browser → routes.rs → handlers → config/models/storage → templates → HTML response
+Browser → routes.rs → handlers → storage/models → templates → HTML response
 ```
 
 **Component Mapping:**
 
-- **Configuration**: Academy data and app settings (config/)
 - **Presentation**: Axum handlers + Askama templates
 - **Styling**: Modular CSS (7-1 + BEM + Cascade Layers)
 - **Domain**: Rust models (data structures)
@@ -516,7 +512,6 @@ cargo fmt                         # Format code
 | Path | Purpose |
 |------|---------|
 | `src/` | Rust source code |
-| `src/config/` | Configuration and academy data |
 | `templates/` | HTML templates (Askama) |
 | `static/css/` | CSS architecture (7-1 + BEM) |
 | `static/js/` | JavaScript (HTMX only) |
@@ -528,7 +523,6 @@ cargo fmt                         # Format code
 |------|-------------|
 | [src/main.rs](src/main.rs) | Application entry point |
 | [src/routes.rs](src/routes.rs) | Route definitions |
-| [src/config/academy_data.rs](src/config/academy_data.rs) | Academy information and data |
 | [static/css/main.css](static/css/main.css) | CSS entry point |
 | [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css) | Design tokens |
 | [templates/base.html](templates/base.html) | Base HTML layout |
@@ -540,7 +534,7 @@ cargo fmt                         # Format code
 - **Backend Language**: Rust (100%)
 - **Frontend Styling**: Vanilla CSS (100%)
 - **JavaScript**: 1 file (HTMX only)
-- **Dependencies**: 10 Rust crates (core + logging, removed lazy_static)
+- **Dependencies**: 11 Rust crates (core + logging)
 - **CSS Files**: 20 files (7-1 pattern)
 - **Build Tools**: Cargo only
 - **Rust Edition**: 2024

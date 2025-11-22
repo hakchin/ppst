@@ -3,4 +3,17 @@
    Default theme configuration
    ============================================================ */
 
-/* Theme-specific overrides can go here if needed */
+/*
+ * This file is intentionally left minimal as a placeholder for future
+ * theme-specific overrides. The primary theme styling is handled through
+ * CSS custom properties in abstracts/_variables.css with dark mode support.
+ *
+ * Future theme variations can be added here using the pattern:
+ * @layer themes {
+ *   [data-theme="theme-name"] {
+ *     // Theme-specific overrides
+ *   }
+ * }
+ */
+
+/* No layer wrapper needed for empty placeholder file */

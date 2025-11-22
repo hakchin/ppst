@@ -11,7 +11,7 @@
       var(--color-hero-from),
       var(--color-hero-to)
     );
-    color: white;
+    color: var(--color-text-inverse);
     padding-block: 6rem 7rem;
     border-bottom-left-radius: var(--radius-3xl);
     border-bottom-right-radius: var(--radius-3xl);
@@ -32,7 +32,7 @@
 
   .hero__subtitle {
     font-size: var(--font-size-xl);
-    color: #bfdbfe;
+    color: var(--color-hero-subtitle);
   }
 
   @media (min-width: 768px) {
@@ -55,34 +55,13 @@
     }
   }
 
-  /* Section Styles */
-  .section {
-    padding-block: var(--space-section-y);
-  }
-
-  .section--bg-white {
-    background-color: white;
-  }
-
-  .section--bg-gray {
-    background-color: var(--color-bg-alt);
-  }
-
-  .section__title {
-    font-size: var(--font-size-3xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--color-text);
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  @media (min-width: 768px) {
-    .section__title {
-      font-size: var(--font-size-4xl);
-    }
-  }
 
   /* Mission Section */
+  .mission__content {
+    /* Content wrapper - currently minimal, reserved for future layout needs */
+    display: block;
+  }
+
   .mission__text {
     font-size: var(--font-size-lg);
     color: var(--color-text);
@@ -126,7 +105,7 @@
 
   /* Programs Section */
   .programs__lead {
-    background-color: white;
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
@@ -175,7 +154,7 @@
 
   /* Admissions Section */
   .admissions__lead {
-    background-color: white;
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
@@ -216,7 +195,7 @@
     overflow-x: auto;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
-    background-color: white;
+    background-color: var(--color-surface);
   }
 
   .admissions__table {
@@ -264,7 +243,7 @@
 
   /* Rules Section */
   .rules__lead {
-    background-color: white;
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-sm);
@@ -320,35 +299,5 @@
   #contact .form {
     max-width: var(--container-max-narrow);
     margin-inline: auto;
-  }
-
-  /* Accessibility */
-  .skip-link {
-    position: absolute;
-    left: -9999px;
-    top: 0;
-    z-index: 9999;
-    padding: 1rem;
-    background-color: var(--color-brand);
-    color: white;
-  }
-
-  .skip-link:focus {
-    left: 0;
-  }
-  .page-transition {
-    view-transition-name: page;
-  }
-  @keyframes vt-fade-in {
-    from { opacity: 0; }
-  }
-  @keyframes vt-fade-out {
-    to { opacity: 0; }
-  }
-  ::view-transition-old(page) {
-    animation: 200ms ease-in both vt-fade-out;
-  }
-  ::view-transition-new(page) {
-    animation: 240ms ease-out both vt-fade-in;
   }
 }
