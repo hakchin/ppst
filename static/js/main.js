@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
         navToggle.addEventListener('click', () => {
             const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
             navToggle.setAttribute('aria-expanded', !isExpanded);
-            nav.classList.toggle('is-open');
+            nav.classList.toggle('nav--open');
         });
 
         // Close menu when clicking on navigation links (mobile only)
@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 // Only close if menu is currently open (mobile view)
-                if (nav.classList.contains('is-open')) {
-                    nav.classList.remove('is-open');
+                if (nav.classList.contains('nav--open')) {
+                    nav.classList.remove('nav--open');
                     navToggle.setAttribute('aria-expanded', 'false');
                 }
             });

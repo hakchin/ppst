@@ -296,7 +296,7 @@
     margin-bottom: 1.5rem;
   }
 
-  #contact .form {
+  .form--contact {
     max-width: var(--container-max-narrow);
     margin-inline: auto;
   }

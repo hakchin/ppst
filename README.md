@@ -57,9 +57,9 @@ A **lightweight, server-side first** educational website demonstrating modern we
 **Data & Utilities:**
 
 - **Serde 1.0** + **Serde JSON 1.0** - JSON serialization
-- **Chrono 0.4** - Date/time handling
+- **Time 0.3** - Date/time handling (modern, sound alternative to chrono)
 - **Regex 1.12** - Email validation
-- **Lazy Static 1.5** - Global static variables
+- **Thiserror 2.0** - Type-safe error handling
 
 **Logging:**
 
@@ -114,14 +114,15 @@ ppst/
 ├── src/                     # Rust source code
 │   ├── main.rs              # Application entry point
 │   ├── routes.rs            # Route definitions
+│   ├── error.rs             # Centralized error handling (thiserror)
 │   ├── handlers/            # Request handlers
 │   │   ├── mod.rs           # Module declarations
 │   │   ├── homepage.rs      # Homepage logic
-│   │   └── contact.rs       # Contact form logic
+│   │   └── contact.rs       # Contact form logic (dual-mode response)
 │   ├── models/              # Data structures
 │   │   ├── mod.rs           # Module declarations
 │   │   ├── academy.rs       # Academy info model
-│   │   └── contact.rs       # Contact form model
+│   │   └── contact.rs       # Contact form model with validation
 │   └── storage/             # File storage
 │       ├── mod.rs           # Module declarations
 │       └── file_store.rs    # JSON file operations

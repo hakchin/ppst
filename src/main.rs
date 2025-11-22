@@ -47,12 +47,10 @@ async fn main() -> Result<()> {
     tracing::info!("🚀 PPST Academy server listening on http://{}", addr);
 
     // Start the server with graceful error handling
-    let listener = tokio::net::TcpListener::bind(addr)
-        .await
-        .map_err(|e| {
-            tracing::error!("Failed to bind to {}: {}", addr, e);
-            AppError::Bind(e)
-        })?;
+    let listener = tokio::net::TcpListener::bind(addr).await.map_err(|e| {
+        tracing::error!("Failed to bind to {}: {}", addr, e);
+        AppError::Bind(e)
+    })?;
 
     tracing::info!("✅ Server successfully bound to {}", addr);
 

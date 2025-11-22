@@ -1,5 +1,5 @@
-use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use time::OffsetDateTime;
 
 /// Represents a contact form submission from a website visitor
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -7,7 +7,8 @@ pub struct ContactInquiry {
     /// Unique identifier (ISO 8601 timestamp)
     pub id: String,
     /// Submission timestamp
-    pub submitted_at: DateTime<Utc>,
+    #[serde(with = "time::serde::iso8601")]
+    pub submitted_at: OffsetDateTime,
     /// Visitor's full name (required)
     pub name: String,
     /// Visitor's email address (required, validated)
@@ -89,7 +90,7 @@ impl ContactFormInput {
         self.validate()?;
 
         // Generate timestamp and ID
-        let now = Utc::now();
+        let now = OffsetDateTime::now_utc();
         let id = format_timestamp_id(&now);
 
         Ok(ContactInquiry {
@@ -108,14 +109,20 @@ impl ContactFormInput {
 /// Basic email validation (simplified RFC 5322)
 fn is_valid_email(email: &str) -> bool {
     use regex::Regex;
-    lazy_static::lazy_static! {
-        static ref EMAIL_REGEX: Regex = Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
-            .expect("Invalid email regex pattern");
-    }
+    use std::sync::LazyLock;
+
+    static EMAIL_REGEX: LazyLock<Regex> = LazyLock::new(|| {
+        Regex::new(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+            .expect("Invalid email regex pattern")
+    });
+
     EMAIL_REGEX.is_match(email)
 }
 
 /// Generate a filesystem-safe timestamp ID
-fn format_timestamp_id(dt: &DateTime<Utc>) -> String {
-    dt.format("%Y-%m-%dT%H-%M-%S-%3fZ").to_string()
+fn format_timestamp_id(dt: &OffsetDateTime) -> String {
+    use time::macros::format_description;
+    let format =
+        format_description!("[year]-[month]-[day]T[hour]-[minute]-[second]-[subsecond digits:3]Z");
+    dt.format(&format).unwrap_or_else(|_| "unknown".to_string())
 }

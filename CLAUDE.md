@@ -75,6 +75,7 @@ Browser → routes.rs → handlers/ → storage/models → templates/ → HTML R
 
 - **src/main.rs** - Application entry point, server setup
 - **src/routes.rs** - Route definitions (GET /, POST /contact)
+- **src/error.rs** - Centralized error handling with thiserror (type-safe, automatic conversions)
 - **src/handlers/** - Request handlers with dual-mode response (HTMX fragments + standard redirects)
 - **src/models/** - Data structures and validation
 - **src/storage/** - File-based JSON storage repository
@@ -107,28 +108,49 @@ Browser → routes.rs → handlers/ → storage/models → templates/ → HTML R
 
 ### Dual-Mode Response Pattern
 
-All handlers support **progressive enhancement** via HTMX:
+All handlers support **progressive enhancement** via HTMX, ensuring the application works with or without JavaScript:
+
+#### Response Modes
 
 1. **HTMX Request** (detected via `hx-request` header):
-   - Returns HTML fragments
+   - Returns HTML fragments for dynamic updates
    - Status codes: 200 OK, 400 Bad Request, 429 Too Many Requests
    - Rendered via Askama templates in `templates/partials/`
+   - Enables smooth UX without full page reloads
 
-2. **Standard Request**:
+2. **Standard Request** (JavaScript disabled or direct form submission):
    - Returns redirects or full HTML pages
-   - Status codes and plain text responses
+   - Falls back to traditional form POST behavior
+   - Ensures accessibility and baseline functionality
+
+#### Implementation Pattern
 
 Example in [src/handlers/contact.rs](src/handlers/contact.rs:166):
 
 ```rust
-if headers.get("hx-request").is_some() {
-    // Return HTML fragment
+// Helper function to detect HTMX requests
+fn is_htmx_request(headers: &HeaderMap) -> bool {
+    headers.get("hx-request").is_some()
+}
+
+// Dual-mode response
+if is_htmx_request(&headers) {
+    // HTMX: Return HTML fragment
+    let template = ContactSuccessTemplate {};
     Html(template.render()?).into_response()
 } else {
-    // Return redirect
+    // Standard: Return redirect
     Redirect::to("/?success=true").into_response()
 }
 ```
+
+#### Why This Matters
+
+- **Progressive Enhancement**: Core functionality works without JavaScript
+- **Accessibility**: Screen readers and keyboard navigation fully supported
+- **Resilience**: Application degrades gracefully on older browsers
+- **SEO**: Search engines can crawl standard HTML responses
+- **Single Endpoint**: No need for separate API + page routes
 
 ### Rate Limiting
 
@@ -144,6 +166,52 @@ File-based JSON storage in `data/contacts/`:
 - Pattern: `YYYY-MM-DDTHH-MM-SS-mmmZ.json`
 - Auto-creates directories via [src/storage/file_store.rs](src/storage/file_store.rs:10-13)
 - Pretty-printed JSON for human readability
+
+### Error Handling
+
+Centralized error handling using **thiserror** ([src/error.rs](src/error.rs)):
+
+#### Design Philosophy
+
+```rust
+#[derive(Error, Debug)]
+pub enum AppError {
+    #[error("Failed to render template: {0}")]
+    Template(#[from] askama::Error),
+
+    #[error("Storage error: {0}")]
+    Storage(#[from] std::io::Error),
+
+    #[error("Serialization error: {0}")]
+    Serialization(#[from] serde_json::Error),
+    // ... more variants
+}
+```
+
+**Key Features:**
+
+- **Type-safe error handling**: Each error variant is strongly typed
+- **Automatic conversions**: `#[from]` attribute enables `?` operator to auto-convert errors
+- **HTTP response integration**: `IntoResponse` trait converts errors to user-friendly HTTP responses
+- **Structured logging**: All errors logged via `tracing::error!` before conversion
+- **Convenience alias**: `Result<T>` type alias for cleaner function signatures
+
+**Usage Pattern:**
+
+```rust
+pub fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<()> {
+    let json = serde_json::to_string_pretty(inquiry)?;  // Auto-converts to AppError
+    file.write_all(json.as_bytes())?;                    // Auto-converts to AppError
+    Ok(())
+}
+```
+
+**Benefits:**
+
+- No manual error wrapping with `.map_err()`
+- Compile-time verification of error handling
+- User-friendly error messages in production
+- Developer-friendly error messages in logs
 
 ## Development Patterns
 

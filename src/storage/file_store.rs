@@ -30,9 +30,9 @@ pub fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use chrono::Utc;
     use std::env;
     use tempfile::TempDir;
+    use time::OffsetDateTime;
 
     #[test]
     fn test_save_contact_inquiry_creates_file() {
@@ -46,7 +46,7 @@ mod tests {
         // Create test inquiry
         let inquiry = ContactInquiry {
             id: "2025-01-22T12-00-00-000Z".to_string(),
-            submitted_at: Utc::now(),
+            submitted_at: OffsetDateTime::now_utc(),
             name: "Test User".to_string(),
             email: "test@example.com".to_string(),
             subject: Some("Test Subject".to_string()),
@@ -60,8 +60,7 @@ mod tests {
         assert!(result.is_ok(), "Failed to save inquiry: {:?}", result.err());
 
         // Verify the file was created
-        let expected_file = Path::new("data/contacts")
-            .join(format!("{}.json", inquiry.id));
+        let expected_file = Path::new("data/contacts").join(format!("{}.json", inquiry.id));
         assert!(
             expected_file.exists(),
             "File was not created at {:?}",
@@ -69,10 +68,9 @@ mod tests {
         );
 
         // Verify the file contents
-        let contents = fs::read_to_string(&expected_file)
-            .expect("Failed to read saved file");
-        let saved_inquiry: ContactInquiry = serde_json::from_str(&contents)
-            .expect("Failed to parse saved JSON");
+        let contents = fs::read_to_string(&expected_file).expect("Failed to read saved file");
+        let saved_inquiry: ContactInquiry =
+            serde_json::from_str(&contents).expect("Failed to parse saved JSON");
 
         assert_eq!(saved_inquiry.id, inquiry.id);
         assert_eq!(saved_inquiry.name, inquiry.name);
@@ -94,7 +92,7 @@ mod tests {
 
         let inquiry = ContactInquiry {
             id: "2025-01-22T12-30-00-000Z".to_string(),
-            submitted_at: Utc::now(),
+            submitted_at: OffsetDateTime::now_utc(),
             name: "Another User".to_string(),
             email: "another@example.com".to_string(),
             subject: None,

@@ -7,7 +7,7 @@ use axum::{
 };
 use std::collections::HashMap;
 use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, LazyLock, Mutex};
 use std::time::{Duration, Instant};
 
 use crate::models::contact::{ContactFormInput, ValidationError};
@@ -29,9 +29,7 @@ struct ContactSuccessTemplate {}
 /// Maps IP address to last submission timestamp
 type RateLimiter = Arc<Mutex<HashMap<String, Instant>>>;
 
-lazy_static::lazy_static! {
-    static ref RATE_LIMITER: RateLimiter = Arc::new(Mutex::new(HashMap::new()));
-}
+static RATE_LIMITER: LazyLock<RateLimiter> = LazyLock::new(|| Arc::new(Mutex::new(HashMap::new())));
 
 const RATE_LIMIT_DURATION: Duration = Duration::from_secs(30);
 
