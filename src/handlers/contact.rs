@@ -1,4 +1,5 @@
 use askama::Template;
+use axum::http::{HeaderValue, header};
 use axum::{
     Form,
     extract::ConnectInfo,
@@ -31,14 +32,21 @@ type RateLimiter = Arc<Mutex<HashMap<String, Instant>>>;
 
 static RATE_LIMITER: LazyLock<RateLimiter> = LazyLock::new(|| Arc::new(Mutex::new(HashMap::new())));
 
-const RATE_LIMIT_DURATION: Duration = Duration::from_secs(30);
+static RATE_LIMIT_DURATION: LazyLock<Duration> = LazyLock::new(|| {
+    use std::env;
+    let seconds = env::var("RATE_LIMIT_SECONDS")
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok())
+        .unwrap_or(30);
+    Duration::from_secs(seconds)
+});
 
 /// Check if IP is rate limited (submitted within last 30 seconds)
 fn is_rate_limited(ip: &str) -> bool {
     let mut limiter = RATE_LIMITER.lock().unwrap();
 
     if let Some(&last_submit) = limiter.get(ip)
-        && last_submit.elapsed() < RATE_LIMIT_DURATION
+        && last_submit.elapsed() < *RATE_LIMIT_DURATION
     {
         return true;
     }
@@ -120,6 +128,40 @@ pub async fn post_contact(
 
     // Return success response (dual-mode: HTMX or redirect)
     success_response(&headers)
+}
+
+pub async fn export_contacts_ndjson() -> Response {
+    match file_store::export_contacts_ndjson() {
+        Ok(body) => {
+            let mut headers = HeaderMap::new();
+            headers.insert(
+                header::CONTENT_TYPE,
+                HeaderValue::from_static("application/x-ndjson"),
+            );
+            (StatusCode::OK, headers, body).into_response()
+        }
+        Err(e) => {
+            tracing::error!("{}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Export error").into_response()
+        }
+    }
+}
+
+pub async fn export_contacts_json() -> Response {
+    match file_store::export_contacts_json_array_pretty() {
+        Ok(body) => {
+            let mut headers = HeaderMap::new();
+            headers.insert(
+                header::CONTENT_TYPE,
+                HeaderValue::from_static("application/json"),
+            );
+            (StatusCode::OK, headers, body).into_response()
+        }
+        Err(e) => {
+            tracing::error!("{}", e);
+            (StatusCode::INTERNAL_SERVER_ERROR, "Export error").into_response()
+        }
+    }
 }
 
 /// Return rate limit error response

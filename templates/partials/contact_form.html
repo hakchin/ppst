@@ -3,7 +3,7 @@
         <h2 class="section__title">Contact Us</h2>
 
         <!-- Contact form result area (for HTMX responses) -->
-        <div id="contact-result" class="contact__result"></div>
+        <div id="contact-result" class="contact__result" role="status" aria-live="polite"></div>
 
         <!-- Contact Form with HTMX -->
         <form
@@ -12,6 +12,9 @@
             class="form form--contact"
             hx-post="/contact"
             hx-target="#contact-result"
+            hx-swap="innerHTML transition:true show:#contact-result:top focus-scroll:false"
+            hx-disabled-elt="find input, find textarea, find button"
+            hx-on::after-request="if(event.detail.successful){ this.reset(); document.getElementById('contact-result')?.scrollIntoView({behavior:'smooth', block:'start'}); }"
         >
             <!-- Name field -->
             <div class="form__group">
@@ -29,16 +32,36 @@
                 >
             </div>
 
-            <!-- Email field -->
+            <!-- Phone field (required, format: 010-0000-0000) -->
+            <div class="form__group">
+                <label for="phone" class="form__label">
+                    Phone <span class="form__required">*</span>
+                </label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    maxlength="13"
+                    class="form__input"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    value="010-"
+                    placeholder="010-1234-5678"
+                    pattern="^010-\d{4}-\d{4}$"
+                    title="Format: 010-1234-5678"
+                >
+            </div>
+
+            <!-- Email field (optional) -->
             <div class="form__group">
                 <label for="email" class="form__label">
-                    Email <span class="form__required">*</span>
+                    Email <span class="form__optional">(optional)</span>
                 </label>
                 <input
                     type="email"
                     id="email"
                     name="email"
-                    required
                     maxlength="255"
                     class="form__input"
                     placeholder="your.email@example.com"

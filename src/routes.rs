@@ -10,4 +10,12 @@ pub fn create_router() -> Router {
         .route("/", get(handlers::homepage::get_homepage))
         // Contact form submission route (User Story 2)
         .route("/contact", post(handlers::contact::post_contact))
+        .route(
+            "/contacts/export.ndjson",
+            get(handlers::contact::export_contacts_ndjson),
+        )
+        .route(
+            "/contacts/export.json",
+            get(handlers::contact::export_contacts_json),
+        )
 }

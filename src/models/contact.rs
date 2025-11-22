@@ -7,12 +7,14 @@ pub struct ContactInquiry {
     /// Unique identifier (ISO 8601 timestamp)
     pub id: String,
     /// Submission timestamp
-    #[serde(with = "time::serde::iso8601")]
+    #[serde(with = "time::serde::rfc3339")]
     pub submitted_at: OffsetDateTime,
     /// Visitor's full name (required)
     pub name: String,
-    /// Visitor's email address (required, validated)
-    pub email: String,
+    /// Visitor's email address (optional, validated if present)
+    pub email: Option<String>,
+    /// Optional phone number
+    pub phone: Option<String>,
     /// Optional subject line
     pub subject: Option<String>,
     /// Message content (required)
@@ -27,7 +29,8 @@ pub struct ContactInquiry {
 #[derive(Debug, Deserialize)]
 pub struct ContactFormInput {
     pub name: String,
-    pub email: String,
+    pub email: Option<String>,
+    pub phone: Option<String>,
     pub subject: Option<String>,
     pub message: String,
 }
@@ -50,13 +53,29 @@ impl ContactFormInput {
             errors.push("Name must be less than 100 characters".to_string());
         }
 
-        // Email validation
-        if self.email.trim().is_empty() {
-            errors.push("Email is required".to_string());
-        } else if !is_valid_email(&self.email) {
-            errors.push("Email format is invalid".to_string());
-        } else if self.email.len() > 255 {
-            errors.push("Email must be less than 255 characters".to_string());
+        // Email validation (optional)
+        if let Some(email) = &self.email {
+            let e = email.trim();
+            if !e.is_empty() {
+                if !is_valid_email(e) {
+                    errors.push("Email format is invalid".to_string());
+                } else if e.len() > 255 {
+                    errors.push("Email must be less than 255 characters".to_string());
+                }
+            }
+        }
+
+        // Phone validation (required, format: 010-0000-0000)
+        match &self.phone {
+            Some(phone) => {
+                let p = phone.trim();
+                if p.is_empty() {
+                    errors.push("Phone is required".to_string());
+                } else if !is_valid_phone(p) {
+                    errors.push("Phone format is invalid (expected 010-1234-5678)".to_string());
+                }
+            }
+            None => errors.push("Phone is required".to_string()),
         }
 
         // Subject validation (optional)
@@ -97,7 +116,14 @@ impl ContactFormInput {
             id,
             submitted_at: now,
             name: self.name.trim().to_string(),
-            email: self.email.trim().to_lowercase(),
+            email: self
+                .email
+                .map(|e| e.trim().to_lowercase())
+                .filter(|e| !e.is_empty()),
+            phone: self
+                .phone
+                .map(|p| p.trim().to_string())
+                .filter(|p| !p.is_empty()),
             subject: self.subject.filter(|s| !s.trim().is_empty()),
             message: self.message.trim().to_string(),
             user_agent,
@@ -119,10 +145,50 @@ fn is_valid_email(email: &str) -> bool {
     EMAIL_REGEX.is_match(email)
 }
 
+/// Strict phone validation for KR mobile format: 010-0000-0000
+fn is_valid_phone(phone: &str) -> bool {
+    use regex::Regex;
+    use std::sync::LazyLock;
+
+    static PHONE_REGEX: LazyLock<Regex> =
+        LazyLock::new(|| Regex::new(r"^010-\d{4}-\d{4}$").expect("Invalid phone regex pattern"));
+
+    PHONE_REGEX.is_match(phone)
+}
+
 /// Generate a filesystem-safe timestamp ID
 fn format_timestamp_id(dt: &OffsetDateTime) -> String {
     use time::macros::format_description;
     let format =
         format_description!("[year]-[month]-[day]T[hour]-[minute]-[second]-[subsecond digits:3]Z");
     dt.format(&format).unwrap_or_else(|_| "unknown".to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn submitted_at_serializes_as_rfc3339() {
+        let dt = OffsetDateTime::from_unix_timestamp(0).unwrap();
+        let inquiry = ContactInquiry {
+            id: "1970-01-01T00-00-00-000Z".to_string(),
+            submitted_at: dt,
+            name: "Test".to_string(),
+            email: None,
+            phone: None,
+            subject: None,
+            message: "M".to_string(),
+            user_agent: None,
+            ip_address: None,
+        };
+
+        let s = serde_json::to_string(&inquiry).unwrap();
+        println!("{}", s);
+        assert!(
+            s.contains("\"submitted_at\":\"1970-01-01T00:00:00Z\"")
+                || s.contains("\"submitted_at\": \"1970-01-01T00:00:00Z\"")
+        );
+        assert!(!s.contains("+00"));
+    }
 }
