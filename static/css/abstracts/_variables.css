@@ -17,6 +17,7 @@
   --color-brand: #2563eb;
   --color-brand-hover: #1d4ed8;
   --color-brand-light: #3b82f6;
+  --color-brand-accent: #2563eb; /* alias for now, can be tuned */
 
   /* ===== Colors - Semantic ===== */
   --color-error: #dc2626;
@@ -38,10 +39,10 @@
   --color-shadow: rgba(0, 0, 0, 0.05);
   --color-avatar-bg: #e5e7eb;
 
-  /* ===== Hero Gradient ===== */
-  --color-hero-from: #0ea5e9;
-  --color-hero-to: #2563eb;
-  --color-hero-subtitle: #bfdbfe;
+  /* ===== Hero Gradient (htmx-inspired, deeper indigo/blue) ===== */
+  --color-hero-from: #0b1021;
+  --color-hero-to: #000000;
+  --color-hero-subtitle: #cbd5e1;
 
   /* ===== Footer Colors ===== */
   --color-footer-bg: #1f2937;

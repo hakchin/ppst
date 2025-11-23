@@ -8,6 +8,9 @@ use axum::response::IntoResponse;
 #[template(path = "homepage.html")]
 struct HomepageTemplate {
     academy_name: String,
+    academy_name_star: String,
+    academy_name_base: String,
+    academy_name_accent: String,
     tagline: String,
 }
 
@@ -19,8 +22,25 @@ pub async fn get_homepage() -> Result<impl IntoResponse> {
 
     // Create template context
     // Progressive enhancement: This works without JavaScript
+    let name = academy_info.name;
+    let mut chars: Vec<char> = name.chars().collect();
+    let star = if !chars.is_empty() && chars[0] == '☆' {
+        chars.remove(0).to_string()
+    } else {
+        String::new()
+    };
+    let accent = if !chars.is_empty() {
+        chars.pop().map(|c| c.to_string()).unwrap_or_default()
+    } else {
+        String::new()
+    };
+    let base: String = chars.into_iter().collect();
+
     let template = HomepageTemplate {
-        academy_name: academy_info.name,
+        academy_name: name,
+        academy_name_star: star,
+        academy_name_base: base,
+        academy_name_accent: accent,
         tagline: academy_info.tagline,
     };
 

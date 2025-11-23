@@ -11,7 +11,12 @@
 <section class="hero">
     <div class="container hero__container">
         <h1 class="hero__title">
-            Welcome to {{ academy_name }}
+            Welcome to 
+            <span class="logo">
+                <span class="logo__star">{{ academy_name_star }}</span>
+                <span class="logo__char logo__char--default">{{ academy_name_base }}</span>
+                <span class="logo__char logo__char--accent">{{ academy_name_accent }}</span>
+            </span>
         </h1>
         <p class="hero__subtitle">
             {{ tagline }}

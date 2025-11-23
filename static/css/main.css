@@ -40,6 +40,7 @@
 @import './components/_navigation.css';
 @import './components/_spinner.css';
 @import './components/_alert.css';
+@import './components/_logo.css';
 
 /* ===== PAGES ===== */
 @import './pages/_homepage.css';
