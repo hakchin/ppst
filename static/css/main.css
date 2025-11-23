@@ -38,10 +38,8 @@
 @import './components/_card.css';
 @import './components/_form.css';
 @import './components/_navigation.css';
-@import './components/_avatar.css';
 @import './components/_spinner.css';
 @import './components/_alert.css';
-@import './components/_instructor-card.css';
 
 /* ===== PAGES ===== */
 @import './pages/_homepage.css';

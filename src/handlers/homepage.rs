@@ -1,5 +1,5 @@
 use crate::error::Result;
-use crate::models::academy::{AcademyInfo, Instructor, Program};
+use crate::models::academy::AcademyInfo;
 use askama::Template as AskamaTemplate;
 use axum::response::IntoResponse;
 
@@ -9,11 +9,6 @@ use axum::response::IntoResponse;
 struct HomepageTemplate {
     academy_name: String,
     tagline: String,
-    // These fields are prepared for future use when templates become dynamic
-    #[allow(dead_code)]
-    programs: Vec<Program>,
-    #[allow(dead_code)]
-    instructors: Vec<Instructor>,
 }
 
 /// Handler for GET /
@@ -27,8 +22,6 @@ pub async fn get_homepage() -> Result<impl IntoResponse> {
     let template = HomepageTemplate {
         academy_name: academy_info.name,
         tagline: academy_info.tagline,
-        programs: academy_info.programs,
-        instructors: academy_info.instructors,
     };
 
     // Render HTML - errors automatically converted to AppError via ?
