@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const navToggle = document.querySelector('.nav-toggle');
+    const navToggle = document.querySelector('.nav__toggle');
     const nav = document.querySelector('#main-nav');
 
     if (navToggle && nav) {

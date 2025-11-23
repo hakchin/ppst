@@ -1,10 +1,16 @@
 <div class="container header__container">
   <div class="header__brand">
     <a href="#page-top" class="header__logo" aria-label="Go to homepage" hx-boost="false">
-      {{ academy_name }}
+      <span class="logo">
+        <span class="logo__star">{{ academy_name_star }}</span>
+        <span class="logo__text">
+          <span class="logo__char logo__char--default">{{ academy_name_base }}</span>
+          <span class="logo__char logo__char--accent">{{ academy_name_accent }}</span>
+        </span>
+      </span>
     </a>
-    <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
-      <svg class="nav-toggle__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+    <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+      <svg class="nav__toggle-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
         stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
       </svg>

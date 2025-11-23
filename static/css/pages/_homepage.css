@@ -28,11 +28,12 @@
     font-weight: var(--font-weight-bold);
     margin-bottom: 1.5rem;
     line-height: var(--line-height-tight);
+    color: var(--color-text-inverse);
   }
 
   .hero__subtitle {
     font-size: var(--font-size-xl);
-    color: var(--color-hero-subtitle);
+    color: var(--color-text-inverse);
   }
 
   @media (min-width: 768px) {
@@ -299,5 +300,14 @@
   .form--contact {
     max-width: var(--container-max-narrow);
     margin-inline: auto;
+  }
+
+  /* Logo colors within hero: default chars white, star/accent brand */
+  .hero .logo__char--default {
+    color: var(--color-text-inverse);
+  }
+  .hero .logo__star,
+  .hero .logo__char--accent {
+    color: var(--color-brand);
   }
 }
