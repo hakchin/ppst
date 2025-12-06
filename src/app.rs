@@ -6,7 +6,7 @@ use leptos_router::{
 };
 
 use crate::components::{Footer, Header};
-use crate::pages::{AboutPage, AdmissionsPage, ContactPage, HomePage, MissionPage, NotFoundPage, PoliciesPage, ProgramsPage};
+use crate::pages::{AboutPage, HomePage, NotFoundPage};
 
 /// Root application component
 #[component]
@@ -15,9 +15,10 @@ pub fn App() -> impl IntoView {
     provide_meta_context();
 
     view! {
-        <Title text="☆별을셀 — Excellence in Mathematics Education"/>
+        <Title text="별을셀 — Excellence in Mathematics Education"/>
         <Meta name="description" content="수학을 가르칩니다® · 수학이 재미있는 곳 ★별을셀입니다"/>
-
+        <Meta name="keywords" content="Mathematics education, coding academy, School Mathematics, Euclidean Geometry, Mathematical Logic with RegEx"/>
+      
         <Router>
             <div class="min-h-screen flex flex-col">
                 <Header/>
@@ -25,11 +26,6 @@ pub fn App() -> impl IntoView {
                     <Routes fallback=|| view! { <NotFoundPage/> }.into_any()>
                         <Route path=path!("/") view=|| view! { <HomePage/> }.into_any()/>
                         <Route path=path!("/about") view=|| view! { <AboutPage/> }.into_any()/>
-                        <Route path=path!("/mission") view=|| view! { <MissionPage/> }.into_any()/>
-                        <Route path=path!("/programs") view=|| view! { <ProgramsPage/> }.into_any()/>
-                        <Route path=path!("/admissions") view=|| view! { <AdmissionsPage/> }.into_any()/>
-                        <Route path=path!("/policies") view=|| view! { <PoliciesPage/> }.into_any()/>
-                        <Route path=path!("/contact") view=|| view! { <ContactPage/> }.into_any()/>
                     </Routes>
                 </main>
                 <Footer/>

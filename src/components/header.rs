@@ -1,13 +1,14 @@
 use leptos::prelude::*;
+use leptos_router::components::A;
 
-/// Navigation menu items - single source of truth for both Desktop and Mobile
-const NAV_ITEMS: &[(&str, &str)] = &[
-    ("#mission", "미션"),
-    ("#programs", "프로그램"),
-    ("#admissions", "입학안내"),
-    ("#policies", "학원규칙"),
-    ("#contact", "문의/입회"),
-    ("#about", "about"),
+/// Navigation menu items - anchor links for home page sections
+/// Uses /#section format to work from any page (navigates to home then scrolls)
+const ANCHOR_NAV_ITEMS: &[(&str, &str)] = &[
+    ("/#mission", "미션"),
+    ("/#programs", "프로그램"),
+    ("/#admissions", "입학안내"),
+    ("/#policies", "학원규칙"),
+    ("/#contact", "문의/입회"),
 ];
 
 /// Site header with navigation - uses anchor links for smooth scrolling to sections
@@ -22,14 +23,14 @@ pub fn Header() -> impl IntoView {
         <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
             <nav class="container-section">
                 <div class="flex items-center justify-between h-16">
-                    // Logo - scrolls to top
-                    <a href="#page-top" class="text-xl font-bold text-brand-600 tracking-tight whitespace-nowrap">
+                    // Logo - navigates to home page
+                    <a href="/" class="text-xl font-bold text-brand-600 tracking-tight whitespace-nowrap">
                         <span>"☆"</span><span class="text-black">"별을"</span><span>"셀"</span>
                     </a>
 
                     // Desktop navigation
                     <div class="hidden md:flex items-center space-x-8">
-                        {NAV_ITEMS.iter().map(|(href, label)| view! {
+                        {ANCHOR_NAV_ITEMS.iter().map(|(href, label)| view! {
                             <a
                                 href=*href
                                 class="text-gray-600 hover:text-brand-600 font-medium transition-colors"
@@ -37,6 +38,12 @@ pub fn Header() -> impl IntoView {
                                 {*label}
                             </a>
                         }).collect_view()}
+                        <A
+                            href="/about"
+                            attr:class="text-gray-600 hover:text-brand-600 font-medium transition-colors"
+                        >
+                            "about"
+                        </A>
                     </div>
 
                     // Mobile menu button
@@ -67,7 +74,7 @@ pub fn Header() -> impl IntoView {
                     class:hidden=move || !menu_open.get()
                 >
                     <div class="px-2 pt-2 pb-3 space-y-1">
-                        {NAV_ITEMS.iter().map(|(href, label)| view! {
+                        {ANCHOR_NAV_ITEMS.iter().map(|(href, label)| view! {
                             <a
                                 href=*href
                                 class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
@@ -76,6 +83,13 @@ pub fn Header() -> impl IntoView {
                                 {*label}
                             </a>
                         }).collect_view()}
+                        <A
+                            href="/about"
+                            attr:class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
+                            on:click=close_menu
+                        >
+                            "about"
+                        </A>
                     </div>
                 </div>
             </nav>

@@ -27,11 +27,11 @@ pub fn Footer() -> impl IntoView {
                             "바로가기"
                         </h4>
                         <ul class="space-y-2">
-                            <FooterLink href="/mission">"미션"</FooterLink>
-                            <FooterLink href="/programs">"프로그램"</FooterLink>
-                            <FooterLink href="/admissions">"입학안내"</FooterLink>
-                            <FooterLink href="/policies">"학원규칙"</FooterLink>
-                            <FooterLink href="/contact">"문의/입회"</FooterLink>
+                            <FooterAnchorLink href="/#mission">"미션"</FooterAnchorLink>
+                            <FooterAnchorLink href="/#programs">"프로그램"</FooterAnchorLink>
+                            <FooterAnchorLink href="/#admissions">"입학안내"</FooterAnchorLink>
+                            <FooterAnchorLink href="/#policies">"학원규칙"</FooterAnchorLink>
+                            <FooterAnchorLink href="/#contact">"문의/입회"</FooterAnchorLink>
                             <FooterLink href="/about">"about"</FooterLink>
                         </ul>
                     </div>
@@ -59,6 +59,7 @@ pub fn Footer() -> impl IntoView {
     }
 }
 
+/// Footer link for internal routes (uses leptos_router A component)
 #[component]
 fn FooterLink(href: &'static str, children: Children) -> impl IntoView {
     view! {
@@ -69,6 +70,21 @@ fn FooterLink(href: &'static str, children: Children) -> impl IntoView {
             >
                 {children()}
             </A>
+        </li>
+    }
+}
+
+/// Footer link for anchor links (uses regular <a> tag)
+#[component]
+fn FooterAnchorLink(href: &'static str, children: Children) -> impl IntoView {
+    view! {
+        <li>
+            <a
+                href=href
+                class="text-gray-400 hover:text-white transition-colors"
+            >
+                {children()}
+            </a>
         </li>
     }
 }

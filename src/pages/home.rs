@@ -1,13 +1,35 @@
 use leptos::prelude::*;
-use leptos_router::components::A;
+use leptos_router::hooks::use_location;
 
-use crate::components::icons::{CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon};
+use crate::components::icons::{ChatIcon, CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon};
 use crate::components::DirectionsSection;
 use crate::server_fns::submit_contact;
 
 /// Home page component - Single page layout with all sections (like legacy site)
 #[component]
 pub fn HomePage() -> impl IntoView {
+    // Get reactive location - updates when URL changes
+    let location = use_location();
+
+    // Scroll to hash anchor when hash changes (for SPA navigation from other pages)
+    Effect::new(move |_| {
+        let hash = location.hash.get();
+        if !hash.is_empty() {
+            // Use request_animation_frame to ensure DOM is ready
+            request_animation_frame(move || {
+                if let Some(window) = leptos::web_sys::window() {
+                    if let Some(document) = window.document() {
+                        // Remove the leading '#' from hash
+                        let id = hash.trim_start_matches('#');
+                        if let Some(element) = document.get_element_by_id(id) {
+                            element.scroll_into_view();
+                        }
+                    }
+                }
+            });
+        }
+    });
+
     view! {
         <div id="page-top">
             <HeroSection/>
@@ -300,9 +322,9 @@ fn ProgramsSection() -> impl IntoView {
                     <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                         "입시 목표와 상황에 맞는 최적의 방향을 함께 찾겠습니다."
                     </p>
-                    <A href="/contact" attr:class="btn-primary">
+                    <a href="#contact" class="btn-primary">
                         "상담 신청하기"
-                    </A>
+                    </a>
                 </div>
             </div>
         </section>
@@ -468,7 +490,7 @@ fn AdmissionsSection() -> impl IntoView {
                         <li>"• 최종 수학 등급(내신/모의고사)"</li>
                         <li>"• 1년내 목표 등급 또는 점수"</li>
                     </ul>
-                    <A href="/contact" attr:class="btn-primary bg-white text-brand-600 hover:bg-gray-100">"문의 및 입회등록"</A>
+                    <a href="#contact" class="btn-primary bg-white text-brand-600 hover:bg-gray-100">"문의 및 입회등록"</a>
                 </div>
             </div>
         </section>
@@ -763,7 +785,7 @@ fn ContactSection() -> impl IntoView {
                             </div>
                             <div class="flex gap-4">
                                 <div class="flex-shrink-0 w-10 h-10 bg-brand-100 rounded-lg flex items-center justify-center">
-                                    <ClockIcon class="w-5 h-5 text-brand-600"/>
+                                    <ChatIcon class="w-5 h-5 text-brand-600"/>
                                 </div>
                                 <div>
                                     <h4 class="font-semibold">"카카오"</h4>
