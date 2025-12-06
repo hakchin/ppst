@@ -73,7 +73,7 @@ fn HeroSection() -> impl IntoView {
 #[component]
 fn MissionSection() -> impl IntoView {
     view! {
-        <section id="mission" class="py-16 md:py-24 scroll-mt-16">
+        <section id="mission" class="py-16 scroll-mt-16">
             <div class="container-section">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8">"Mission"</h2>
                 <h3 class="text-2xl font-bold mb-6">
@@ -118,8 +118,8 @@ fn AchievementsSection() -> impl IntoView {
             <div class="container-section">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     // 2022 Achievement
-                    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-                        <h3 class="text-xl font-bold text-brand-600 mb-4">"2022년 11월 수능수학포함 2년 연속 전원 1등급"</h3>
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-bold text-brand-600 mb-4">"2022년 11월 수능수학포함 2년 연속 전원 1등급"</h3>
                         <ul class="space-y-2 text-gray-700">
                             <li>"• 재원생 전원 수능수학 1등급 성취"</li>
                             <li>"• 진솔한 소수 학생과 함께 하고자 합니다."</li>
@@ -127,8 +127,8 @@ fn AchievementsSection() -> impl IntoView {
                     </div>
 
                     // 2021 Achievement
-                    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-                        <h3 class="text-xl font-bold text-brand-600 mb-4">"2021년 11월 수능수학 전원 1등급"</h3>
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h3 class="text-lg font-bold text-brand-600 mb-4">"2021년 11월 수능수학 전원 1등급"</h3>
                         <ul class="space-y-2 text-gray-700">
                             <li>"• 충분하고 넉넉한 점수로 재원생 전원 1등급 성취 (졸업수강인원 4명)"</li>
                             <li>"• 수리논술 지원자 전원 합격"</li>
@@ -163,7 +163,7 @@ fn TeachingPhilosophySection() -> impl IntoView {
                     <div>
                         <h3 class="text-2xl font-bold mb-6">"입시수학을 책임집니다"</h3>
                         <p class="text-sm text-gray-500 mb-4">"아래에서 원장의 수학철학보다는 입시관점에서 안내드림을 양해부탁드립니다."</p>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-2 text-gray-700">
                             <li>"• "<strong>"원생의 반 이상이 수학 1등급"</strong>" 유지하는 유일한 곳 (간혹 안 되기도 합니다만 성취도는 월등합니다.)"</li>
                             <li>"• 별을셀이 자랑하는 "<strong>"1등급 정시반"</strong>" 운영"</li>
                             <li>"• 미사여구는 없습니다. "<strong>"올바른 과정과 결과"</strong>"입니다. 언제든 문의 주세요."</li>
@@ -174,20 +174,20 @@ fn TeachingPhilosophySection() -> impl IntoView {
                     // 수업방향
                     <div>
                         <h3 class="text-2xl font-bold mb-6">"수업방향"</h3>
-                        <ul class="space-y-3 text-gray-700">
+                        <ul class="space-y-2 text-gray-700">
                             <li>"• 수학이 왜 자유로운 상상의 학문인지 보여 드립니다."</li>
                             <li>"• 진지한 수학적 접근을 끊임없이 시도합니다."</li>
                             <li>"• 수학은 자유의 학문입니다."</li>
                             <li>"• 동기부여 없는 강제적 학습을 지양합니다."</li>
                         </ul>
                         <div class="mt-8 bg-gray-50 rounded-xl p-6">
-                            <h4 class="text-lg font-semibold mb-3">"특별한 수학 ★별을셀입니다"</h4>
+                            <h4 class="text-lg font-bold text-brand-600 mb-4">"특별한 수학 ★별을셀입니다"</h4>
                             <ul class="space-y-2 text-gray-700 text-sm">
                                 <li>"• 작은 학원입니다. 학생 한 명 한 명이 존중되는 곳입니다."</li>
-                                <li>"• Contact : " <a href="#contact">"문의/입회"</a></li>
+                                <li>"• Contact : " <a href="#contact" class="text-brand-600 hover:underline">"문의/입회"</a></li>
                                 <li>"• 홈페이지나 연락처는 특별하지 않습니다. "<strong>"수학이 특별한 곳"</strong>", ★별을셀입니다."</li>
                                 <li>"• 전화 : 010-5102-0841"</li>
-                                <li>"• 카카오 : " <a href="https://pf.kakao.com/_MxbVfT" target="_blank" rel="noopener noreferrer">"별을셀"</a> " 검색"</li>
+                                <li>"• 카카오 : " <a href="https://pf.kakao.com/_MxbVfT" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline">"별을셀"</a> " 검색"</li>
                             </ul>
                         </div>
                     </div>
@@ -204,7 +204,7 @@ fn ProgramsSection() -> impl IntoView {
         <section id="programs" class="py-16 bg-gray-50 scroll-mt-16">
             <div class="container-section">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">"Our Programs"</h2>
-                <blockquote class="text-xl text-gray-600 max-w-2xl border-l-4 border-brand-600 pl-4 mb-12">
+                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
                     <p>"왕도는 없습니다."</p>
                     <p>"꼴찌부터 1등까지 아이들이 행복하기를 바랍니다."</p>
                 </blockquote>
@@ -216,15 +216,15 @@ fn ProgramsSection() -> impl IntoView {
                         "고등부"
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="card p-6">
-                            <h4 class="text-xl font-semibold text-brand-600 mb-4">"내신반"</h4>
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-lg font-bold text-brand-600 mb-4">"내신반"</h4>
                             <ul class="space-y-2 text-gray-700">
                                 <li>"• 원생의 반 이상이 수학 1등급 유지하는 유일한 곳 (철저한 내신관리, 수준관리)"</li>
                                 <li>"• 고등부 내신반의 놀라운 성취를 꼭 확인해 보세요"</li>
                             </ul>
                         </div>
-                        <div class="card p-6">
-                            <h4 class="text-xl font-semibold text-brand-600 mb-4">"정시반"</h4>
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-lg font-bold text-brand-600 mb-4">"정시반"</h4>
                             <ul class="space-y-2 text-gray-700">
                                 <li>"• 수능 1등급 유지 또는 100점 목표"</li>
                                 <li>"• 고난도 문항(14,15,21,22,28,29,30) 이해와 실전 연습"</li>
@@ -241,15 +241,15 @@ fn ProgramsSection() -> impl IntoView {
                         "중등부"
                     </h3>
                     <div class="space-y-4">
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
                             <span class="font-semibold text-brand-600">"정규반"</span>
                             <span class="text-gray-700">" : 학년별 과정을 충실히 하며, 개인별 선행 진행합니다."</span>
                         </div>
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
                             <span class="font-semibold text-brand-600">"실력정석반"</span>
                             <span class="text-gray-700">" : 무학년제. 하나의 교재만 집중하되 교재안의 단 한 문제도 놓치지 않습니다. (주 1회반, 주 2회반)"</span>
                         </div>
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
                             <span class="font-semibold text-brand-600">"KMO"</span>
                             <span class="text-gray-700">" : KMO/IMO 수학 경시 특강. 월4회 수업. 2년 과정. (정수론, 기하론, 대수론, 조합론)"</span>
                         </div>
@@ -263,22 +263,22 @@ fn ProgramsSection() -> impl IntoView {
                         "초등부"
                     </h3>
                     <div class="space-y-4">
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
                             <span class="font-semibold text-brand-600">"정규반"</span>
                             <span class="text-gray-700">" : 학년별 과정을 충실히 하며, 개인별 선행 진행합니다."</span>
                         </div>
-                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
                             <span class="font-semibold text-brand-600">"실력정석반"</span>
                             <span class="text-gray-700">" : 무학년제. 하나의 교재만 집중하되 교재안의 단 한 문제도 놓치지 않습니다. (주 1회반, 주 2회반)"</span>
                         </div>
-                        <div class="bg-white rounded-lg p-4 border border-gray-200 text-gray-700">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-gray-700">
                             "Class별 4명 이하 제한, 세밀한 지도합니다. 긴 관점으로 확실한 실력향상을 원하는 학생만 받습니다."
                         </div>
                     </div>
                 </div>
 
                 // 중3 유의사항
-                <div class="mb-12 card p-6">
+                <div class="mb-12 bg-white rounded-xl p-6 border border-gray-200">
                     <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-brand-600"></span>
                         "중3 유의사항"
@@ -296,19 +296,19 @@ fn ProgramsSection() -> impl IntoView {
                         "교실"
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="card p-6 text-center">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
                             <span class="text-sm text-gray-400">"01| "</span>
                             <span class="font-semibold">"Shooting star"</span>
                             <span class="text-gray-600">" (별똥별)"</span>
                             <span class="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-1 rounded">"M"</span>
                         </div>
-                        <div class="card p-6 text-center">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
                             <span class="text-sm text-gray-400">"02| "</span>
                             <span class="font-semibold">"Polaris"</span>
                             <span class="text-gray-600">" (북극성)"</span>
                             <span class="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-1 rounded">"E, H"</span>
                         </div>
-                        <div class="card p-6 text-center">
+                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
                             <span class="text-sm text-gray-400">"03| "</span>
                             <span class="font-semibold">"Milkyway"</span>
                             <span class="text-gray-600">" (은하수)"</span>
@@ -317,7 +317,7 @@ fn ProgramsSection() -> impl IntoView {
                     </div>
                 </div>
 
-                <div class="mt-12 card p-8 text-center">
+                <div class="mt-12 bg-white rounded-xl p-6 border border-gray-200 text-center">
                     <h2 class="text-3xl font-bold mb-4">"어떤 프로그램이 맞을지 고민되시나요?"</h2>
                     <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
                         "입시 목표와 상황에 맞는 최적의 방향을 함께 찾겠습니다."
@@ -338,7 +338,7 @@ fn AdmissionsSection() -> impl IntoView {
         <section id="admissions" class="py-16 scroll-mt-16">
             <div class="container-section">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">"Admissions"</h2>
-                <blockquote class="text-xl text-gray-600 font-medium mb-8 border-l-4 border-brand-600 pl-4">
+                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
                     "특별한 수학 ★별을셀"
                 </blockquote>
 
@@ -355,14 +355,14 @@ fn AdmissionsSection() -> impl IntoView {
                 // 상담절차
                 <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6">"상담절차"</h3>
-                    <div class="card p-6 mb-6">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200 mb-6">
                         <p class="text-gray-700 text-lg">
                             <strong>"전화 또는 대면 상담"</strong>
                             " → 등록결정 → 수강료납입"
                         </p>
                     </div>
                     <p class="text-gray-700 mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( 010-5102-0841 별을셀 )"</p>
-                    <ul class="space-y-2 text-gray-700 bg-gray-50 rounded-lg p-4">
+                    <ul class="space-y-2 text-gray-700 bg-gray-50 rounded-xl p-6">
                         <li>"• 학생이름/학교/학년/성별"</li>
                         <li>"• 최종 수학 등급(내신/모의고사)"</li>
                         <li>"• 1년내 목표 등급 또는 점수"</li>
@@ -373,20 +373,20 @@ fn AdmissionsSection() -> impl IntoView {
                 <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6">"모집대상"</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="card p-6">
-                            <h4 class="text-lg font-semibold text-brand-600 mb-2">"고등부"</h4>
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-lg font-bold text-brand-600 mb-2">"고등부"</h4>
                             <p class="text-gray-700"><strong>"1,2등급"</strong>" (학교 성적으로 판단)"</p>
                         </div>
-                        <div class="card p-6">
-                            <h4 class="text-lg font-semibold text-brand-600 mb-2">"중등부"</h4>
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-lg font-bold text-brand-600 mb-2">"중등부"</h4>
                             <p class="text-gray-700"><strong>"A등급"</strong>" (학교 성적 & 테스트 통과 필요)"</p>
                         </div>
-                        <div class="card p-6">
-                            <h4 class="text-lg font-semibold text-brand-600 mb-2">"초등부"</h4>
+                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                            <h4 class="text-lg font-bold text-brand-600 mb-2">"초등부"</h4>
                             <p class="text-gray-700"><strong>"수학을 좋아하는 학생"</strong>" (테스트 통과 필요)"</p>
                         </div>
                     </div>
-                    <ul class="space-y-3 text-gray-700">
+                    <ul class="space-y-2 text-gray-700">
                         <li>"• "<strong>"학교 성적으로 레벨 테스트 대체"</strong>", 필요시 추가 테스트"</li>
                         <li>"• 개인이 직접 가르치는 "<strong>"작은 학원"</strong>"입니다. 중대형 학원을 원하시면 다른 곳으로."</li>
                         <li>"• 전화 또는 대면 상담"</li>
@@ -396,9 +396,9 @@ fn AdmissionsSection() -> impl IntoView {
                 </div>
 
                 // 별을셀수학 모집안내
-                <div class="card p-8">
+                <div class="bg-brand-50 rounded-xl p-6 border border-brand-100">
                     <h3 class="text-2xl font-bold text-brand-800 mb-6">"별을셀수학 모집안내"</h3>
-                    <ul class="space-y-3 text-brand-700">
+                    <ul class="space-y-2 text-brand-700">
                         <li>"• 수학을 좋아하는 학생이면 별을셀에서 환영합니다."</li>
                         <li>"• 고등부는 무리하게 원생을 늘리지 않습니다. 고1,2,3 을 합쳐서 대형학원의 1개 반 구성에도 못 미치도록 관리됩니다."</li>
                         <li>"• 군포지역 일반고 현역 수학 1등급은 극소수 입니다. 4%가 아니라 1%라고 생각하시기 바랍니다."</li>
@@ -504,7 +504,7 @@ fn PoliciesSection() -> impl IntoView {
         <section id="policies" class="py-16 bg-gray-50 scroll-mt-16">
             <div class="container-section">
                 <h2 class="text-3xl md:text-4xl font-bold mb-4">"Policies"</h2>
-                <blockquote class="text-xl text-gray-600 italic mb-8 border-l-4 border-brand-600 pl-4">
+                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
                     "Stay hungry, Stay foolish"
                 </blockquote>
 
@@ -549,7 +549,7 @@ fn PoliciesSection() -> impl IntoView {
                     // 학습규칙
                     <div class="bg-white rounded-xl p-6 border border-gray-200">
                         <h4 class="text-lg font-bold mb-3">"학습규칙"</h4>
-                        <div class="space-y-3 text-sm">
+                        <div class="space-y-2 text-sm">
                             <div>
                                 <span class="font-semibold text-brand-600">"고등학생: "</span>
                                 <span class="text-gray-700">"목표 설정하기. 학원 입학시의 내신 등수보다 떨어질 경우 퇴원 권유"</span>
