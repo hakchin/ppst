@@ -1,611 +1,121 @@
-# PPST Academy Website
+# PPST Academy
 
-Modern educational website for academy promotion (학원 홍보 홈페이지)
+A modern educational website built with Rust full-stack technologies.
 
-## Table of Contents
+## Key Features
 
-- [Overview](#overview)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [Development Guide](#development-guide)
-- [Version Control](#version-control)
-- [Testing](#testing)
-- [API Reference](#api-reference)
+- **Server-Side Rendering (SSR)** with client-side hydration for optimal performance and SEO
+- **Fine-grained Reactivity** using Leptos signals for efficient UI updates
+- **Type-safe Full-stack** with shared Rust code between server and client
+- **Server Functions** for seamless client-server communication without manual API routes
+- **File-based Storage** for simple, database-free data persistence
+- **Responsive Design** with utility-first CSS approach
+- **Zero JavaScript Dependencies** - all interactivity powered by Rust/WASM
 
----
+## Design Philosophy
 
-## Overview
+### Server-First, Client-Enhanced
 
-A **lightweight, server-side first** educational website demonstrating modern web development with minimal dependencies.
+The application renders complete HTML on the server for fast initial page loads and SEO optimization. Client-side hydration then enables rich interactivity without full page reloads.
 
-### Key Features
+### Type Safety Everywhere
 
-- **Server-Side Rendering** - Rust + Axum + Askama templates
-- **Modern Vanilla CSS** - 7-1 architecture + BEM methodology + CSS Cascade Layers
-- **Progressive Enhancement** - HTMX for form interactions
-- **File-Based Storage** - JSON files, no database required
-- **Zero Build Tools** - No npm, webpack, or CSS preprocessors
+Rust's type system ensures correctness at compile time - from database models to UI components. No runtime type errors, no `undefined is not a function`.
 
-### Design Philosophy
+### Minimal Dependencies
 
-- ✅ **Server-Side First** - HTML rendered on server, minimal client JavaScript
-- ✅ **Centralized CSS** - Modular architecture with clear organization
-- ✅ **Zero Complexity** - No build steps, preprocessors, or bundlers
-- ✅ **Maintainable** - BEM naming, explicit cascade layers, clear file structure
-- ✅ **Lightweight** - 240KB source code, single CSS file served
-- ✅ **Modern Rust** - Using Rust 2024 Edition with latest stable features
+We prefer fewer, well-chosen dependencies over a bloated node_modules. The entire frontend compiles to a single WASM binary with no external JavaScript libraries.
 
----
+### Progressive Enhancement
+
+Core functionality works without JavaScript. Enhanced features gracefully layer on top when WASM loads.
+
+### Simplicity Over Complexity
+
+File-based JSON storage instead of database complexity. Utility CSS instead of elaborate class hierarchies. Convention over configuration.
 
 ## Technology Stack
 
-### Backend (Rust)
+### Backend
 
-**Core Framework:**
-
-- **Axum 0.8** - Web framework
-- **Tokio 1.x** - Async runtime
-- **Tower 0.5** - Middleware framework
-- **Tower-HTTP 0.5** - Static file serving + Gzip compression
-
-**Templating:**
-
-- **Askama 0.14** - Server-side HTML templates (Jinja2-style)
-
-**Data & Utilities:**
-
-- **Serde 1.0** + **Serde JSON 1.0** - JSON serialization
-- **Time 0.3** - Date/time handling (modern, sound alternative to chrono)
-- **Regex 1.12** - Email validation
-- **Thiserror 2.0** - Type-safe error handling
-
-**Logging:**
-
-- **Tracing 0.1** - Structured logging
-- **Tracing-Subscriber 0.3** - Log collection and filtering
+| Technology | Purpose |
+|------------|---------|
+| **Rust** | Systems programming language |
+| **Axum 0.8** | Async web framework |
+| **Tokio** | Async runtime |
+| **Leptos 0.7** | Full-stack reactive framework |
+| **Tower-HTTP** | HTTP middleware (compression, static files) |
 
 ### Frontend
 
-**Styling:**
+| Technology | Purpose |
+|------------|---------|
+| **Leptos** | Reactive UI components |
+| **Tailwind CSS v4** | Utility-first styling |
+| **WebAssembly** | Client-side Rust execution |
 
-- **Modern Vanilla CSS** - No preprocessors (Sass/Less/PostCSS)
-- **CSS Custom Properties** - Design tokens via CSS variables
-- **CSS Cascade Layers** - Explicit style priority with `@layer`
-- **7-1 Architecture** - Organized file structure pattern
-- **BEM Methodology** - Consistent class naming convention
+### Tooling
 
-**Interactivity:**
+| Tool | Purpose |
+|------|---------|
+| **cargo-leptos** | Build orchestration (SSR + WASM + Tailwind) |
+| **Tailwind CLI** | CSS compilation (standalone, no Node.js) |
 
-- **HTMX** - Server communication (local file, no CDN)
-  - Progressive enhancement
-  - Form submission (AJAX)
-  - Partial HTML updates
+### Data & Serialization
 
-### Data Storage
+| Technology | Purpose |
+|------------|---------|
+| **Serde** | Serialization/deserialization |
+| **serde_json** | JSON parsing |
+| **File System** | JSON-based data storage |
 
-- **File-Based JSON** - No database required
-- **Pattern**: `data/contacts/2024-11-06T12-30-45-123Z.json`
-- **Timestamped filenames** - Automatic organization
+### Quality & Observability
 
-### Tools
+| Tool | Purpose |
+|------|---------|
+| **tracing** | Structured logging |
+| **thiserror** | Error handling |
+| **clippy** | Linting |
+| **rustfmt** | Code formatting |
 
-- **Cargo** - Rust package manager & build system
-- **Git** - Version control system
-
-### Constraints
-
-**❌ Not Used:**
-
-- Node.js / npm / yarn / pnpm
-- CSS preprocessors (Sass, Less, PostCSS)
-- CSS frameworks (Tailwind, Bootstrap)
-- JavaScript bundlers (webpack, vite, rollup)
-- Databases (SQL, NoSQL)
-- CDN dependencies
-
----
-
-## Project Structure
-
-```text
-ppst/
-├── src/                     # Rust source code
-│   ├── main.rs              # Application entry point
-│   ├── routes.rs            # Route definitions
-│   ├── error.rs             # Centralized error handling (thiserror)
-│   ├── handlers/            # Request handlers
-│   │   ├── mod.rs           # Module declarations
-│   │   ├── homepage.rs      # Homepage logic
-│   │   └── contact.rs       # Contact form logic (dual-mode response)
-│   ├── models/              # Data structures
-│   │   ├── mod.rs           # Module declarations
-│   │   ├── academy.rs       # Academy info model
-│   │   └── contact.rs       # Contact form model with validation
-│   └── storage/             # File storage
-│       ├── mod.rs           # Module declarations
-│       └── file_store.rs    # JSON file operations
-│
-├── templates/               # Askama HTML templates (BEM classes)
-│   ├── base.html            # Base layout
-│   ├── homepage.html        # Homepage template
-│   └── partials/            # Reusable components
-│       ├── header.html
-│       ├── mission.html
-│       ├── programs.html
-│       ├── instructors.html
-│       ├── contact_form.html
-│       ├── contact_success.html
-│       └── contact_error.html
-│
-├── static/                  # Static assets (served by Tower-HTTP)
-│   ├── css/                 # 🎨 Modern Vanilla CSS (7-1 pattern)
-│   │   ├── abstracts/       # Variables (_variables.css)
-│   │   ├── base/            # Reset & typography
-│   │   ├── layout/          # Container, header, footer, grid
-│   │   ├── components/      # Button, card, form, navigation, avatar, spinner, alert
-│   │   ├── pages/           # Page-specific styles (_homepage.css)
-│   │   ├── themes/          # Theme variations (_default.css)
-│   │   ├── vendors/         # Third-party styles (_htmx.css)
-│   │   └── main.css         # Main entry (imports all modules)
-│   └── js/
-│       └── htmx.min.js      # HTMX library (local copy)
-│
-├── data/
-│   └── contacts/            # Contact form submissions (JSON files)
-│
-├── Cargo.toml               # Rust dependencies
-├── Cargo.lock               # Dependency lock file
-├── .gitignore               # Git ignore rules
-└── README.md                # This file
-```
-
-### CSS Architecture Details
-
-**7-1 Pattern Structure:**
-
-```text
-static/css/
-├── abstracts/      # Variables, design tokens
-├── base/           # Reset, typography, base styles
-├── layout/         # Layout components (header, footer, grid)
-├── components/     # Reusable UI components (buttons, cards, forms)
-├── pages/          # Page-specific styles
-├── themes/         # Theme variations
-├── vendors/        # Third-party library styles
-└── main.css        # Main entry point that imports all
-```
-
-**CSS Cascade Layers:**
-
-Explicit style priority defined in [main.css](static/css/main.css):
-
-```css
-@layer reset, base, layout, components, pages, vendors;
-```
-
-This eliminates specificity wars and ensures predictable styling.
-
-**BEM Naming Convention:**
-
-- **Block**: `.card`, `.button`, `.form`
-- **Element**: `.card__title`, `.button__icon`, `.form__input`
-- **Modifier**: `.card--hoverable`, `.button--primary`, `.form--large`
-
----
-
-## Architecture
-
-### Layered Architecture (MVC + Repository Pattern)
-
-**Patterns:**
-
-- MVC architecture with repository abstraction
-- Server-side rendering (SSR)
-- Progressive enhancement
-- File-based storage
-
-**Request Flow:**
-
-```txt
-Browser → routes.rs → handlers → storage/models → templates → HTML response
-```
-
-**Component Mapping:**
-
-- **Presentation**: Axum handlers + Askama templates
-- **Styling**: Modular CSS (7-1 + BEM + Cascade Layers)
-- **Domain**: Rust models (data structures)
-- **Data Access**: File-based storage repository
-
-**Benefits:**
-
-- Clear separation of concerns
-- Testable (mock storage layer)
-- Maintainable CSS with BEM
-- Predictable cascade with `@layer`
-- Easy to replace any layer independently
-
-### CSS Layer Order
-
-1. **reset** - CSS reset for consistent baseline
-2. **base** - Typography and base element styles
-3. **layout** - Layout components (grid, container, header, footer)
-4. **components** - Reusable UI components
-5. **pages** - Page-specific styles
-6. **vendors** - Third-party library styles
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- **Rust** (latest stable) - [Install](https://rustup.rs/)
+## Quick Start
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
+# Prerequisites
+rustup target add wasm32-unknown-unknown
+cargo install cargo-leptos
 
-### Quick Start
+# Development server with hot reload
+cargo leptos watch
 
-```bash
-# Clone repository
-git clone git@github.com:hakchin/ppst.git
-cd ppst
+# Production build
+cargo leptos build --release
 
-# Run server
-cargo run
-
-# Visit http://localhost:3000
-```
-
-### Build for Production
-
-```bash
-cargo build --release
+# Run production server
 ./target/release/ppst-academy
 ```
 
----
+## Project Structure
 
-## Development Guide
-
-### Basic Workflow
-
-```bash
-# Run server
-cargo run
-
-# With auto-reload (optional)
-cargo install cargo-watch  # Install once
-cargo watch -x run         # Auto-restart on Rust changes
 ```
-
-### CSS Development
-
-**Editing Styles:**
-
-1. Edit any CSS file in `static/css/` directory
-2. Refresh browser (no build step needed!)
-3. Pure CSS - no compilation required
-
-**Adding New Components:**
-
-1. Create file: `static/css/components/_component-name.css`
-2. Use BEM naming: `.component`, `.component__element`, `.component--modifier`
-3. Wrap in layer: `@layer components { ... }`
-4. Import in `static/css/main.css`
-5. Use classes in HTML templates
-
-**Design Tokens:**
-
-Edit [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css):
-
-```css
-:root {
-  /* Colors */
-  --color-brand: #2563eb;
-  --color-text: #1f2937;
-
-  /* Typography */
-  --font-size-xl: 1.25rem;
-  --font-weight-semibold: 600;
-
-  /* Spacing */
-  --space-section-y: clamp(4rem, 6vw, 6rem);
-  --gap-grid: 2.5rem;
-
-  /* Border Radius */
-  --radius-lg: 0.75rem;
-
-  /* Transitions */
-  --transition-base: 200ms ease-in-out;
-}
+ppst/
+├── src/
+│   ├── lib.rs              # Library crate (shared code)
+│   ├── main.rs             # Server binary
+│   ├── app.rs              # Root App component
+│   ├── components/         # Reusable UI components
+│   ├── pages/              # Route page components
+│   ├── server/             # Server-only code
+│   └── models/             # Shared data types
+├── public/                 # Static assets
+├── style/                  # Generated CSS
+├── data/                   # JSON storage
+├── tailwind.config.js      # Tailwind configuration
+├── input.css               # Tailwind input
+├── Cargo.toml              # Dependencies
+└── CLAUDE.md               # AI assistant guidelines
 ```
-
-### Adding Routes & Handlers
-
-1. Define route in [src/routes.rs](src/routes.rs)
-2. Create handler in `src/handlers/`
-3. Create template in `templates/`
-4. Add CSS if needed in `static/css/pages/`
-
----
-
-## Version Control
-
-This project uses **Git** for version control.
-
-### Essential Commands
-
-```bash
-# View status
-git status                   # Current working state
-git diff                     # Uncommitted changes
-git log                      # Commit history
-
-# Make commits
-git add .                    # Stage all changes
-git commit -m "type: message"  # Commit changes
-
-# Sync with remote
-git fetch                    # Fetch from remote
-git pull                     # Pull changes from remote
-git push                     # Push to remote
-
-# Undo changes
-git restore <file>           # Restore specific file
-git restore .                # Restore all changes
-```
-
-### Commit Message Format
-
-**Conventional Commits**: `type: description`
-
-**Types:**
-
-- `feat:` New feature
-- `fix:` Bug fix
-- `refactor:` Code restructuring
-- `style:` CSS/formatting changes
-- `docs:` Documentation updates
-- `test:` Test additions
-- `chore:` Maintenance tasks
-
-**Examples:**
-
-```bash
-git commit -m "feat: add user profile page"
-git commit -m "fix: correct email validation regex"
-git commit -m "style: update hero section gradient"
-git commit -m "refactor: convert to BEM methodology"
-```
-
-### Typical Workflow
-
-```bash
-# 1. Make changes
-# 2. Test
-cargo test && cargo run
-
-# 3. Commit
-git add .
-git commit -m "feat: add new feature"
-
-# 4. Push
-git push
-```
-
----
-
-## Testing
-
-### Run Tests
-
-```bash
-cargo test                    # All tests
-cargo test -- --nocapture     # With output
-```
-
-### Code Quality
-
-```bash
-cargo clippy                  # Linter
-cargo fmt                     # Auto-format code
-cargo fmt -- --check          # Check formatting
-```
-
-### Manual Testing
-
-- [ ] Server starts without errors
-- [ ] Homepage loads at `http://localhost:3000`
-- [ ] CSS styles render correctly (BEM classes)
-- [ ] Contact form validates input
-- [ ] Success/error messages display properly
-- [ ] Data saves to `data/contacts/*.json`
-- [ ] Responsive design works on mobile/tablet/desktop
-- [ ] HTMX loading indicator appears during requests
-
----
-
-## API Reference
-
-### Endpoints
-
-| Method | Path       | Description                                | Response |
-|--------|------------|--------------------------------------------|----------|
-| GET    | `/`        | Homepage with academy info & contact form  | HTML     |
-| POST   | `/contact` | Submit contact form                        | Partial HTML (HTMX) |
-
-### Contact Form Submission
-
-**Request:**
-
-```http
-POST /contact
-Content-Type: application/x-www-form-urlencoded
-
-name=홍길동&email=hong@example.com&subject=문의&message=학원에 대해 궁금합니다
-```
-
-**Success Response:**
-
-```html
-<div class="alert alert--success">
-  <p class="alert__text">Thank you for contacting PPST Academy...</p>
-</div>
-```
-
-**Error Response:**
-
-```html
-<div class="alert alert--error">
-  <p class="alert__title">Please correct the following errors:</p>
-  <ul>
-    <li class="alert__text">Email is required</li>
-  </ul>
-</div>
-```
-
-### Data Storage Format
-
-**File Pattern**: `data/contacts/2024-11-06T12-30-45-123Z.json`
-
-**JSON Structure**:
-
-```json
-{
-  "name": "홍길동",
-  "email": "hong@example.com",
-  "subject": "문의",
-  "message": "학원에 대해 궁금한 점이 있습니다.",
-  "timestamp": "2024-11-06T12:30:45.123Z"
-}
-```
-
----
-
-## Quick Reference
-
-### Daily Commands
-
-```bash
-# Development
-cargo run                         # Start server
-
-# Version Control
-git status                        # Check status
-git add .                         # Stage changes
-git commit -m "type: message"    # Commit changes
-git push                          # Push to remote
-
-# Code Quality
-cargo test                        # Run tests
-cargo clippy                      # Lint code
-cargo fmt                         # Format code
-```
-
-### Key Directories
-
-| Path | Purpose |
-|------|---------|
-| `src/` | Rust source code |
-| `templates/` | HTML templates (Askama) |
-| `static/css/` | CSS architecture (7-1 + BEM) |
-| `static/js/` | JavaScript (HTMX only) |
-| `data/contacts/` | Form submissions (JSON) |
-
-### Important Files
-
-| File | Description |
-|------|-------------|
-| [src/main.rs](src/main.rs) | Application entry point |
-| [src/routes.rs](src/routes.rs) | Route definitions |
-| [static/css/main.css](static/css/main.css) | CSS entry point |
-| [static/css/abstracts/_variables.css](static/css/abstracts/_variables.css) | Design tokens |
-| [templates/base.html](templates/base.html) | Base HTML layout |
-| [Cargo.toml](Cargo.toml) | Rust dependencies |
-
-### Project Stats
-
-- **Source Code Size**: 240KB (excluding dependencies and build artifacts)
-- **Backend Language**: Rust (100%)
-- **Frontend Styling**: Vanilla CSS (100%)
-- **JavaScript**: 1 file (HTMX only)
-- **Dependencies**: 11 Rust crates (core + logging)
-- **CSS Files**: 20 files (7-1 pattern)
-- **Build Tools**: Cargo only
-- **Rust Edition**: 2024
-
-### Resources
-
-- [Rust Book](https://doc.rust-lang.org/book/)
-- [Axum Documentation](https://docs.rs/axum/latest/axum/)
-- [Askama Templates](https://docs.rs/askama/latest/askama/)
-- [HTMX Documentation](https://htmx.org/)
-- [BEM Methodology](https://getbem.com/)
-- [CSS Cascade Layers](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
-- [7-1 Pattern](https://sass-guidelin.es/#the-7-1-pattern)
-- [Git Documentation](https://git-scm.com/doc)
-
----
-
-## Troubleshooting
-
-### Port Already in Use
-
-```bash
-lsof -i :3000              # Find process using port 3000
-kill -9 <PID>              # Kill the process
-```
-
-### Build Errors
-
-```bash
-cargo clean                # Clean build artifacts
-cargo build                # Rebuild from scratch
-```
-
-### CSS Not Loading
-
-1. Verify `static/css/main.css` exists
-2. Check browser console for 404 errors
-3. Hard refresh: `Cmd+Shift+R` (Mac) or `Ctrl+Shift+R` (Windows/Linux)
-4. Verify server logs for static file serving errors
-
-### Version Control Issues
-
-**No changes to commit:**
-
-- Make file changes and stage them before running `git commit`
-
-**Push rejected:**
-
-```bash
-git fetch                  # Fetch latest changes
-git pull --rebase          # Rebase on remote main
-git push                   # Retry push
-```
-
-**Reset to remote (⚠️ discards local changes):**
-
-```bash
-git fetch origin
-git reset --hard origin/main
-```
-
----
 
 ## License
 
 MIT
-
----
-
-## Repository
-
-**GitHub**: [https://github.com/hakchin/ppst](https://github.com/hakchin/ppst)
-
-**Server**: `http://localhost:3000`

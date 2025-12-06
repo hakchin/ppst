@@ -1,0 +1,3 @@
+# Use hashed symbol names to avoid linker symbol length limits on macOS
+[build]
+rustflags = ["-Csymbol-mangling-version=v0"]

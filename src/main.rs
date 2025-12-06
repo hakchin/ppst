@@ -1,19 +1,18 @@
-use std::env;
-use std::net::SocketAddr;
-use tower_http::compression::CompressionLayer;
-use tower_http::services::ServeDir;
-use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+#![recursion_limit = "512"]
 
-mod error;
-mod handlers;
-mod models;
-mod routes;
-mod storage;
-
-use error::{AppError, Result};
-
+#[cfg(feature = "ssr")]
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() {
+    use axum::Router;
+    use leptos::config::LeptosOptions;
+    use leptos::prelude::*;
+    use leptos_axum::{LeptosRoutes, generate_route_list};
+    use leptos_meta::MetaTags;
+    use ppst_academy::app::App;
+    use tower_http::compression::CompressionLayer;
+    use tower_http::services::ServeDir;
+    use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+
     // Initialize tracing/logging
     tracing_subscriber::registry()
         .with(
@@ -23,46 +22,56 @@ async fn main() -> Result<()> {
         .with(tracing_subscriber::fmt::layer())
         .init();
 
-    // Initialize the application router
-    let app = routes::create_router()
-        // Serve static files from the static/ directory
-        .nest_service("/static", ServeDir::new("static"))
-        // Add gzip compression for responses
-        .layer(CompressionLayer::new());
+    // Get Leptos configuration
+    let conf = get_configuration(Some("Cargo.toml")).unwrap();
+    let leptos_options = conf.leptos_options;
+    let addr = leptos_options.site_addr;
 
-    // Determine port from environment (PORT or PPST_PORT), default to 3000
-    let port: u16 = env::var("PORT")
-        .ok()
-        .and_then(|v| v.parse::<u16>().ok())
-        .or_else(|| {
-            env::var("PPST_PORT")
-                .ok()
-                .and_then(|v| v.parse::<u16>().ok())
+    // Generate route list from App component
+    let routes = generate_route_list(App);
+
+    // Shell function for rendering the HTML document
+    fn shell(options: LeptosOptions) -> impl IntoView {
+        view! {
+            <!DOCTYPE html>
+            <html lang="ko">
+                <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <MetaTags/>
+                    <AutoReload options=options.clone()/>
+                    <HydrationScripts options=options.clone()/>
+                    <link rel="stylesheet" id="leptos" href="/pkg/ppst-academy.css"/>
+                    <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+                </head>
+                <body>
+                    <App/>
+                </body>
+            </html>
+        }
+    }
+
+    // Build the application router
+    let app = Router::new()
+        .leptos_routes(&leptos_options, routes, {
+            let options = leptos_options.clone();
+            move || shell(options.clone())
         })
-        .unwrap_or(3000);
+        .fallback(leptos_axum::file_and_error_handler(shell))
+        .nest_service("/pkg", ServeDir::new("target/site/pkg"))
+        .layer(CompressionLayer::new())
+        .with_state(leptos_options);
 
-    // Bind to all network interfaces (0.0.0.0) to allow external access
-    // Use 127.0.0.1 for localhost-only access
-    let addr = SocketAddr::from(([0, 0, 0, 0], port));
-    tracing::info!("🚀 PPST Academy server listening on http://{}", addr);
+    tracing::info!("PPST Academy listening on http://{}", addr);
 
-    // Start the server with graceful error handling
-    let listener = tokio::net::TcpListener::bind(addr).await.map_err(|e| {
-        tracing::error!("Failed to bind to {}: {}", addr, e);
-        AppError::Bind(e)
-    })?;
+    let listener = tokio::net::TcpListener::bind(&addr).await.unwrap();
+    axum::serve(listener, app.into_make_service())
+        .await
+        .unwrap();
+}
 
-    tracing::info!("✅ Server successfully bound to {}", addr);
-
-    axum::serve(
-        listener,
-        app.into_make_service_with_connect_info::<SocketAddr>(),
-    )
-    .await
-    .map_err(|e| {
-        tracing::error!("Server error: {}", e);
-        AppError::Server(e)
-    })?;
-
-    Ok(())
+#[cfg(not(feature = "ssr"))]
+pub fn main() {
+    // No client-side main for this project
+    // Client entry point is the hydrate function in lib.rs
 }

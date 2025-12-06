@@ -1,10 +1,14 @@
-# Rust
-target/
-debug/
-release/
-*.rs.bk
-*.rlib
-*.prof*
+# Rust build artifacts
+/target/
+
+# Generated files
+/style/output.css
+/node_modules/
+
+# Environment files
+.env
+.env.local
+.env.*.local
 
 # IDE
 .idea/
@@ -13,25 +17,31 @@ release/
 *.swo
 *~
 
-# Logs
-*.log
-
-# Environment
-.env*
-!.env.example
-
-# OS
+# OS files
 .DS_Store
 Thumbs.db
+
+# Debug
+*.log
+npm-debug.log*
+
+# Test coverage
+coverage/
+*.lcov
+
+# Leptos build artifacts
+/pkg/
+
+# End-to-end test artifacts
+/end2end/test-results/
+/end2end/playwright-report/
+
+# Temporary files
 *.tmp
+*.temp
 
-# Build artifacts
-dist/
-build/
+# Contact data (privacy)
+/data/contacts/*.json
 
-# Tools (binaries)
-tools/
-
-# Data (user privacy - contact form submissions)
-data/contacts/*.json
-!data/contacts/.gitkeep
+# Legacy backup
+/_legacy/
