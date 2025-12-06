@@ -2,11 +2,12 @@ use leptos::prelude::*;
 
 /// Navigation menu items - single source of truth for both Desktop and Mobile
 const NAV_ITEMS: &[(&str, &str)] = &[
-    ("#mission", "소개"),
+    ("#mission", "미션"),
     ("#programs", "프로그램"),
     ("#admissions", "입학안내"),
     ("#policies", "학원규칙"),
     ("#contact", "문의/입회"),
+    ("#about", "about"),
 ];
 
 /// Site header with navigation - uses anchor links for smooth scrolling to sections

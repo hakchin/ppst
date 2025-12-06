@@ -1,6 +1,8 @@
 use leptos::prelude::*;
+use leptos_router::components::A;
 
 use crate::components::icons::{CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon};
+use crate::components::DirectionsSection;
 use crate::server_fns::submit_contact;
 
 /// Home page component - Single page layout with all sections (like legacy site)
@@ -16,7 +18,7 @@ pub fn HomePage() -> impl IntoView {
             <AdmissionsSection/>
             <PoliciesSection/>
             <ContactSection/>
-            <LocationSection/>
+            <DirectionsSection/>
         </div>
     }
 }
@@ -52,7 +54,7 @@ fn MissionSection() -> impl IntoView {
         <section id="mission" class="py-16 md:py-24 scroll-mt-16">
             <div class="container-section">
                 <h2 class="text-3xl md:text-4xl font-bold mb-8">"Mission"</h2>
-                <h3 class="text-2xl font-semibold mb-6">
+                <h3 class="text-2xl font-bold mb-6">
                     "수학을 가르칩니다"
                     <sup class="text-sm align-super">"®"</sup>
                 </h3>
@@ -243,10 +245,26 @@ fn ProgramsSection() -> impl IntoView {
                             <span class="font-semibold text-brand-600">"정규반"</span>
                             <span class="text-gray-700">" : 학년별 과정을 충실히 하며, 개인별 선행 진행합니다."</span>
                         </div>
+                        <div class="bg-white rounded-lg p-4 border border-gray-200">
+                            <span class="font-semibold text-brand-600">"실력정석반"</span>
+                            <span class="text-gray-700">" : 무학년제. 하나의 교재만 집중하되 교재안의 단 한 문제도 놓치지 않습니다. (주 1회반, 주 2회반)"</span>
+                        </div>
                         <div class="bg-white rounded-lg p-4 border border-gray-200 text-gray-700">
                             "Class별 4명 이하 제한, 세밀한 지도합니다. 긴 관점으로 확실한 실력향상을 원하는 학생만 받습니다."
                         </div>
                     </div>
+                </div>
+
+                // 중3 유의사항
+                <div class="mb-12 card p-6">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
+                        <span class="w-3 h-3 rounded-full bg-brand-600"></span>
+                        "중3 유의사항"
+                    </h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li>"• 11월부터 고1 예비반 과정 진행합니다."</li>
+                        <li>"• 기존 중등부 학생은 자동으로 11월부터 고1 예비반 전환됩니다."</li>
+                    </ul>
                 </div>
 
                 // 교실
@@ -256,25 +274,35 @@ fn ProgramsSection() -> impl IntoView {
                         "교실"
                     </h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="card p-6 text-center">
                             <span class="text-sm text-gray-400">"01| "</span>
                             <span class="font-semibold">"Shooting star"</span>
                             <span class="text-gray-600">" (별똥별)"</span>
                             <span class="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-1 rounded">"M"</span>
                         </div>
-                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="card p-6 text-center">
                             <span class="text-sm text-gray-400">"02| "</span>
                             <span class="font-semibold">"Polaris"</span>
                             <span class="text-gray-600">" (북극성)"</span>
                             <span class="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-1 rounded">"E, H"</span>
                         </div>
-                        <div class="bg-white rounded-xl p-6 border border-gray-200 text-center">
+                        <div class="card p-6 text-center">
                             <span class="text-sm text-gray-400">"03| "</span>
                             <span class="font-semibold">"Milkyway"</span>
                             <span class="text-gray-600">" (은하수)"</span>
                             <span class="ml-2 text-xs bg-brand-100 text-brand-700 px-2 py-1 rounded">"M"</span>
                         </div>
                     </div>
+                </div>
+
+                <div class="mt-12 card p-8 text-center">
+                    <h2 class="text-3xl font-bold mb-4">"어떤 프로그램이 맞을지 고민되시나요?"</h2>
+                    <p class="text-gray-600 mb-8 max-w-2xl mx-auto">
+                        "입시 목표와 상황에 맞는 최적의 방향을 함께 찾겠습니다."
+                    </p>
+                    <A href="/contact" attr:class="btn-primary">
+                        "상담 신청하기"
+                    </A>
                 </div>
             </div>
         </section>
@@ -305,7 +333,7 @@ fn AdmissionsSection() -> impl IntoView {
                 // 상담절차
                 <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6">"상담절차"</h3>
-                    <div class="bg-white rounded-xl p-6 border border-gray-200 mb-6">
+                    <div class="card p-6 mb-6">
                         <p class="text-gray-700 text-lg">
                             <strong>"전화 또는 대면 상담"</strong>
                             " → 등록결정 → 수강료납입"
@@ -323,15 +351,15 @@ fn AdmissionsSection() -> impl IntoView {
                 <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6">"모집대상"</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="card p-6">
                             <h4 class="text-lg font-semibold text-brand-600 mb-2">"고등부"</h4>
                             <p class="text-gray-700"><strong>"1,2등급"</strong>" (학교 성적으로 판단)"</p>
                         </div>
-                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="card p-6">
                             <h4 class="text-lg font-semibold text-brand-600 mb-2">"중등부"</h4>
                             <p class="text-gray-700"><strong>"A등급"</strong>" (학교 성적 & 테스트 통과 필요)"</p>
                         </div>
-                        <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="card p-6">
                             <h4 class="text-lg font-semibold text-brand-600 mb-2">"초등부"</h4>
                             <p class="text-gray-700"><strong>"수학을 좋아하는 학생"</strong>" (테스트 통과 필요)"</p>
                         </div>
@@ -339,13 +367,15 @@ fn AdmissionsSection() -> impl IntoView {
                     <ul class="space-y-3 text-gray-700">
                         <li>"• "<strong>"학교 성적으로 레벨 테스트 대체"</strong>", 필요시 추가 테스트"</li>
                         <li>"• 개인이 직접 가르치는 "<strong>"작은 학원"</strong>"입니다. 중대형 학원을 원하시면 다른 곳으로."</li>
+                        <li>"• 전화 또는 대면 상담"</li>
+                        <li>"• "<strong>"10분 소요"</strong></li>
                         <li>"• 다른 것은 없습니다. "<strong>"결과"</strong>"만 다릅니다."</li>
                     </ul>
                 </div>
 
                 // 별을셀수학 모집안내
-                <div class="bg-brand-50 rounded-xl p-8 border border-brand-100">
-                    <h3 class="text-xl font-bold text-brand-800 mb-4">"별을셀수학 모집안내"</h3>
+                <div class="card p-8">
+                    <h3 class="text-2xl font-bold text-brand-800 mb-6">"별을셀수학 모집안내"</h3>
                     <ul class="space-y-3 text-brand-700">
                         <li>"• 수학을 좋아하는 학생이면 별을셀에서 환영합니다."</li>
                         <li>"• 고등부는 무리하게 원생을 늘리지 않습니다. 고1,2,3 을 합쳐서 대형학원의 1개 반 구성에도 못 미치도록 관리됩니다."</li>
@@ -353,6 +383,92 @@ fn AdmissionsSection() -> impl IntoView {
                         <li>"• "<strong>"원생의 반을 1등급"</strong>"으로 관리하는 수학학원 "<strong>"★별을셀"</strong>"입니다."</li>
                         <li class="font-semibold">"• 예시된 반 이외에도 학생들 모집중입니다."</li>
                     </ul>
+                </div>
+
+                // 예비고반 모집
+                <div class="mb-12 bg-gray-50 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold mb-6">"예비고반 모집"</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-xl border border-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"학년"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"현재 중3"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"성적 기준"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"반 1등, 성실한 2~3등"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"모집 인원"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"소수명"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"모집 기간"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"상시"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 text-gray-600">"수업시작"</td>
+                                    <td class="px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                // 중등반 모집
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold mb-6">"중등반 모집"</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full bg-white rounded-xl border border-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"학년"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"학년 관계없으며 중등 과정을 모두 완료한 학생"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"성적 기준"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"N/A"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"학습내용"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"내신병행. 질의된 모든 문항 지원"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 border-b text-gray-600">"교재"</td>
+                                    <td class="px-6 py-4 border-b text-gray-700">"고난도 및 교과외 진행"</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 text-gray-600">"비고"</td>
+                                    <td class="px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                // 문의 안내 CTA
+                <div class="py-12 bg-brand-600 text-white rounded-xl text-center">
+                    <h3 class="text-2xl font-bold mb-6">"문의안내"</h3>
+                    <p class="mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( 010-5102-0841 별을셀 )"</p>
+                    <ul class="space-y-2 mb-8">
+                        <li>"• 학생이름/학교/학년/성별"</li>
+                        <li>"• 최종 수학 등급(내신/모의고사)"</li>
+                        <li>"• 1년내 목표 등급 또는 점수"</li>
+                    </ul>
+                    <A href="/contact" attr:class="btn-primary bg-white text-brand-600 hover:bg-gray-100">"문의 및 입회등록"</A>
                 </div>
             </div>
         </section>
@@ -373,6 +489,7 @@ fn PoliciesSection() -> impl IntoView {
                 <div class="mb-8">
                     <h3 class="text-2xl font-bold mb-4">"학원규칙"</h3>
                     <p class="text-gray-500 mb-2">"(학생, 학부모, 학원간의 몇 가지 주요 규칙 게시)"</p>
+                    <p class="text-gray-700 mb-4">"주요 규칙만 게시합니다."</p>
                     <p class="text-gray-700">"학원 규칙을 어긴다 하여 잘못된 것은 아닙니다. 각자에게 맞는 곳을 빨리 찾도록 하여 소중한 시간을 낭비하지 않기를 소망합니다."</p>
                 </div>
 
@@ -429,6 +546,25 @@ fn PoliciesSection() -> impl IntoView {
                             <li>"• "<strong>"휴대폰"</strong>": 책가방안에 보관"</li>
                             <li>"• "<strong>"게임"</strong>": 집에서 게임 안 하기"</li>
                             <li>"• "<strong>"과제물"</strong>": 3번 연속 숙제를 완료하지 않으면 타학원으로 안내"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4 mt-12">"식쓰기규칙"</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h4 class="text-lg font-bold mb-4">"평소"</h4>
+                        <ul class="space-y-2 text-gray-700 text-sm">
+                            <li>"• 번호를 붙여가며 식쓰기 연습"</li>
+                            <li>"• 고정된 방식을 강요하지 않음. 그러나 식쓰기는 권고함"</li>
+                            <li>"• 풀이를 쓰라고 하는 것은 머릿속 용량이 부족하기 때문임. 그것을 극복하는 학생은 그 학생의 자유를 더 존중해 줌. 그러나 일반적으로 고등과정 이상은 풀이없이 문제를 풀어내기는 어렵습니다."</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <h4 class="text-lg font-bold mb-4">"시험"</h4>
+                        <ul class="space-y-2 text-gray-700 text-sm">
+                            <li>"• 소신 껏 풀기"</li>
                         </ul>
                     </div>
                 </div>
@@ -644,49 +780,6 @@ fn ContactSection() -> impl IntoView {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    }
-}
-
-/// Location/Directions section
-#[component]
-fn LocationSection() -> impl IntoView {
-    view! {
-        <section class="py-16 bg-gray-50">
-            <div class="container-section">
-                <h2 class="text-2xl font-bold mb-8">"오시는 길"</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="space-y-6">
-                        <div>
-                            <h4 class="font-semibold text-lg mb-2">"주소"</h4>
-                            <p class="text-gray-700">"경기도 군포시 번영로 489 중앙타워 2층 ★별을셀수학"</p>
-                            <p class="text-gray-500 text-sm">"지번 : 경기도 군포시 산본동 1142-7"</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg mb-2">"지하철"</h4>
-                            <p class="text-gray-700">"4호선 산본역에서 하차하여 3번출구로 나오시면 ..."</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg mb-2">"버스"</h4>
-                            <p class="text-gray-700">"산본역 또는 6단지 세종에서 하차"</p>
-                        </div>
-                        <div>
-                            <h4 class="font-semibold text-lg mb-2">"자동차"</h4>
-                            <p class="text-gray-700">"롯데피트인 맞은편 건물입니다."</p>
-                        </div>
-                    </div>
-
-                    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
-                        <h3 class="text-xl font-bold mb-4">"열심히 공부할 준비가 되셨나요?"</h3>
-                        <ul class="space-y-3 text-gray-700">
-                            <li>"• 수학은 어렵습니다."</li>
-                            <li>"• 수학은 해 볼만 합니다."</li>
-                            <li>"• 수학은 어렵지만 해 볼만 합니다."</li>
-                        </ul>
-                        <p class="mt-6 text-xl font-semibold text-brand-600">"별을셀이 돕겠습니다"</p>
                     </div>
                 </div>
             </div>

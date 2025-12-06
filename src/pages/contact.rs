@@ -1,7 +1,14 @@
 use leptos::prelude::*;
 
 use crate::components::icons::{ChatIcon, CheckIcon, ClockIcon, GlobeIcon, LocationIcon, PhoneIcon};
+use crate::components::DirectionsSection;
 use crate::server_fns::submit_contact;
+
+/// Validate Korean mobile phone number format
+fn is_valid_phone(phone: &str) -> bool {
+    let re = regex::Regex::new(r"^01[016789]-?\d{3,4}-?\d{4}$").unwrap();
+    re.is_match(phone)
+}
 
 /// Contact page component
 #[component]
@@ -21,7 +28,7 @@ fn ContactHeader() -> impl IntoView {
     view! {
         <section class="bg-white py-16">
             <div class="container-section">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">"연락처"</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">"Contact"</h1>
                 <p class="text-xl text-gray-600 max-w-2xl">
                     "문의 및 입회등록을 원하시면 메시지를 남겨 주세요. 성실히 답변드리겠습니다."
                 </p>
@@ -49,8 +56,9 @@ fn ContactFormSection() -> impl IntoView {
 #[component]
 fn ContactForm() -> impl IntoView {
     let (name, set_name) = signal(String::new());
-    let (phone, set_phone) = signal(String::new());
+    let (phone, set_phone) = signal("010-".to_string());
     let (message, set_message) = signal(String::new());
+    let (phone_error, set_phone_error) = signal(Option::<String>::None);
 
     let submit_action = Action::new(move |_: &()| {
         let name_val = name.get();
@@ -64,13 +72,23 @@ fn ContactForm() -> impl IntoView {
 
     let on_submit = move |ev: leptos::ev::SubmitEvent| {
         ev.prevent_default();
+
+        // Validate phone number before submission
+        let phone_val = phone.get();
+        if !is_valid_phone(&phone_val) {
+            set_phone_error.set(Some("올바른 휴대폰 번호를 입력해주세요 (예: 010-1234-5678)".to_string()));
+            return;
+        }
+
+        set_phone_error.set(None);
         submit_action.dispatch(());
     };
 
     let reset_form = move |_| {
         set_name.set(String::new());
-        set_phone.set(String::new());
+        set_phone.set("010-".to_string());
         set_message.set(String::new());
+        set_phone_error.set(None);
         submit_action.value().set(None);
     };
 
@@ -86,6 +104,8 @@ fn ContactForm() -> impl IntoView {
                             set_name=set_name
                             phone=phone
                             set_phone=set_phone
+                            phone_error=phone_error
+                            set_phone_error=set_phone_error
                             message=message
                             set_message=set_message
                             on_submit=on_submit
@@ -130,6 +150,8 @@ fn ContactFormFields<S>(
     set_name: WriteSignal<String>,
     phone: ReadSignal<String>,
     set_phone: WriteSignal<String>,
+    phone_error: ReadSignal<Option<String>>,
+    set_phone_error: WriteSignal<Option<String>>,
     message: ReadSignal<String>,
     set_message: WriteSignal<String>,
     on_submit: impl Fn(leptos::ev::SubmitEvent) + 'static,
@@ -151,15 +173,37 @@ where
                 set_value=set_name
                 is_pending=is_pending
             />
-            <FormField
-                id="phone"
-                label="휴대폰 번호"
-                input_type="tel"
-                placeholder="010-"
-                value=phone
-                set_value=set_phone
-                is_pending=is_pending
-            />
+            <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                    "휴대폰 번호"
+                </label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    class=move || {
+                        if phone_error.get().is_some() {
+                            "form-input border-red-500"
+                        } else {
+                            "form-input"
+                        }
+                    }
+                    placeholder="010-1234-5678"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    maxlength="13"
+                    prop:value=move || phone.get()
+                    on:input=move |ev| {
+                        set_phone.set(event_target_value(&ev));
+                        set_phone_error.set(None);
+                    }
+                    disabled=move || is_pending.get()
+                />
+                {move || phone_error.get().map(|err| view! {
+                    <p class="mt-1 text-sm text-red-600">{err}</p>
+                })}
+            </div>
             <MessageField
                 value=message
                 set_value=set_message
@@ -298,19 +342,3 @@ fn ContactInfoItem(
     }
 }
 
-/// Directions section (subway/bus/car)
-#[component]
-fn DirectionsSection() -> impl IntoView {
-    view! {
-        <section class="py-16 bg-white">
-            <div class="container-section">
-                <h2 class="text-2xl font-bold mb-6">"오시는 길"</h2>
-                <div class="space-y-4">
-                    <p class="text-gray-700"><strong>지하철</strong> " · 4호선 산본역 3번 출구"</p>
-                    <p class="text-gray-700"><strong>버스</strong> " · 산본역 또는 6단지 세종 하차"</p>
-                    <p class="text-gray-700"><strong>자동차</strong> " · 롯데피트인 맞은편 건물"</p>
-                </div>
-            </div>
-        </section>
-    }
-}

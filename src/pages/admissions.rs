@@ -56,9 +56,6 @@ fn ConsultationSection() -> impl IntoView {
                         <strong>"전화 또는 대면 상담"</strong>
                         " → 등록결정 → 수강료납입"
                     </p>
-                    <p class="text-sm text-gray-500 mt-4">
-                        "네이버 서비스 정책 변경으로 위 링크 접속이 제한될 수 있습니다. 전화로 먼저 문의 주세요."
-                    </p>
                 </div>
 
                 <div class="mt-8">

@@ -6,7 +6,7 @@ use leptos_router::{
 };
 
 use crate::components::{Footer, Header};
-use crate::pages::{AboutPage, AdmissionsPage, ContactPage, HomePage, NotFoundPage, PoliciesPage, ProgramsPage};
+use crate::pages::{AboutPage, AdmissionsPage, ContactPage, HomePage, MissionPage, NotFoundPage, PoliciesPage, ProgramsPage};
 
 /// Root application component
 #[component]
@@ -25,6 +25,7 @@ pub fn App() -> impl IntoView {
                     <Routes fallback=|| view! { <NotFoundPage/> }.into_any()>
                         <Route path=path!("/") view=|| view! { <HomePage/> }.into_any()/>
                         <Route path=path!("/about") view=|| view! { <AboutPage/> }.into_any()/>
+                        <Route path=path!("/mission") view=|| view! { <MissionPage/> }.into_any()/>
                         <Route path=path!("/programs") view=|| view! { <ProgramsPage/> }.into_any()/>
                         <Route path=path!("/admissions") view=|| view! { <AdmissionsPage/> }.into_any()/>
                         <Route path=path!("/policies") view=|| view! { <PoliciesPage/> }.into_any()/>

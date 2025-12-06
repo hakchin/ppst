@@ -19,7 +19,7 @@ fn AboutHeader() -> impl IntoView {
     view! {
         <section class="bg-gray-50 py-16">
             <div class="container-section">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">"소개"</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">"about"</h1>
                 <p class="text-xl text-gray-600 max-w-2xl">
                     "별을셀은 소수의 작은 학습장을 고집하며 정성과 진심으로 수학을 가르칩니다."
                 </p>
@@ -44,14 +44,14 @@ fn PhilosophySection() -> impl IntoView {
                             <p>"수학이 재미있는 곳 "<strong>"★별을셀"</strong>"입니다. 반짝이는 밤하늘의 별처럼 여러 분도 반짝이는 별입니다."</p>
                             <p>"개인적 수학 아이디어의 많은 부분에 대하여 Georg Cantor와 Kurt Gödel에 대하여 감사합니다."</p>
                             <p>"세속의 수학(입시수학, 공업수학, 미적분, 일반 문제풀이,...)은 이들의 것과 많이 비슷하지는 않습니다. 세속의 수학에도 많은 감사를 드립니다."</p>
-                            <p>"여러 분과 함께 세속의 수학을 합니다. 동시에 개인으로서는 상상과 논리의 동산에서 자신만의 수학적 사고를 하고자 합니다."</p>
+                            <p>"여러 분과 함께 입시 수학을 합니다. 동시에 상상과 논리의 동산에서의 수학적 사고도 함께 합니다."</p>
                         </div>
                     </div>
                     <div class="bg-brand-100 rounded-2xl p-8 lg:p-12">
                         <blockquote class="text-xl text-brand-800 italic">
-                            "수학은 자유의 학문입니다. 동기부여 없는 강제적 학습을 지양합니다."
+                            "수학은 자유의 학문입니다."
                         </blockquote>
-                        <cite class="text-brand-600 mt-4 block">"— ★별을셀수학"</cite>
+                        <cite class="text-brand-600 mt-4 block">"★별을셀수학"</cite>
                     </div>
                 </div>
             </div>

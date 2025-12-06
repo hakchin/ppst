@@ -27,11 +27,12 @@ pub fn Footer() -> impl IntoView {
                             "바로가기"
                         </h4>
                         <ul class="space-y-2">
-                            <FooterLink href="/about">"소개"</FooterLink>
+                            <FooterLink href="/mission">"미션"</FooterLink>
                             <FooterLink href="/programs">"프로그램"</FooterLink>
                             <FooterLink href="/admissions">"입학안내"</FooterLink>
                             <FooterLink href="/policies">"학원규칙"</FooterLink>
                             <FooterLink href="/contact">"문의/입회"</FooterLink>
+                            <FooterLink href="/about">"about"</FooterLink>
                         </ul>
                     </div>
 
