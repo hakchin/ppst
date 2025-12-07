@@ -34,6 +34,24 @@ Core functionality works without JavaScript. Enhanced features gracefully layer 
 
 File-based JSON storage instead of database complexity. Utility CSS instead of elaborate class hierarchies. Convention over configuration.
 
+### DRY (Don't Repeat Yourself)
+
+Avoid duplication by extracting reusable patterns:
+
+- **Component Classes**: Define `.section-title`, `.card`, `.btn-primary` in `input.css` instead of repeating inline utilities
+- **Rust Components**: Create shared components in `src/components/` for UI elements used across pages
+- **Design Tokens**: Centralize colors, fonts, and spacing in Tailwind's `@theme` configuration
+
+```css
+/* ❌ Repeating inline utilities */
+<h2 class="text-3xl md:text-4xl font-bold mb-4">
+
+/* ✅ Single source of truth */
+<h2 class="section-title">
+```
+
+When you need to change heading styles, modify `.section-title` once instead of hunting through every file.
+
 ## Technology Stack
 
 ### Backend

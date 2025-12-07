@@ -229,9 +229,25 @@ Tailwind v4 uses CSS-based configuration in `input.css`:
 }
 ```
 
-### Custom Components
+### Custom Components (DRY Principle)
 
-Define reusable utility combinations:
+**IMPORTANT**: Follow the DRY (Don't Repeat Yourself) principle. Define reusable component classes in `input.css` instead of repeating inline utility combinations.
+
+Available component classes:
+
+| Class | Purpose |
+|-------|---------|
+| `.section-title` | Section heading (`text-3xl md:text-4xl font-bold mb-4`) |
+| `.section-subtitle` | Section quote/subtitle with left border |
+| `.card` | Standard card with border |
+| `.card-elevated` | Card with shadow |
+| `.card-highlight` | Brand-colored highlight card |
+| `.btn-primary` | Primary action button |
+| `.btn-secondary` | Secondary action button |
+| `.btn-secondary-inverse` | White button for dark backgrounds |
+| `.form-input` | Form text input |
+| `.form-textarea` | Form textarea |
+| `.container-section` | Page section container |
 
 ```css
 @layer components {
@@ -240,6 +256,8 @@ Define reusable utility combinations:
   }
 }
 ```
+
+**When to create a new class**: If you find yourself writing the same utility combination 3+ times, extract it to `input.css`.
 
 ### Using in Rust
 

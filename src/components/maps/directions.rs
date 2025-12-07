@@ -5,9 +5,9 @@ use leptos::prelude::*;
 #[component]
 pub fn DirectionsSection() -> impl IntoView {
     view! {
-        <section class="py-16 bg-gray-50">
+        <section id="directions" class="py-16 bg-gray-50 scroll-mt-16">
             <div class="container-section">
-                <h2 class="text-2xl font-bold mb-8">"오시는 길"</h2>
+                <h2 class="section-title">"오시는 길"</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-6">
                         <div>
@@ -29,7 +29,7 @@ pub fn DirectionsSection() -> impl IntoView {
                         </div>
                     </div>
 
-                    <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-200">
+                    <div class="card-elevated p-8">
                         <h3 class="text-xl font-bold mb-4">"열심히 공부할 준비가 되셨나요?"</h3>
                         <ul class="space-y-3 text-gray-700">
                             <li>"• 수학은 어렵습니다."</li>

@@ -19,7 +19,7 @@ fn AboutHeader() -> impl IntoView {
     view! {
         <section class="bg-gray-50 py-16">
             <div class="container-section">
-                <h1 class="text-4xl md:text-5xl font-bold mb-4">"about"</h1>
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 lowercase">"About"</h1>
                 <p class="text-xl text-gray-600 max-w-2xl">
                     "별을셀은 소수의 작은 학습장을 고집하며 정성과 진심으로 수학을 가르칩니다."
                 </p>
@@ -118,7 +118,7 @@ fn ApproachSection() -> impl IntoView {
                     </div>
                 </div>
 
-                <div class="mt-12 bg-brand-50 rounded-xl p-8 border border-brand-100">
+                <div class="mt-12 card-highlight p-8">
                     <h3 class="text-xl font-bold text-brand-800 mb-4">"수학이 재미있는 곳, ★별을셀입니다"</h3>
                     <ul class="space-y-2 text-brand-700">
                         <li>"• 반짝이는 밤하늘의 별처럼 여러 분은 모두 빛납니다"</li>

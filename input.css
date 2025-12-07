@@ -34,7 +34,7 @@
 
   /* Focus styles for accessibility */
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-blue-500;
+    @apply outline-2 outline-offset-2 outline-brand-500;
   }
 
   /* Heading defaults */
@@ -70,14 +70,39 @@
     @apply block w-full px-4 py-2 text-gray-900 bg-white border border-gray-300 rounded-lg focus:border-brand-500 focus:ring-brand-500 focus:ring-1 placeholder:text-gray-400 resize-y min-h-32;
   }
 
-  /* Card */
-  .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden;
-  }
-
   /* Section container */
   .container-section {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section title - consistent h2 styling */
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold mb-4;
+  }
+
+  /* Section subtitle/quote */
+  .section-subtitle {
+    @apply text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8;
+  }
+
+  /* Standard card */
+  .card {
+    @apply bg-white rounded-xl p-6 border border-gray-200;
+  }
+
+  /* Card with subtle shadow */
+  .card-elevated {
+    @apply bg-white rounded-xl p-6 border border-gray-200 shadow-sm;
+  }
+
+  /* Highlighted card (brand colors) */
+  .card-highlight {
+    @apply bg-brand-50 rounded-xl p-6 border border-brand-100;
+  }
+
+  /* Secondary button - inverse (for dark backgrounds) */
+  .btn-secondary-inverse {
+    @apply inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-brand-600 bg-white rounded-lg hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-brand-600 transition-colors;
   }
 }
 

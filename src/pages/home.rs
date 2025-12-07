@@ -53,7 +53,7 @@ fn HeroSection() -> impl IntoView {
     view! {
         <section class="bg-gray-900 text-white">
             <div class="container-section py-24 md:py-32">
-                <div class="max-w-3xl">
+                <div class="max-w-3xl mx-auto text-center">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance">
                         "Welcome to "
                         <span class="inline-block">
@@ -140,7 +140,7 @@ fn AchievementsSection() -> impl IntoView {
                 </div>
 
                 // Stars message
-                <div class="mt-12 bg-brand-50 rounded-xl p-8 border border-brand-100">
+                <div class="mt-12 card-highlight p-8">
                     <h3 class="text-xl font-bold text-brand-800 mb-4">"수학이 재미있는 곳, ★별을셀입니다"</h3>
                     <ul class="space-y-2 text-brand-700">
                         <li>"• 반짝이는 밤하늘의 별처럼 여러 분은 모두 빛납니다"</li>
@@ -205,8 +205,8 @@ fn ProgramsSection() -> impl IntoView {
     view! {
         <section id="programs" class="py-16 bg-gray-50 scroll-mt-16">
             <div class="container-section">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">"Our Programs"</h2>
-                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="section-title">"Our Programs"</h2>
+                <blockquote class="section-subtitle">
                     <p>"왕도는 없습니다."</p>
                     <p>"꼴찌부터 1등까지 아이들이 행복하기를 바랍니다."</p>
                 </blockquote>
@@ -341,8 +341,8 @@ fn AdmissionsSection() -> impl IntoView {
     view! {
         <section id="admissions" class="py-16 scroll-mt-16">
             <div class="container-section">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">"Admissions"</h2>
-                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="section-title">"Admissions"</h2>
+                <blockquote class="section-subtitle">
                     "특별한 수학 ★별을셀"
                 </blockquote>
 
@@ -400,7 +400,7 @@ fn AdmissionsSection() -> impl IntoView {
                 </div>
 
                 // 별을셀수학 모집안내
-                <div class="mb-12 bg-brand-50 rounded-xl p-6 border border-brand-100">
+                <div class="mb-12 card-highlight">
                     <h3 class="text-2xl font-bold text-brand-800 mb-6">"별을셀수학 모집안내"</h3>
                     <ul class="space-y-2 text-brand-700">
                         <li>"• 수학을 좋아하는 학생이면 별을셀에서 환영합니다."</li>
@@ -494,7 +494,7 @@ fn AdmissionsSection() -> impl IntoView {
                         <li>"• 최종 수학 등급(내신/모의고사)"</li>
                         <li>"• 1년내 목표 등급 또는 점수"</li>
                     </ul>
-                    <a href="#contact" class="btn-primary bg-white text-brand-600 hover:bg-gray-100">"문의 및 입회등록"</a>
+                    <a href="#contact" class="btn-secondary-inverse">"문의 및 입회등록"</a>
                 </div>
             </div>
         </section>
@@ -507,8 +507,8 @@ fn PoliciesSection() -> impl IntoView {
     view! {
         <section id="policies" class="py-16 bg-gray-50 scroll-mt-16">
             <div class="container-section">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">"Policies"</h2>
-                <blockquote class="text-xl text-gray-600 border-l-4 border-brand-600 pl-4 mb-8">
+                <h2 class="section-title">"Policies"</h2>
+                <blockquote class="section-subtitle">
                     "Stay hungry, Stay foolish"
                 </blockquote>
 
@@ -650,7 +650,7 @@ fn ContactSection() -> impl IntoView {
     view! {
         <section id="contact" class="py-16 scroll-mt-16">
             <div class="container-section">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">"Contact"</h2>
+                <h2 class="section-title">"Contact"</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mb-12">
                     "문의 및 입회등록을 원하시면 메시지를 남겨 주세요. 성실히 답변드리겠습니다."
                 </p>
