@@ -418,30 +418,30 @@ fn AdmissionsSection() -> impl IntoView {
                         <table class="w-full bg-white rounded-xl border border-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
-                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
+                                    <th class="w-28 md:w-32 px-4 md:px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
+                                    <th class="px-4 md:px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"학년"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"현재 중3"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"학년"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"현재 중3"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"성적 기준"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"반 1등, 성실한 2~3등"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"성적 기준"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"반 1등, 성실한 2~3등"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"모집 인원"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"소수명"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"모집 인원"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"소수명"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"모집 기간"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"상시"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"모집 기간"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"상시"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 text-gray-600">"수업시작"</td>
-                                    <td class="px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
+                                    <td class="px-4 md:px-6 py-4 text-gray-600">"수업시작"</td>
+                                    <td class="px-4 md:px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -455,30 +455,30 @@ fn AdmissionsSection() -> impl IntoView {
                         <table class="w-full bg-white rounded-xl border border-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
-                                    <th class="px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
+                                    <th class="w-28 md:w-32 px-4 md:px-6 py-4 text-left font-semibold text-gray-700 border-b">"구분"</th>
+                                    <th class="px-4 md:px-6 py-4 text-left font-semibold text-gray-700 border-b">"내용"</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"학년"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"학년 관계없으며 중등 과정을 모두 완료한 학생"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"학년"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"학년 관계없으며 중등 과정을 모두 완료한 학생"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"성적 기준"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"N/A"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"성적 기준"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"N/A"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"학습내용"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"내신병행. 질의된 모든 문항 지원"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"학습내용"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"내신병행. 질의된 모든 문항 지원"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 border-b text-gray-600">"교재"</td>
-                                    <td class="px-6 py-4 border-b text-gray-700">"고난도 및 교과외 진행"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-600">"교재"</td>
+                                    <td class="px-4 md:px-6 py-4 border-b text-gray-700">"고난도 및 교과외 진행"</td>
                                 </tr>
                                 <tr>
-                                    <td class="px-6 py-4 text-gray-600">"비고"</td>
-                                    <td class="px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
+                                    <td class="px-4 md:px-6 py-4 text-gray-600">"비고"</td>
+                                    <td class="px-4 md:px-6 py-4 text-gray-700">"대기후 합류원칙"</td>
                                 </tr>
                             </tbody>
                         </table>
