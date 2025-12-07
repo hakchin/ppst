@@ -71,6 +71,7 @@ pub fn Header() -> impl IntoView {
                                     <a
                                         href=*href
                                         class="block px-3 py-3 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
+                                        onclick="this.closest('details').open=false"
                                     >
                                         {*label}
                                     </a>
@@ -78,6 +79,7 @@ pub fn Header() -> impl IntoView {
                                 <A
                                     href="/about"
                                     attr:class="block px-3 py-3 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
+                                    attr:onclick="this.closest('details').open=false"
                                 >
                                     "about"
                                 </A>
