@@ -86,9 +86,16 @@
   /* Remove default summary marker */
   .mobile-menu-details summary {
     list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   .mobile-menu-details summary::-webkit-details-marker {
     display: none;
+  }
+
+  /* Ensure SVG icons don't capture clicks - pass through to summary */
+  .mobile-menu-details summary svg {
+    pointer-events: none;
   }
 
   /* Toggle icons based on open state */
