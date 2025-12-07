@@ -151,10 +151,11 @@ sudo systemctl status ppst-academy
 sudo journalctl -u ppst-academy -f
 ```
 
-### Docker 실행 (선택사항)
+### Podman 실행 (Containerfile 사용)
 
 ```dockerfile
-FROM rust:1.84-slim AS builder
+# Containerfile
+FROM rust:1.85-slim AS builder
 WORKDIR /app
 COPY . .
 RUN cargo install cargo-leptos
@@ -173,8 +174,8 @@ CMD ["./ppst-academy"]
 
 ```bash
 # 빌드 및 실행
-docker build -t ppst-academy .
-docker run -p 3000:3000 ppst-academy
+podman build -t ppst-academy -f Containerfile .
+podman run -p 3000:3000 ppst-academy
 ```
 
 ## 상태 확인

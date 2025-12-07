@@ -18,7 +18,7 @@ pub fn App() -> impl IntoView {
         <Title text="별을셀 — Excellence in Mathematics Education"/>
         <Meta name="description" content="수학을 가르칩니다® · 수학이 재미있는 곳 ★별을셀입니다"/>
         <Meta name="keywords" content="Mathematics education, coding academy, School Mathematics, Euclidean Geometry, Mathematical Logic with RegEx"/>
-      
+
         <Router>
             <div class="min-h-screen flex flex-col">
                 <Header/>

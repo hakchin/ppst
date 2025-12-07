@@ -27,6 +27,7 @@ pub mod server_fns {
 
         // Save to file storage
         save_contact_inquiry(&inquiry)
+            .await
             .map_err(|e| ServerFnError::new(format!("Failed to save inquiry: {}", e)))?;
 
         tracing::info!("Contact inquiry saved from: {}", inquiry.phone);

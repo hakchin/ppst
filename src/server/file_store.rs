@@ -1,14 +1,23 @@
 use crate::models::ContactInquiry;
-use std::fs;
-use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+use thiserror::Error;
+use tokio::fs;
+use tokio::io::AsyncWriteExt;
 
 const CONTACTS_DIR: &str = "data/contacts";
 
-/// Saves a contact inquiry to a JSON file
-pub fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<PathBuf, FileStoreError> {
+/// Saves a contact inquiry to a JSON file in the default directory
+pub async fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<PathBuf, FileStoreError> {
+    save_contact_inquiry_to(inquiry, Path::new(CONTACTS_DIR)).await
+}
+
+/// Internal implementation that saves to a specific directory (for testing)
+pub async fn save_contact_inquiry_to(
+    inquiry: &ContactInquiry,
+    base_dir: &Path,
+) -> Result<PathBuf, FileStoreError> {
     // Ensure directory exists
-    fs::create_dir_all(CONTACTS_DIR)?;
+    fs::create_dir_all(base_dir).await?;
 
     // Generate filename from timestamp
     let timestamp = inquiry
@@ -19,12 +28,12 @@ pub fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<PathBuf, FileSto
     // Replace colons with hyphens for filesystem compatibility
     let safe_timestamp = timestamp.replace(':', "-");
     let filename = format!("{}.json", safe_timestamp);
-    let path = PathBuf::from(CONTACTS_DIR).join(&filename);
+    let path = base_dir.join(&filename);
 
     // Serialize and write
     let json = serde_json::to_string_pretty(inquiry)?;
-    let mut file = fs::File::create(&path)?;
-    file.write_all(json.as_bytes())?;
+    let mut file = fs::File::create(&path).await?;
+    file.write_all(json.as_bytes()).await?;
 
     tracing::info!("Saved contact inquiry to {}", path.display());
 
@@ -32,58 +41,57 @@ pub fn save_contact_inquiry(inquiry: &ContactInquiry) -> Result<PathBuf, FileSto
 }
 
 /// Errors that can occur during file storage operations
-#[derive(Debug)]
+#[derive(Debug, Error)]
 pub enum FileStoreError {
-    Io(std::io::Error),
-    Json(serde_json::Error),
+    #[error("IO error: {0}")]
+    Io(#[from] std::io::Error),
+    #[error("JSON error: {0}")]
+    Json(#[from] serde_json::Error),
+    #[error("Failed to format timestamp")]
     TimestampFormat,
-}
-
-impl std::fmt::Display for FileStoreError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Io(e) => write!(f, "IO error: {}", e),
-            Self::Json(e) => write!(f, "JSON error: {}", e),
-            Self::TimestampFormat => write!(f, "Failed to format timestamp"),
-        }
-    }
-}
-
-impl std::error::Error for FileStoreError {}
-
-impl From<std::io::Error> for FileStoreError {
-    fn from(e: std::io::Error) -> Self {
-        Self::Io(e)
-    }
-}
-
-impl From<serde_json::Error> for FileStoreError {
-    fn from(e: serde_json::Error) -> Self {
-        Self::Json(e)
-    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use tempfile::TempDir;
 
     #[test]
-    fn test_save_contact_inquiry() {
-        let temp_dir = TempDir::new().unwrap();
-        let contacts_path = temp_dir.path().join("contacts");
-        fs::create_dir_all(&contacts_path).unwrap();
-
+    fn test_valid_inquiry_creation() {
         let inquiry = ContactInquiry::new(
             "Test User".to_string(),
             "010-1234-5678".to_string(),
             "This is a test message.".to_string(),
+        );
+
+        assert!(inquiry.is_ok());
+        let inquiry = inquiry.unwrap();
+        assert_eq!(inquiry.name, "Test User");
+        // Phone number is stored with digits only (hyphens removed)
+        assert_eq!(inquiry.phone, "01012345678");
+    }
+
+    #[tokio::test]
+    async fn test_save_contact_inquiry() {
+        let temp_dir = tempfile::tempdir().unwrap();
+        let base_path = temp_dir.path();
+
+        let inquiry = ContactInquiry::new(
+            "Async Tester".to_string(),
+            "010-9876-5432".to_string(),
+            "Testing async save".to_string(),
         )
         .unwrap();
 
-        // Note: This test would need modification to use temp_dir
-        // For now, just verify the inquiry was created correctly
-        assert_eq!(inquiry.name, "Test User");
-        assert_eq!(inquiry.phone, "010-1234-5678");
+        let result = save_contact_inquiry_to(&inquiry, base_path).await;
+        assert!(result.is_ok());
+
+        let file_path = result.unwrap();
+        assert!(file_path.exists());
+        assert!(file_path.starts_with(base_path));
+
+        // Verify content
+        let content = tokio::fs::read_to_string(file_path).await.unwrap();
+        let saved_inquiry: ContactInquiry = serde_json::from_str(&content).unwrap();
+        assert_eq!(saved_inquiry.name, "Async Tester");
     }
 }

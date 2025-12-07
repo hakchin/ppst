@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use thiserror::Error;
 use time::OffsetDateTime;
 
 /// Contact inquiry submitted through the contact form
@@ -17,19 +18,25 @@ impl ContactInquiry {
         // Validate name
         let name = name.trim().to_string();
         if name.is_empty() {
-            return Err(ValidationError::EmptyField("name"));
+            return Err(ValidationError::EmptyField { field: "name" });
         }
         if name.len() > 100 {
-            return Err(ValidationError::TooLong("name", 100));
+            return Err(ValidationError::TooLong {
+                field: "name",
+                max: 100,
+            });
         }
 
         // Validate phone and extract digits only
         let phone = phone.trim().to_string();
         if phone.is_empty() {
-            return Err(ValidationError::EmptyField("phone"));
+            return Err(ValidationError::EmptyField { field: "phone" });
         }
         if phone.len() > 20 {
-            return Err(ValidationError::TooLong("phone", 20));
+            return Err(ValidationError::TooLong {
+                field: "phone",
+                max: 20,
+            });
         }
         // Remove hyphens and keep only digits for storage
         let phone: String = phone.chars().filter(|c| c.is_ascii_digit()).collect();
@@ -37,10 +44,13 @@ impl ContactInquiry {
         // Validate message
         let message = message.trim().to_string();
         if message.is_empty() {
-            return Err(ValidationError::EmptyField("message"));
+            return Err(ValidationError::EmptyField { field: "message" });
         }
         if message.len() > 5000 {
-            return Err(ValidationError::TooLong("message", 5000));
+            return Err(ValidationError::TooLong {
+                field: "message",
+                max: 5000,
+            });
         }
 
         Ok(Self {
@@ -53,38 +63,22 @@ impl ContactInquiry {
 }
 
 /// Validation errors for contact inquiry
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Error)]
 pub enum ValidationError {
-    EmptyField(&'static str),
-    TooLong(&'static str, usize),
+    #[error("{}을(를) 입력해주세요.", field_ko(field))]
+    EmptyField { field: &'static str },
+    #[error("{}은(는) {max}자 이하여야 합니다.", field_ko(field))]
+    TooLong { field: &'static str, max: usize },
 }
 
-impl std::fmt::Display for ValidationError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::EmptyField(field) => {
-                let field_ko = match *field {
-                    "name" => "이름",
-                    "phone" => "휴대폰 번호",
-                    "message" => "내용",
-                    _ => field,
-                };
-                write!(f, "{}을(를) 입력해주세요.", field_ko)
-            }
-            Self::TooLong(field, max) => {
-                let field_ko = match *field {
-                    "name" => "이름",
-                    "phone" => "휴대폰 번호",
-                    "message" => "내용",
-                    _ => field,
-                };
-                write!(f, "{}은(는) {}자 이하여야 합니다.", field_ko, max)
-            }
-        }
+fn field_ko(field: &str) -> &str {
+    match field {
+        "name" => "이름",
+        "phone" => "휴대폰 번호",
+        "message" => "내용",
+        _ => field,
     }
 }
-
-impl std::error::Error for ValidationError {}
 
 #[cfg(test)]
 mod tests {
@@ -107,16 +101,24 @@ mod tests {
             "010-1234-5678".to_string(),
             "Hello".to_string(),
         );
-        assert!(matches!(inquiry, Err(ValidationError::EmptyField("name"))));
+        assert!(matches!(
+            inquiry,
+            Err(ValidationError::EmptyField { field: "name" })
+        ));
     }
 
     #[test]
     fn test_empty_phone_rejected() {
-        let inquiry = ContactInquiry::new(
-            "John".to_string(),
-            "".to_string(),
-            "Hello".to_string(),
-        );
-        assert!(matches!(inquiry, Err(ValidationError::EmptyField("phone"))));
+        let inquiry = ContactInquiry::new("John".to_string(), "".to_string(), "Hello".to_string());
+        assert!(matches!(
+            inquiry,
+            Err(ValidationError::EmptyField { field: "phone" })
+        ));
+    }
+
+    #[test]
+    fn test_error_message_localization() {
+        let err = ValidationError::EmptyField { field: "name" };
+        assert_eq!(err.to_string(), "이름을(를) 입력해주세요.");
     }
 }

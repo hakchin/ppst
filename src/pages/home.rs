@@ -1,8 +1,10 @@
 use leptos::prelude::*;
 use leptos_router::hooks::use_location;
 
-use crate::components::icons::{ChatIcon, CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon};
 use crate::components::DirectionsSection;
+use crate::components::icons::{
+    ChatIcon, CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon,
+};
 use crate::server_fns::submit_contact;
 
 /// Home page component - Single page layout with all sections (like legacy site)
@@ -17,13 +19,13 @@ pub fn HomePage() -> impl IntoView {
         if !hash.is_empty() {
             // Use request_animation_frame to ensure DOM is ready
             request_animation_frame(move || {
-                if let Some(window) = leptos::web_sys::window() {
-                    if let Some(document) = window.document() {
-                        // Remove the leading '#' from hash
-                        let id = hash.trim_start_matches('#');
-                        if let Some(element) = document.get_element_by_id(id) {
-                            element.scroll_into_view();
-                        }
+                if let Some(window) = leptos::web_sys::window()
+                    && let Some(document) = window.document()
+                {
+                    // Remove the leading '#' from hash
+                    let id = hash.trim_start_matches('#');
+                    if let Some(element) = document.get_element_by_id(id) {
+                        element.scroll_into_view();
                     }
                 }
             });
@@ -627,7 +629,9 @@ fn ContactSection() -> impl IntoView {
         // Validate phone number before submission
         let phone_val = phone.get();
         if !is_valid_phone(&phone_val) {
-            set_phone_error.set(Some("올바른 휴대폰 번호를 입력해주세요 (예: 010-1234-5678)".to_string()));
+            set_phone_error.set(Some(
+                "올바른 휴대폰 번호를 입력해주세요 (예: 010-1234-5678)".to_string(),
+            ));
             return;
         }
 

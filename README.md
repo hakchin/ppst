@@ -43,7 +43,7 @@ File-based JSON storage instead of database complexity. Utility CSS instead of e
 | **Rust** | Systems programming language |
 | **Axum 0.8** | Async web framework |
 | **Tokio** | Async runtime |
-| **Leptos 0.7** | Full-stack reactive framework |
+| **Leptos 0.8** | Full-stack reactive framework |
 | **Tower-HTTP** | HTTP middleware (compression, static files) |
 
 ### Frontend
@@ -115,6 +115,14 @@ ppst/
 ├── Cargo.toml              # Dependencies
 └── CLAUDE.md               # AI assistant guidelines
 ```
+
+## JavaScript Exclusion Strategy
+
+The project strictly adheres to a "No JavaScript" policy for source code, relying on Rust/WASM for all client-side logic.
+
+1.  **Tailwind CSS**: Used only for build-time CSS generation. No runtime JS dependency.
+2.  **Browser Interop**: If browser APIs are needed (e.g., LocalStorage), use Rust wrappers like `gloo` or `leptos-use` instead of writing raw JS.
+3.  **Dependencies**: Avoid adding npm packages. Prefer Rust crates that compile to WASM.
 
 ## License
 
