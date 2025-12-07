@@ -150,6 +150,7 @@ The project strictly adheres to a "No JavaScript" policy for source code, relyin
 ### Tailwind CSS v4 (Build-time Only)
 
 Tailwind v4 uses a hybrid configuration approach:
+
 - **`input.css`**: CSS-based theme configuration using `@theme` directive (v4 native)
 - **`tailwind.config.js`**: Content paths for class scanning (build-time only)
 
@@ -170,6 +171,7 @@ When browser APIs are needed (e.g., LocalStorage, Geolocation, Clipboard), avoid
 | **web-sys** | Low-level WebIDL bindings (already included via Leptos) |
 
 Example - Using LocalStorage with gloo:
+
 ```rust
 use gloo::storage::{LocalStorage, Storage};
 
@@ -185,10 +187,5 @@ let theme: String = LocalStorage::get("theme").unwrap_or_default();
 3. **Evaluate carefully** - If a crate pulls in JS through wasm-bindgen, review the necessity
 
 ## Use Context7 MCP tools
-Always use context7 when I need code generation, setup or configuration steps, or
-library/API documentation. This means you should automatically use the Context7 MCP
-tools to resolve library id and get library docs without me having to explicitly ask.
 
-## License
-
-MIT
+Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.

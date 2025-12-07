@@ -1,52 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: {
+    relative: true,
     files: ["*.html", "./src/**/*.rs"],
-  },
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          50: "#eff6ff",
-          100: "#dbeafe",
-          200: "#bfdbfe",
-          300: "#93c5fd",
-          400: "#60a5fa",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-          800: "#1e40af",
-          900: "#1e3a8a",
-          950: "#172554",
-        },
-      },
-      fontFamily: {
-        sans: [
-          "Pretendard",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "system-ui",
-          "Roboto",
-          "Helvetica Neue",
-          "Segoe UI",
-          "Apple SD Gothic Neo",
-          "Noto Sans KR",
-          "Malgun Gothic",
-          "Apple Color Emoji",
-          "Segoe UI Emoji",
-          "Segoe UI Symbol",
-          "sans-serif",
-        ],
-      },
-      spacing: {
-        18: "4.5rem",
-        88: "22rem",
-        128: "32rem",
-      },
-      maxWidth: {
-        "8xl": "88rem",
-      },
+    transform: {
+      rs: (content) => content.replace(/(?:^|\s)class:/g, ' '),
     },
   },
+  theme: {
+    extend: {},
+  },
   plugins: [],
-};
+}

@@ -239,11 +239,8 @@ Available component classes:
 |-------|---------|
 | `.section-title` | Section heading (`text-3xl md:text-4xl font-bold mb-4`) |
 | `.section-subtitle` | Section quote/subtitle with left border |
-| `.card` | Standard card with border |
-| `.card-elevated` | Card with shadow |
 | `.card-highlight` | Brand-colored highlight card |
 | `.btn-primary` | Primary action button |
-| `.btn-secondary` | Secondary action button |
 | `.btn-secondary-inverse` | White button for dark backgrounds |
 | `.form-input` | Form text input |
 | `.form-textarea` | Form textarea |
