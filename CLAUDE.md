@@ -107,23 +107,17 @@ src/
 ├── lib.rs              # Library crate, hydrate entry point
 ├── main.rs             # Server binary, Axum setup
 ├── app.rs              # Root App component with Router
-├── components/         # Reusable UI components
-│   ├── mod.rs
-│   ├── header.rs       # Navigation header
-│   └── footer.rs       # Site footer
+├── components/         # Reusable UI components (categorized)
+│   ├── layout/         # Page structure (header, footer)
+│   ├── ui/             # Visual primitives (icons)
+│   └── maps/           # Location components (directions)
 ├── pages/              # Route page components
-│   ├── mod.rs
 │   ├── home.rs         # Landing page
 │   ├── about.rs        # About page
-│   ├── programs.rs     # Programs listing
-│   ├── admissions.rs   # Admissions info
-│   ├── contact.rs      # Contact form
 │   └── not_found.rs    # 404 page
 ├── models/             # Shared data types
-│   ├── mod.rs
 │   └── contact.rs      # Contact inquiry model
 └── server/             # Server-only code (SSR feature)
-    ├── mod.rs
     └── file_store.rs   # JSON file storage
 ```
 
@@ -375,6 +369,11 @@ pub use new_page::NewPage;
 - **Tailwind input**: `input.css`
 - **Tailwind output**: `style/output.css`
 - **Leptos config**: `Cargo.toml` `[package.metadata.leptos]`
+
+## Use Context7 MCP tools
+Always use context7 when I need code generation, setup or configuration steps, or
+library/API documentation. This means you should automatically use the Context7 MCP
+tools to resolve library id and get library docs without me having to explicitly ask.
 
 ## Important Notes
 
