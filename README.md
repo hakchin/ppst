@@ -118,11 +118,40 @@ ppst/
 
 ## JavaScript Exclusion Strategy
 
-The project strictly adheres to a "No JavaScript" policy for source code, relying on Rust/WASM for all client-side logic.
+The project strictly adheres to a "No JavaScript" policy for source code, relying on Rust/WASM for all client-side logic. Currently, `tailwind.config.js` is the only JS file in the project.
 
-1.  **Tailwind CSS**: Used only for build-time CSS generation. No runtime JS dependency.
-2.  **Browser Interop**: If browser APIs are needed (e.g., LocalStorage), use Rust wrappers like `gloo` or `leptos-use` instead of writing raw JS.
-3.  **Dependencies**: Avoid adding npm packages. Prefer Rust crates that compile to WASM.
+### Tailwind CSS (Build-time Only)
+
+The current Tailwind configuration requires JavaScript only at **build time** for CSS generation. There is **zero runtime JS dependency** - the output is pure CSS that works without any JavaScript execution. This is the ideal setup for a JS-free frontend.
+
+```
+tailwind.config.js  →  (build process)  →  output.css  →  (runtime: pure CSS)
+```
+
+### Browser API Interop
+
+When browser APIs are needed (e.g., LocalStorage, Geolocation, Clipboard), avoid writing raw JavaScript. Instead, use Rust wrapper libraries that maintain type safety and Rust code style:
+
+| Crate | Purpose |
+|-------|---------|
+| **gloo** | Comprehensive browser API bindings (timers, events, storage, fetch) |
+| **leptos-use** | Leptos-native hooks for common browser interactions |
+| **web-sys** | Low-level WebIDL bindings (already included via Leptos) |
+
+Example - Using LocalStorage with gloo:
+```rust
+use gloo::storage::{LocalStorage, Storage};
+
+// Type-safe storage operations
+LocalStorage::set("theme", "dark").unwrap();
+let theme: String = LocalStorage::get("theme").unwrap_or_default();
+```
+
+### Dependency Guidelines
+
+1. **No npm packages** - Avoid adding any npm dependencies beyond build tools
+2. **Prefer Rust crates** - Choose crates that compile to WASM over JS alternatives
+3. **Evaluate carefully** - If a crate pulls in JS through wasm-bindgen, review the necessity
 
 ## License
 
