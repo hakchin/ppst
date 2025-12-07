@@ -12,13 +12,9 @@ const ANCHOR_NAV_ITEMS: &[(&str, &str)] = &[
 ];
 
 /// Site header with navigation - uses anchor links for smooth scrolling to sections
+/// Mobile menu uses CSS-only <details>/<summary> pattern for reliability
 #[component]
 pub fn Header() -> impl IntoView {
-    let (menu_open, set_menu_open) = signal(false);
-
-    // Close menu when clicking an anchor link (for mobile UX)
-    let close_menu = move |_| set_menu_open.set(false);
-
     view! {
         <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
             <nav class="container-section">
@@ -46,51 +42,48 @@ pub fn Header() -> impl IntoView {
                         </A>
                     </div>
 
-                    // Mobile menu button
-                    <button
-                        type="button"
-                        class="md:hidden p-2 text-gray-600 hover:text-gray-900"
-                        on:click=move |_| set_menu_open.update(|v| *v = !*v)
-                    >
-                        <span class="sr-only">"메뉴 열기"</span>
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d=move || if menu_open.get() {
-                                    "M6 18L18 6M6 6l12 12"
-                                } else {
-                                    "M4 6h16M4 12h16M4 18h16"
-                                }
-                            />
-                        </svg>
-                    </button>
-                </div>
-
-                // Mobile navigation
-                <div
-                    class="md:hidden"
-                    class:hidden=move || !menu_open.get()
-                >
-                    <div class="px-2 pt-2 pb-3 space-y-1">
-                        {ANCHOR_NAV_ITEMS.iter().map(|(href, label)| view! {
-                            <a
-                                href=*href
-                                class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
-                                on:click=close_menu
-                            >
-                                {*label}
-                            </a>
-                        }).collect_view()}
-                        <A
-                            href="/about"
-                            attr:class="block px-3 py-2 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
-                            on:click=close_menu
-                        >
-                            "about"
-                        </A>
-                    </div>
+                    // Mobile menu - CSS-only using details/summary
+                    <details class="md:hidden mobile-menu-details">
+                        <summary class="p-2 text-gray-600 hover:text-gray-900 cursor-pointer list-none">
+                            <span class="sr-only">"메뉴"</span>
+                            // Hamburger icon (shown when closed)
+                            <svg class="w-6 h-6 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                            // Close icon (shown when open)
+                            <svg class="w-6 h-6 close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </summary>
+                        <div class="mobile-menu-content absolute left-0 right-0 top-16 bg-white border-b border-gray-200 shadow-lg">
+                            <div class="container-section py-2">
+                                {ANCHOR_NAV_ITEMS.iter().map(|(href, label)| view! {
+                                    <a
+                                        href=*href
+                                        class="block px-3 py-3 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
+                                    >
+                                        {*label}
+                                    </a>
+                                }).collect_view()}
+                                <A
+                                    href="/about"
+                                    attr:class="block px-3 py-3 text-base font-medium text-gray-600 hover:text-brand-600 hover:bg-gray-50 rounded-md"
+                                >
+                                    "about"
+                                </A>
+                            </div>
+                        </div>
+                    </details>
                 </div>
             </nav>
         </header>

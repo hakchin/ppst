@@ -81,6 +81,47 @@
   }
 }
 
+/* Mobile menu - CSS-only using details/summary */
+@layer components {
+  /* Remove default summary marker */
+  .mobile-menu-details summary {
+    list-style: none;
+  }
+  .mobile-menu-details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Toggle icons based on open state */
+  .mobile-menu-details .hamburger-icon {
+    display: block;
+  }
+  .mobile-menu-details .close-icon {
+    display: none;
+  }
+  .mobile-menu-details[open] .hamburger-icon {
+    display: none;
+  }
+  .mobile-menu-details[open] .close-icon {
+    display: block;
+  }
+
+  /* Menu content animation */
+  .mobile-menu-details .mobile-menu-content {
+    animation: menu-slide-down 0.2s ease-out;
+  }
+
+  @keyframes menu-slide-down {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 /* Custom utilities */
 @layer utilities {
   /* Text balance for headings */
