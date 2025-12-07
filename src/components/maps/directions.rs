@@ -1,5 +1,7 @@
 use leptos::prelude::*;
 
+use crate::constants::contact;
+
 /// Shared directions/location section component
 /// Used in both HomePage and ContactPage
 #[component]
@@ -12,7 +14,7 @@ pub fn DirectionsSection() -> impl IntoView {
                     <div class="space-y-6">
                         <div>
                             <h4 class="font-semibold text-lg mb-2">"주소"</h4>
-                            <p class="text-gray-700">"경기도 군포시 번영로 489 중앙타워 2층 ★별을셀수학"</p>
+                            <p class="text-gray-700">{contact::ADDRESS_FULL}</p>
                             <p class="text-gray-500 text-sm">"지번 : 경기도 군포시 산본동 1142-7"</p>
                         </div>
                         <div>

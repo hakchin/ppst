@@ -1,5 +1,7 @@
 use leptos::prelude::*;
 
+use crate::constants::contact;
+
 /// About page component - showcases the academy's mission and philosophy
 #[component]
 pub fn AboutPage() -> impl IntoView {
@@ -111,8 +113,8 @@ fn ApproachSection() -> impl IntoView {
                         <ul class="space-y-3 text-gray-700">
                             <li>"• 작은 학원입니다. 학생 한 명 한 명이 존중되는 곳입니다."</li>
                             <li>"• 홈페이지나 연락처는 특별하지 않습니다. "<strong>"수학이 특별한 곳"</strong>", ★별을셀입니다."</li>
-                            <li>"• 웹사이트 : https://starrystarry.kr"</li>
-                            <li>"• 전화 : 010-5102-0841"</li>
+                            <li>"• 웹사이트 : " {contact::WEBSITE}</li>
+                            <li>"• 전화 : " {contact::PHONE}</li>
                             <li>"• 카카오 : 별을셀 검색"</li>
                         </ul>
                     </div>

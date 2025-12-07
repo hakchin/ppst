@@ -5,6 +5,7 @@ use crate::components::DirectionsSection;
 use crate::components::icons::{
     ChatIcon, CheckIcon, ClockIcon, EmailIcon, LocationIcon, PhoneIcon,
 };
+use crate::constants::contact;
 use crate::server_fns::submit_contact;
 
 /// Home page component - Single page layout with all sections (like legacy site)
@@ -85,7 +86,7 @@ fn MissionSection() -> impl IntoView {
 
                 <div class="mb-8 text-sm text-gray-500">
                     <ul class="space-y-1">
-                        <li><strong>"author"</strong>": 별을셀, 010-5102-0841"</li>
+                        <li><strong>"author"</strong>": " {contact::NAME} ", " {contact::PHONE}</li>
                         <li><strong>"date"</strong>": 2016-07-13"</li>
                         <li><strong>"site status"</strong>": experimental"</li>
                         <li><strong>"site etc."</strong>": updated once in a while, not formal"</li>
@@ -188,7 +189,7 @@ fn TeachingPhilosophySection() -> impl IntoView {
                                 <li>"• 작은 학원입니다. 학생 한 명 한 명이 존중되는 곳입니다."</li>
                                 <li>"• Contact : " <a href="#contact" class="text-brand-600 hover:underline">"문의/입회"</a></li>
                                 <li>"• 홈페이지나 연락처는 특별하지 않습니다. "<strong>"수학이 특별한 곳"</strong>", ★별을셀입니다."</li>
-                                <li>"• 전화 : 010-5102-0841"</li>
+                                <li>"• 전화 : " {contact::PHONE}</li>
                                 <li>"• 카카오 : " <a href="https://pf.kakao.com/_MxbVfT" target="_blank" rel="noopener noreferrer" class="text-brand-600 hover:underline">"별을셀"</a> " 검색"</li>
                             </ul>
                         </div>
@@ -365,7 +366,7 @@ fn AdmissionsSection() -> impl IntoView {
                             " → 등록결정 → 수강료납입"
                         </p>
                     </div>
-                    <p class="text-gray-700 mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( 010-5102-0841 별을셀 )"</p>
+                    <p class="text-gray-700 mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( " {contact::PHONE} " " {contact::NAME} " )"</p>
                     <ul class="space-y-2 text-gray-700 bg-gray-50 rounded-xl p-6">
                         <li>"• 학생이름/학교/학년/성별"</li>
                         <li>"• 최종 수학 등급(내신/모의고사)"</li>
@@ -488,7 +489,7 @@ fn AdmissionsSection() -> impl IntoView {
                 // 문의 안내 CTA
                 <div class="py-12 bg-brand-600 text-white rounded-xl text-center">
                     <h3 class="text-2xl font-bold mb-6">"문의안내"</h3>
-                    <p class="mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( 010-5102-0841 별을셀 )"</p>
+                    <p class="mb-4">"아래 내용 문자 남겨 주시면 연락 드립니다. ( " {contact::PHONE} " " {contact::NAME} " )"</p>
                     <ul class="space-y-2 mb-8">
                         <li>"• 학생이름/학교/학년/성별"</li>
                         <li>"• 최종 수학 등급(내신/모의고사)"</li>
@@ -768,7 +769,7 @@ fn ContactSection() -> impl IntoView {
                                 </div>
                                 <div>
                                     <h4 class="font-semibold">"주소"</h4>
-                                    <p class="text-gray-600">"경기도 군포시 번영로 489 중앙타워 2층 ★별을셀수학 (지번: 산본동 1142-7)"</p>
+                                    <p class="text-gray-600">{contact::ADDRESS_WITH_LOT}</p>
                                 </div>
                             </div>
                             <div class="flex gap-4">
@@ -777,7 +778,7 @@ fn ContactSection() -> impl IntoView {
                                 </div>
                                 <div>
                                     <h4 class="font-semibold">"웹사이트"</h4>
-                                    <p class="text-gray-600">"https://starrystarry.kr"</p>
+                                    <p class="text-gray-600">{contact::WEBSITE}</p>
                                 </div>
                             </div>
                             <div class="flex gap-4">
@@ -786,7 +787,7 @@ fn ContactSection() -> impl IntoView {
                                 </div>
                                 <div>
                                     <h4 class="font-semibold">"전화"</h4>
-                                    <p class="text-gray-600">"010-5102-0841"</p>
+                                    <p class="text-gray-600">{contact::PHONE}</p>
                                 </div>
                             </div>
                             <div class="flex gap-4">

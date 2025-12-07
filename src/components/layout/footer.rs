@@ -1,10 +1,12 @@
 use leptos::prelude::*;
 use leptos_router::components::A;
 
+use crate::constants::contact;
+
 /// Site footer
 #[component]
 pub fn Footer() -> impl IntoView {
-    let current_year = 2025; // In production, use time crate
+    let current_year = time::OffsetDateTime::now_utc().year();
 
     view! {
         <footer class="bg-gray-900 text-gray-300">
@@ -42,10 +44,10 @@ pub fn Footer() -> impl IntoView {
                             "연락처"
                         </h4>
                         <ul class="space-y-2 text-gray-400">
-                            <li>"경기도 군포시 번영로 489 중앙타워 2층 ★별을셀수학"</li>
+                            <li>{contact::ADDRESS_FULL}</li>
                             <li>"(지번) 경기도 군포시 산본동 1142-7"</li>
-                            <li>"웹사이트 https://starrystarry.kr"</li>
-                            <li>"전화 010-5102-0841"</li>
+                            <li>"웹사이트 " {contact::WEBSITE}</li>
+                            <li>"전화 " {contact::PHONE}</li>
                         </ul>
                     </div>
                 </div>
