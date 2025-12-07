@@ -275,6 +275,7 @@ view! {
 ### File-based JSON Storage
 
 Contact inquiries stored in `data/contacts/`:
+
 - Pattern: `YYYY-MM-DDTHH-MM-SS-mmmZ.json`
 - Auto-creates directories
 - Pretty-printed JSON
@@ -389,9 +390,8 @@ pub use new_page::NewPage;
 - **Leptos config**: `Cargo.toml` `[package.metadata.leptos]`
 
 ## Use Context7 MCP tools
-Always use context7 when I need code generation, setup or configuration steps, or
-library/API documentation. This means you should automatically use the Context7 MCP
-tools to resolve library id and get library docs without me having to explicitly ask.
+
+Always use context7 when I need code generation, setup or configuration steps, or library/API documentation. This means you should automatically use the Context7 MCP tools to resolve library id and get library docs without me having to explicitly ask.
 
 ## Important Notes
 
