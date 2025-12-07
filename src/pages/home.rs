@@ -278,15 +278,17 @@ fn ProgramsSection() -> impl IntoView {
                 </div>
 
                 // 중3 유의사항
-                <div class="mb-12 bg-white rounded-xl p-6 border border-gray-200">
+                <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6 flex items-center gap-3">
                         <span class="w-3 h-3 rounded-full bg-brand-600"></span>
                         "중3 유의사항"
                     </h3>
-                    <ul class="space-y-2 text-gray-700">
-                        <li>"• 11월부터 고1 예비반 과정 진행합니다."</li>
-                        <li>"• 기존 중등부 학생은 자동으로 11월부터 고1 예비반 전환됩니다."</li>
-                    </ul>
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <ul class="space-y-2 text-gray-700">
+                            <li>"• 11월부터 고1 예비반 과정 진행합니다."</li>
+                            <li>"• 기존 중등부 학생은 자동으로 11월부터 고1 예비반 전환됩니다."</li>
+                        </ul>
+                    </div>
                 </div>
 
                 // 교실
@@ -396,7 +398,7 @@ fn AdmissionsSection() -> impl IntoView {
                 </div>
 
                 // 별을셀수학 모집안내
-                <div class="bg-brand-50 rounded-xl p-6 border border-brand-100">
+                <div class="mb-12 bg-brand-50 rounded-xl p-6 border border-brand-100">
                     <h3 class="text-2xl font-bold text-brand-800 mb-6">"별을셀수학 모집안내"</h3>
                     <ul class="space-y-2 text-brand-700">
                         <li>"• 수학을 좋아하는 학생이면 별을셀에서 환영합니다."</li>
@@ -408,7 +410,7 @@ fn AdmissionsSection() -> impl IntoView {
                 </div>
 
                 // 예비고반 모집
-                <div class="mb-12 bg-gray-50 rounded-xl p-6">
+                <div class="mb-12">
                     <h3 class="text-2xl font-bold mb-6">"예비고반 모집"</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full bg-white rounded-xl border border-gray-200">
