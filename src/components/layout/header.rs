@@ -1,6 +1,8 @@
 use leptos::prelude::*;
 use leptos_router::components::A;
 
+use crate::components::icons::{CloseIcon, MenuIcon};
+
 /// Navigation menu items - anchor links for home page sections
 /// Uses /#section format to work from any page (navigates to home then scrolls)
 const ANCHOR_NAV_ITEMS: &[(&str, &str)] = &[
@@ -46,24 +48,8 @@ pub fn Header() -> impl IntoView {
                     <details class="md:hidden mobile-menu-details">
                         <summary class="p-2 text-gray-600 hover:text-gray-900 cursor-pointer list-none">
                             <span class="sr-only">"메뉴"</span>
-                            // Hamburger icon (shown when closed)
-                            <svg class="w-6 h-6 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                            // Close icon (shown when open)
-                            <svg class="w-6 h-6 close-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
+                            <MenuIcon class="w-6 h-6 hamburger-icon"/>
+                            <CloseIcon class="w-6 h-6 close-icon"/>
                         </summary>
                         <div class="mobile-menu-content absolute left-0 right-0 top-16 bg-white border-b border-gray-200 shadow-lg">
                             <div class="container-section py-2">
