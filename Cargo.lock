@@ -1496,6 +1496,7 @@ dependencies = [
  "console_error_panic_hook",
  "futures",
  "http",
+ "js-sys",
  "leptos",
  "leptos_axum",
  "leptos_meta",

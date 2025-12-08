@@ -3,10 +3,26 @@ use leptos_router::components::A;
 
 use crate::constants::contact;
 
+/// Get current year - uses time crate on server, js_sys on WASM
+fn get_current_year() -> i32 {
+    #[cfg(feature = "ssr")]
+    {
+        time::OffsetDateTime::now_utc().year()
+    }
+    #[cfg(feature = "hydrate")]
+    {
+        js_sys::Date::new_0().get_full_year() as i32
+    }
+    #[cfg(not(any(feature = "ssr", feature = "hydrate")))]
+    {
+        2025 // Fallback for CSR or other modes
+    }
+}
+
 /// Site footer
 #[component]
 pub fn Footer() -> impl IntoView {
-    let current_year = time::OffsetDateTime::now_utc().year();
+    let current_year = get_current_year();
 
     view! {
         <footer class="bg-gray-900 text-gray-300">
