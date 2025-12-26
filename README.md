@@ -56,46 +56,46 @@ When you need to change heading styles, modify `.section-title` once instead of 
 
 ### Backend
 
-| Technology | Purpose |
-|------------|---------|
-| **Rust** | Systems programming language |
-| **Axum 0.8** | Async web framework |
-| **Tokio** | Async runtime |
-| **Leptos 0.8** | Full-stack reactive framework |
+| Technology         | Purpose                                     |
+| ------------------ | ------------------------------------------- |
+| **Rust**           | Systems programming language                |
+| **Axum 0.8**       | Async web framework                         |
+| **Tokio**          | Async runtime                               |
+| **Leptos 0.8**     | Full-stack reactive framework               |
 | **Tower-HTTP 0.6** | HTTP middleware (compression, static files) |
 
 ### Frontend
 
-| Technology | Purpose |
-|------------|---------|
-| **Leptos** | Reactive UI components |
-| **Tailwind CSS v4** | Utility-first styling |
-| **WebAssembly** | Client-side Rust execution |
+| Technology          | Purpose                    |
+| ------------------- | -------------------------- |
+| **Leptos**          | Reactive UI components     |
+| **Tailwind CSS v4** | Utility-first styling      |
+| **WebAssembly**     | Client-side Rust execution |
 
 ### Tooling
 
-| Tool | Purpose |
-|------|---------|
+| Tool             | Purpose                                     |
+| ---------------- | ------------------------------------------- |
 | **cargo-leptos** | Build orchestration (SSR + WASM + Tailwind) |
-| **Tailwind CLI** | CSS compilation (standalone, no Node.js) |
-| **wasm-bindgen** | WASM JS bindings |
+| **Tailwind CLI** | CSS compilation (standalone, no Node.js)    |
+| **wasm-bindgen** | WASM JS bindings                            |
 
 ### Data & Serialization
 
-| Technology | Purpose |
-|------------|---------|
-| **Serde** | Serialization/deserialization |
-| **serde_json** | JSON parsing |
-| **File System** | JSON-based data storage |
+| Technology      | Purpose                       |
+| --------------- | ----------------------------- |
+| **Serde**       | Serialization/deserialization |
+| **serde_json**  | JSON parsing                  |
+| **File System** | JSON-based data storage       |
 
 ### Quality & Observability
 
-| Tool | Purpose |
-|------|---------|
-| **tracing** | Structured logging |
-| **thiserror** | Error handling |
-| **clippy** | Linting |
-| **rustfmt** | Code formatting |
+| Tool          | Purpose            |
+| ------------- | ------------------ |
+| **tracing**   | Structured logging |
+| **thiserror** | Error handling     |
+| **clippy**    | Linting            |
+| **rustfmt**   | Code formatting    |
 
 ## Quick Start
 
@@ -116,18 +116,27 @@ cargo leptos build --release
 
 ## Project Structure
 
-```
+```text
 ppst/
 ├── src/
 │   ├── lib.rs              # Library crate, hydrate entry point
 │   ├── main.rs             # Server binary, Axum setup
 │   ├── app.rs              # Root App component with Router
+│   ├── constants.rs        # Application-wide constants (contact info)
 │   ├── components/         # Reusable UI components
 │   │   ├── layout/         # Page structure (header, footer)
 │   │   ├── ui/             # Visual primitives (icons)
 │   │   └── maps/           # Location components
 │   ├── pages/              # Route page components
-│   │   ├── home.rs         # Landing page
+│   │   ├── home/           # Landing page (modular sections)
+│   │   │   ├── hero.rs     # Hero banner section
+│   │   │   ├── mission.rs  # Mission statement
+│   │   │   ├── achievements.rs
+│   │   │   ├── teaching.rs
+│   │   │   ├── programs.rs
+│   │   │   ├── admissions.rs
+│   │   │   ├── policies.rs
+│   │   │   └── contact.rs  # Contact form section
 │   │   ├── about.rs        # About page
 │   │   └── not_found.rs    # 404 page
 │   ├── server/             # Server-only code (SSR feature)
@@ -137,38 +146,36 @@ ppst/
 ├── public/                 # Static assets
 ├── style/                  # Generated CSS (output.css)
 ├── data/                   # JSON storage
-├── tailwind.config.js      # Tailwind content paths
-├── input.css               # Tailwind theme (@theme)
+├── input.css               # Tailwind theme & content paths (@theme, @source)
 ├── Cargo.toml              # Dependencies & Leptos config
 └── CLAUDE.md               # AI assistant guidelines
 ```
 
 ## JavaScript Exclusion Strategy
 
-The project strictly adheres to a "No JavaScript" policy for source code, relying on Rust/WASM for all client-side logic. `tailwind.config.js` is the only JS file in the project.
+The project strictly adheres to a "No JavaScript" policy, relying entirely on Rust/WASM for all client-side logic. There are **zero JavaScript files** in the project.
 
 ### Tailwind CSS v4 (Build-time Only)
 
-Tailwind v4 uses a hybrid configuration approach:
+Tailwind v4 uses a CSS-native configuration approach:
 
-- **`input.css`**: CSS-based theme configuration using `@theme` directive (v4 native)
-- **`tailwind.config.js`**: Content paths for class scanning (build-time only)
+- **`input.css`**: All configuration in one file using `@theme` (design tokens) and `@source` (content paths) directives
 
 There is **zero runtime JS dependency** - the output is pure CSS that works without any JavaScript execution.
 
-```
-input.css (@theme) + tailwind.config.js (content)  →  (build process)  →  output.css  →  (runtime: pure CSS)
+```text
+input.css (@theme + @source)  →  (Tailwind CLI)  →  output.css  →  (runtime: pure CSS)
 ```
 
 ### Browser API Interop
 
 When browser APIs are needed (e.g., LocalStorage, Geolocation, Clipboard), avoid writing raw JavaScript. Instead, use Rust wrapper libraries that maintain type safety and Rust code style:
 
-| Crate | Purpose |
-|-------|---------|
-| **gloo** | Comprehensive browser API bindings (timers, events, storage, fetch) |
-| **leptos-use** | Leptos-native hooks for common browser interactions |
-| **web-sys** | Low-level WebIDL bindings (already included via Leptos) |
+| Crate          | Purpose                                                             |
+| -------------- | ------------------------------------------------------------------- |
+| **gloo**       | Comprehensive browser API bindings (timers, events, storage, fetch) |
+| **leptos-use** | Leptos-native hooks for common browser interactions                 |
+| **web-sys**    | Low-level WebIDL bindings (already included via Leptos)             |
 
 Example - Using LocalStorage with gloo:
 

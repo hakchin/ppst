@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Content sources for class scanning (replaces tailwind.config.js) */
+@source "./src/**/*.rs";
+@source "./public/**/*.html";
+
 /* Custom theme configuration for Tailwind v4 */
 @theme {
   /* Brand colors */

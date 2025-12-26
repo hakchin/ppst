@@ -83,9 +83,8 @@ site-pkg-dir = "pkg"
 # Style file (Tailwind output)
 style-file = "style/output.css"
 
-# Tailwind configuration
+# Tailwind configuration (v4 CSS-native, no JS config needed)
 tailwind-input-file = "input.css"
-tailwind-config-file = "tailwind.config.js"
 
 # Assets directory copied to site-root
 assets-dir = "public"
@@ -97,7 +96,7 @@ bin-features = ["ssr"]
 lib-features = ["hydrate"]
 
 # Watch additional files for changes
-watch-additional-files = ["input.css", "tailwind.config.js"]
+watch-additional-files = ["input.css"]
 
 # Environment variable prefix
 env-prefix = "PPST_"
